@@ -4,12 +4,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import AppLayout from "@/layouts/AppLayout.vue";
-import Player from "@/containers/Player.vue";
+import { defineComponent } from 'vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import Player from '@/containers/Player.vue';
 
 export default defineComponent({
-  name: "App",
+  name: 'App',
   components: {
     AppLayout,
     Player,
@@ -19,9 +19,8 @@ export default defineComponent({
 
 <style lang="scss">
 #app {
-  font-family: Barlow, -apple-system, BlinkMacSystemFont, Helvetica Neue,
-    PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC,
-    WenQuanYi Micro Hei, sans-serif;
+  font-family: Barlow, -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei,
+    Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
 
   height: 100%;
 }

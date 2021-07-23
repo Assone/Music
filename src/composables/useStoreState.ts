@@ -1,8 +1,8 @@
 import { computed } from 'vue';
-import { useStore as getStoreInstance } from '@/store';
+import { useStore } from '@/store';
 
 export default function useStoreState() {
-  const store = getStoreInstance();
+  const store = useStore();
 
   const logo = computed(() => store.state.config.logo);
   const links = computed(() => store.state.config.nav);
@@ -12,7 +12,7 @@ export default function useStoreState() {
 
   const color = computed({
     get: () => store.getters['config/currentColor'],
-    set: (colorRaw: IAppConfig['themeColor'][0]) => {
+    set: (colorRaw: StoreStateConfig['themeColor'][0]) => {
       store.commit('config/SET_THEME_COLOR', themeColor.value.indexOf(colorRaw));
     },
   });

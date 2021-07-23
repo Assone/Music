@@ -136,8 +136,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, toRefs, toRaw, reactive } from 'vue';
+import { computed, toRefs, toRaw, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { onBeforeRouteUpdate } from 'vue-router';
+
+import { getArtistAlbum, getArtistInfo, getArtistMV, getSimilarArtist } from '@/apis';
+import useStoreState from '@/composables/useStoreState';
 
 import AppAvatar from '@/components/common/AppAvatar.vue';
 import AppLink from '@/components/common/AppLink.vue';
@@ -146,102 +150,74 @@ import Cover from '@/components/Cover.vue';
 import CoverMeta from '@/components/CoverMeta.vue';
 import ContainerList from '@/components/ContainerList.vue';
 
-import { onBeforeRouteUpdate } from 'vue-router';
+const data = reactive<{
+  mv: Model.ArtistMV[];
+  similar: Model.Artist[];
+  song: Model.Song[];
+  albums: Model.Album[];
+  artist: Model.Artist | null;
+}>({
+  mv: [],
+  similar: [],
+  song: [],
+  albums: [],
+  artist: null,
+});
 
-import { getArtistAlbum, getArtistInfo, getArtistMV, getSimilarArtist } from '@/apis';
+const fetch = async (artId: number) => {
+  const { songs, artist } = await getArtistInfo(artId);
+  data.song = songs;
+  data.artist = artist;
 
-import useStoreState from '@/composables/useStoreState';
+  const { albums } = await getArtistAlbum(artId, 200);
+  data.albums = albums;
 
-export default defineComponent({
-  components: {
-    AppAvatar,
-    AppLink,
-    ContentContainer,
-    Cover,
-    CoverMeta,
-    ContainerList,
-  },
-  props: {
-    id: {
-      type: Number,
-      required: true,
-    },
-  },
-  setup(props) {
-    const { t } = useI18n();
+  const { mv } = await getArtistMV(artId);
+  data.mv = mv;
 
-    const { id } = toRefs(props);
+  const similar = await getSimilarArtist(artId);
+  data.similar = similar;
 
-    const { isMobile, setMvTracks } = useStoreState();
+  return true;
+};
+</script>
 
-    const data = reactive<{
-      mv: Model.ArtistMV[];
-      similar: Model.Artist[];
-      song: Model.Song[];
-      albums: Model.Album[];
-      artist: Model.Artist | null;
-    }>({
-      mv: [],
-      similar: [],
-      song: [],
-      albums: [],
-      artist: null,
-    });
-
-    const album = computed(() => data.albums.filter((item) => item.type === '专辑'));
-    const epAndSingle = computed(() =>
-      data.albums.filter((albumItem) => ['EP/Single', 'EP', 'Single'].includes(albumItem.type))
-    );
-    const name = computed(() => data.artist?.name);
-    const avatar = computed(() => data.artist?.avatar);
-    const size = computed(() => data.artist?.size);
-
-    const fetch = (artId: number) =>
-      getArtistInfo(artId).then(({ artist, songs }) => {
-        data.song = songs;
-        data.artist = artist;
-
-        getArtistAlbum(artId, 200).then(({ albums }) => {
-          data.albums = albums;
-
-          getArtistMV(artId).then(({ mv }) => {
-            data.mv = mv;
-          });
-          getSimilarArtist(artId).then((res) => {
-            data.similar = res;
-          });
-        });
-      });
-    const handlePlayVideo = (e: { type: string; id: number }) => {
-      if (e.type === 'mv') {
-        setMvTracks(toRaw(data.mv).map((m) => m.id));
-      }
-    };
-
-    onBeforeRouteUpdate((to, _from, next) => {
-      if (!to.hash) {
-        fetch(Number(to.params.id)).then(next);
-      } else {
-        next();
-      }
-    });
-
-    fetch(id.value);
-
-    return {
-      t,
-
-      ...toRefs(data),
-      album,
-      epAndSingle,
-      name,
-      avatar,
-      size,
-      handlePlayVideo,
-      isMobile,
-    };
+<script lang="ts" setup>
+const props = defineProps({
+  id: {
+    type: Number,
+    required: true,
   },
 });
+
+const { t } = useI18n();
+const { id } = toRefs(props);
+const { isMobile, setMvTracks } = useStoreState();
+const { mv, similar, song, albums, artist } = toRefs(data);
+
+const album = computed(() => data.albums.filter((item) => item.type === '专辑'));
+const epAndSingle = computed(() =>
+  data.albums.filter((albumItem) => ['EP/Single', 'EP', 'Single'].includes(albumItem.type))
+);
+const name = computed(() => data.artist?.name);
+const avatar = computed(() => data.artist?.avatar);
+const size = computed(() => data.artist?.size);
+
+const handlePlayVideo = (e: { type: string; id: number }) => {
+  if (e.type === 'mv') {
+    setMvTracks(toRaw(data.mv).map((m) => m.id));
+  }
+};
+
+onBeforeRouteUpdate((to, _from, next) => {
+  if (!to.hash) {
+    fetch(Number(to.params.id)).then(next);
+  } else {
+    next();
+  }
+});
+
+fetch(id.value);
 </script>
 
 <style lang="scss">

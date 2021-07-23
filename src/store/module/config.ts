@@ -1,13 +1,14 @@
-import { Module } from "vuex";
-import { useLocalStorage } from "@vueuse/core";
+import { Module } from 'vuex';
+import { useLocalStorage } from '@vueuse/core';
 
-import config from "@/config/app";
-import { SET_THEME, SET_THEME_COLOR } from "../type";
-import { useSetTheme } from "@/composables/useTheme";
+import config from '@/config/app';
+import { useSetTheme } from '@/utils';
 
-const userConfig = useLocalStorage("config", config);
+import { SET_THEME, SET_THEME_COLOR } from '../type';
 
-const module: Module<IAppConfig, {}> = {
+const userConfig = useLocalStorage('config', config);
+
+const module: Module<StoreStateConfig, StoreStateRoot> = {
   namespaced: true,
   state: userConfig.value,
   getters: {

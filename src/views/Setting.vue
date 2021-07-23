@@ -25,48 +25,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+import Message from '@/components/common/Message';
+import { useTheme } from '@/composables/useTheme';
 
 import AppRadio from '@/components/common/AppRadio.vue';
 import AppRadioGroup from '@/components/common/AppRadioGroup.vue';
 import AppButton from '@/components/common/AppButton.vue';
 import AppButtonGroup from '@/components/common/AppButtonGroup.vue';
+</script>
 
-import useStoreState from '@/composables/useStoreState';
-import useStoreMutations from '@/composables/useStoreMutations';
-import Message from '@/components/common/Message';
-
-export default defineComponent({
-  components: {
-    AppRadio,
-    AppRadioGroup,
-    AppButton,
-    AppButtonGroup,
-  },
-  setup() {
-    const { locale, availableLocales } = useI18n();
-    const { color, themeColor } = useStoreState();
-    const { setTheme } = useStoreMutations();
-
-    const theme: ['auto', 'light', 'dark'] = ['auto', 'light', 'dark'];
-
-    const handleClick = () => {
-      Message('test');
-    };
-
-    return {
-      locale,
-      availableLocales,
-
-      theme,
-      themeColor,
-      color,
-
-      setTheme,
-
-      handleClick,
-    };
-  },
-});
+<script lang="ts" setup>
+const { locale, availableLocales } = useI18n();
+const { color, themeColor, theme, setTheme } = useTheme();
+const handleClick = () => {
+  Message('test');
+};
 </script>

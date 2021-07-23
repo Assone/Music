@@ -1,8 +1,7 @@
 import { createStore, createLogger, Store, useStore as baseUseStore, DispatchOptions, CommitOptions } from 'vuex';
 import { InjectionKey } from 'vue';
 
-import { useSetTheme } from '@/composables/useTheme';
-import { isDev, isMobile } from '@/utils';
+import { isDev, isMobile, useSetTheme } from '@/utils';
 
 import config from './module/config';
 import media from './module/media';
@@ -34,7 +33,7 @@ interface StoreExtends<S> extends Store<S> {
   commit: CommitExtends;
 }
 
-const store = createStore<{ account: null | { vipType: number } }>({
+const store = createStore<StoreStateRoot>({
   strict: isDev,
   plugins: isDev ? [createLogger()] : [],
   state() {
@@ -46,7 +45,7 @@ const store = createStore<{ account: null | { vipType: number } }>({
     isMobile: () => isMobile,
   },
   modules,
-}) as StoreExtends<{ account: null | { vipType: number }; config: IAppConfig }>;
+}) as StoreExtends<StoreState>;
 
 useSetTheme(store.state.config.theme);
 
@@ -54,6 +53,6 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () 
   useSetTheme(store.state.config.theme);
 });
 
-export const key: InjectionKey<StoreExtends<{ config: IAppConfig }>> = Symbol('store');
-export const useStore = (): StoreExtends<{ config: IAppConfig }> => baseUseStore(key);
+export const key: InjectionKey<StoreExtends<StoreState>> = Symbol('store');
+export const useStore = (): StoreExtends<StoreState> => baseUseStore(key);
 export default store;

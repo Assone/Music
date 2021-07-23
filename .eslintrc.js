@@ -6,6 +6,10 @@ module.exports = {
   },
   globals: {
     Model: 'readonly',
+    defineProps: 'readonly',
+    defineEmits: 'readonly',
+    defineExpose: 'readonly',
+    withDefaults: 'readonly',
   },
   plugins: ['@typescript-eslint'],
   parser: 'vue-eslint-parser',
@@ -24,19 +28,15 @@ module.exports = {
     'import/extensions': ['.js', '.jsx', '.mjs', '.ts', '.tsx'],
   },
   extends: [
-    // add more generic rulesets here, such as:
-    // 'eslint:recommended',
-    'plugin:vue/vue3-recommended',
     'eslint-config-airbnb-base',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:vue/base',
+    'plugin:vue/vue3-recommended',
     'plugin:prettier/recommended',
-    // 'plugin:vue/recommended' // Use this if you are using Vue.js 2.x.
     'prettier',
   ],
   rules: {
-    // override/add rules settings here, such as:
-    // 'vue/no-unused-vars': 'error'
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/script-setup-uses-vars': 'error',
@@ -54,19 +54,6 @@ module.exports = {
         },
       },
     ],
-    // 'no-param-reassign': [
-    //   'error',
-    //   {
-    //     props: true,
-    //     ignorePropertyModificationsFor: [
-    //       'state', // for vuex state
-    //       'acc', // for reduce accumulators
-    //       'e', // for e.returnvalue
-    //     ],
-    //   },
-    // ],
-    // '@typescript-eslint/no-unused-vars': ['warn'],
-
     'vue/require-default-prop': 'off',
     'import/no-unresolved': [2, { ignore: ['@intlify/vite-plugin-vue-i18n.'] }],
   },
@@ -81,6 +68,12 @@ module.exports = {
       files: ['src/apis/**/*.ts', 'src/models/**/*.ts'],
       rules: {
         'import/no-cycle': [2, { maxDepth: 1 }],
+      },
+    },
+    {
+      files: ['src/store/**/*.ts'],
+      rules: {
+        'no-param-reassign': 'off',
       },
     },
   ],

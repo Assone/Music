@@ -1,20 +1,7 @@
 import { Ref, computed } from 'vue';
-import { usePreferredDark } from '@vueuse/core';
 
-export const useSetTheme = (theme: 'auto' | 'dark' | 'light') => {
-  if (theme === 'auto') {
-    const isDark = usePreferredDark();
-
-    if (isDark.value) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  } else {
-    document.documentElement.classList.remove('dark', 'light');
-    document.documentElement.classList.add(theme);
-  }
-};
+import useStoreMutations from './useStoreMutations';
+import useStoreState from './useStoreState';
 
 export const useThemeColorHSL = (colorRaw: Ref<IAppConfig['themeColor'][0]>) =>
   computed(() => {
@@ -26,3 +13,18 @@ export const useThemeColorHSL = (colorRaw: Ref<IAppConfig['themeColor'][0]>) =>
       l,
     };
   });
+
+export const useTheme = () => {
+  const { color, themeColor } = useStoreState();
+  const { setTheme } = useStoreMutations();
+
+  const theme: ['auto', 'light', 'dark'] = ['auto', 'light', 'dark'];
+
+  return {
+    color,
+    themeColor,
+    theme,
+
+    setTheme,
+  };
+};

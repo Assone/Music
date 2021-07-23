@@ -1,13 +1,7 @@
-import { Module } from "vuex";
-import { SET_AUDIO_TRACKS, SET_MV_TRACKS, SET_VIDEO_TRACKS } from "../type";
+import { Module } from 'vuex';
+import { SET_AUDIO_TRACKS, SET_MV_TRACKS, SET_VIDEO_TRACKS } from '../type';
 
-interface MediaState {
-  tracks: { id: number; type: "audio" | "video" | "mv" }[];
-  play: boolean;
-  currentIndex: number;
-}
-
-const model: Module<MediaState, {}> = {
+const model: Module<StoreStateMedia, StoreStateRoot> = {
   namespaced: true,
   state: {
     tracks: [],
@@ -21,13 +15,13 @@ const model: Module<MediaState, {}> = {
   },
   mutations: {
     [SET_VIDEO_TRACKS](state, ids: number[]) {
-      state.tracks = ids.map((id) => ({ id, type: "video" }));
+      state.tracks = ids.map((id) => ({ id, type: 'video' }));
     },
     [SET_AUDIO_TRACKS](state, ids: number[]) {
-      state.tracks = ids.map((id) => ({ id, type: "audio" }));
+      state.tracks = ids.map((id) => ({ id, type: 'audio' }));
     },
     [SET_MV_TRACKS](state, ids: number[]) {
-      state.tracks = ids.map((id) => ({ id, type: "mv" }));
+      state.tracks = ids.map((id) => ({ id, type: 'mv' }));
     },
   },
 };
