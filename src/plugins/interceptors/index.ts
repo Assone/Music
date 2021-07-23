@@ -1,3 +1,3 @@
-import "./log";
-import "./data";
-import "./cache";
+import './log';
+import './data';
+import './cache';

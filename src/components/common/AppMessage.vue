@@ -1,22 +1,9 @@
 <template>
-  <transition
-    name="app-message-fade"
-    @before-leave="onClose"
-    @after-leave="$emit('destroy')"
-  >
+  <transition name="app-message-fade" @before-leave="onClose" @after-leave="$emit('destroy')">
     <div
       v-show="show"
       :style="customStyle"
-      class="
-        fixed
-        left-2/4
-        top-5
-        flex
-        items-center
-        transition-all
-        -translate-x-1/2
-        z-[200]
-      "
+      class="fixed left-2/4 top-5 flex items-center transition-all -translate-x-1/2 z-[200]"
       role="alert"
       @mouseenter="clearTimer"
       @mouseleave="startTimer"
@@ -32,25 +19,17 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  PropType,
-  ref,
-  toRefs,
-  VNode,
-} from "vue";
-import { isNumber } from "@/utils";
-import { useEventListener } from "@vueuse/core";
+import { computed, defineComponent, onMounted, PropType, ref, toRefs, VNode } from 'vue';
+import { isNumber } from '@/utils';
+import { useEventListener } from '@vueuse/core';
 
 export default defineComponent({
   props: {
     message: {
       type: [String, Object] as PropType<string | VNode>,
-      deault: "",
+      deault: '',
     },
-    id: { type: String, default: "" },
+    id: { type: String, default: '' },
     showClose: Boolean,
     onClose: {
       type: Function as PropType<() => void>,
@@ -70,7 +49,7 @@ export default defineComponent({
     },
     dangerouslyUseHTMLString: Boolean,
   },
-  emits: ["destroy"],
+  emits: ['destroy'],
   setup(props) {
     const { offset, zIndex, duration } = toRefs(props);
 
@@ -101,7 +80,7 @@ export default defineComponent({
       }
     };
     const handleKeyDown = ({ code }: KeyboardEvent) => {
-      if (code === "esc") {
+      if (code === 'esc') {
         if (show.value) {
           close();
         } else {
@@ -113,7 +92,7 @@ export default defineComponent({
     onMounted(() => {
       startTimer();
       show.value = true;
-      useEventListener(document, "keydown", handleKeyDown);
+      useEventListener(document, 'keydown', handleKeyDown);
     });
 
     return {

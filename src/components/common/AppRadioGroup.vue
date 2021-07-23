@@ -5,44 +5,36 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  InjectionKey,
-  nextTick,
-  provide,
-  reactive,
-  ref,
-  toRefs,
-} from "vue";
+import { defineComponent, InjectionKey, nextTick, provide, reactive, toRefs } from 'vue';
 
 export interface RadioGroupContext {
-  name: "AppRadioGroup";
+  name: 'AppRadioGroup';
   modelValue: boolean | string | number;
-  disabled: Boolean;
+  disabled: boolean;
   changeEvent: (val: boolean | string | number) => void;
 }
-export const radioGroupKey: InjectionKey<RadioGroupContext> =
-  "radioGroup" as any;
+export const radioGroupKey: InjectionKey<RadioGroupContext> = 'radioGroup' as any;
 
 export default defineComponent({
   props: {
     modelValue: {
       type: [String, Number, Boolean],
-      default: "",
+      default: '',
     },
   },
+  emits: ['update:modelValue', 'change'],
   setup(props, { emit }) {
     const changeEvent = (value: boolean | string | number) => {
-      emit("update:modelValue", value);
+      emit('update:modelValue', value);
       nextTick(() => {
-        emit("change", value);
+        emit('change', value);
       });
     };
 
     provide(
       radioGroupKey,
       reactive({
-        name: "AppRadioGroup",
+        name: 'AppRadioGroup',
         ...toRefs(props),
         changeEvent,
       })

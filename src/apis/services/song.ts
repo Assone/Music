@@ -10,8 +10,7 @@ import { isNumber } from '@/utils/is';
  * @param id 歌单ID
  * @param tracks 歌曲ID列表
  */
-export const updateSongOrder = (id: number, tracks: number[]) =>
-  http.put(SONG.updateOrder, { id, ids: tracks });
+export const updateSongOrder = (id: number, tracks: number[]) => http.put(SONG.updateOrder, { id, ids: tracks });
 
 /**
  * 获取音乐URL
@@ -30,8 +29,7 @@ export const getSongUrl = (id: number | number[], br = 999000) =>
  * @param id 歌曲ID
  * @param br 码率
  */
-export const checkSongAvailable = (id: number, br?: number) =>
-  http.head(SONG.available, { params: { id, br } });
+export const checkSongAvailable = (id: number, br?: number) => http.head(SONG.available, { params: { id, br } });
 
 /**
  * 获取歌曲详情

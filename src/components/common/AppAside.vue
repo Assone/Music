@@ -5,13 +5,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
     width: {
       type: String,
-      default: "300px",
+      default: '300px',
     },
   },
 });

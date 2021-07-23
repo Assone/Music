@@ -1,10 +1,10 @@
-import { App, Directive } from "vue";
+import { App, Directive } from 'vue';
 
-import focus from "./focus";
-import loading from "./loading";
-import throttle from "./throttle";
-import debounce from "./debounce";
-import clickOutside from "./click-outside";
+import focus from './focus';
+import loading from './loading';
+import throttle from './throttle';
+import debounce from './debounce';
+import clickOutside from './click-outside';
 
 const directives: Record<string, Directive> = {
   focus,
@@ -15,9 +15,9 @@ const directives: Record<string, Directive> = {
 };
 
 const install = (app: App) => {
-  for (const key in directives) {
+  Object.keys(directives).forEach((key) => {
     app.directive(key, directives[key]);
-  }
+  });
 };
 
 export default {

@@ -89,12 +89,8 @@ export const getCommentVideo = (id: number, limit?: number, offset?: number) =>
  * @param limit 评论数量
  * @param offset 偏移位置
  */
-export const getCommentHot = (
-  id: number,
-  type: 0 | 1 | 2 | 3 | 4 | 5,
-  limit?: number,
-  offset?: number,
-) => http.get(COMMENT.hot, { params: { id, type, limit, offset } });
+export const getCommentHot = (id: number, type: 0 | 1 | 2 | 3 | 4 | 5, limit?: number, offset?: number) =>
+  http.get(COMMENT.hot, { params: { id, type, limit, offset } });
 
 /**
  * 获取评论
@@ -118,7 +114,7 @@ export const getComment = (
   limit?: number,
   offset?: number,
   sort?: 1 | 2 | 3,
-  cursor?: Date,
+  cursor?: Date
 ) =>
   http.get(COMMENT.index, {
     params: { id, type, pageSize: limit, pageNo: offset, sortType: sort, cursor },
@@ -128,8 +124,7 @@ export const getComment = (
  * 获取动态评论
  * @param dynamicId 动态id
  */
-export const getCommentDynamic = (dynamicId: number) =>
-  http.get(COMMENT.dynamic, { params: { threadId: dynamicId } });
+export const getCommentDynamic = (dynamicId: number) => http.get(COMMENT.dynamic, { params: { threadId: dynamicId } });
 
 /**
  * 抱一抱评论
@@ -153,7 +148,7 @@ export const getCommentHugList = (
   commentId: number,
   sourceId: number,
   limit?: number,
-  offset?: number,
+  offset?: number
 ) =>
   http.get(COMMENT.hugList, {
     params: {
@@ -184,7 +179,7 @@ export const getCommentHugList = (
 export const sendComment = (
   type: 0 | 1 | 2 | 3 | 4 | 5 | 6,
   content: string,
-  options?: { id?: number; commentId?: number; dynamicId?: string },
+  options?: { id?: number; commentId?: number; dynamicId?: string }
 ) =>
   http.post(COMMENT.send, {
     t: 1,
@@ -212,7 +207,7 @@ export const sendComment = (
  */
 export const deleteComment = (
   type: 0 | 1 | 2 | 3 | 4 | 5 | 6,
-  options?: { id?: number; commentId?: number; dynamicId?: string },
+  options?: { id?: number; commentId?: number; dynamicId?: string }
 ) =>
   http.delete(COMMENT.delete, {
     params: {

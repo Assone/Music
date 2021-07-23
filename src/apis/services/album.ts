@@ -1,7 +1,7 @@
-import { ALBUM } from "@/config/path";
-import http from "@/libs/http";
-import MAlbum from "@/models/Album";
-import MSong from "@/models/Song";
+import { ALBUM } from '@/config/path';
+import http from '@/libs/http';
+import MAlbum from '@/models/Album';
+import MSong from '@/models/Song';
 
 /**
  * 获取专辑详情
@@ -25,8 +25,7 @@ export const getAlbumDetail = (id: number) =>
  * 获取专辑信息
  * @param id 专辑ID
  */
-export const getAlbumInfo = (id: number) =>
-  http.get(ALBUM.info, { params: { id } });
+export const getAlbumInfo = (id: number) => http.get(ALBUM.info, { params: { id } });
 
 /**
  * 获取全部新碟
@@ -35,11 +34,7 @@ export const getAlbumInfo = (id: number) =>
  * @param options.offset 偏移位置
  * @param options.area ALL:全部,ZH:华语,EA:欧美,KR:韩国,JP:日本
  */
-export const getAlbumNew = (options?: {
-  limit?: number;
-  offset?: number;
-  area: "ALL" | "ZH" | "EA" | "KR" | "JP";
-}) =>
+export const getAlbumNew = (options?: { limit?: number; offset?: number; area: 'ALL' | 'ZH' | 'EA' | 'KR' | 'JP' }) =>
   http
     .get<{ albums: IrAlbumDetail[]; total: number }>(ALBUM.new, {
       params: {
@@ -57,9 +52,7 @@ export const getAlbumNew = (options?: {
  * 获取最新专辑
  */
 export const getAlbumNewest = () =>
-  http
-    .get<{ albums: IrAlbumDetail[] }>(ALBUM.newest)
-    .then(({ albums }) => albums.map((album) => new MAlbum(album)));
+  http.get<{ albums: IrAlbumDetail[] }>(ALBUM.newest).then(({ albums }) => albums.map((album) => new MAlbum(album)));
 
 /**
  * 获取
@@ -79,12 +72,11 @@ export const getDigitalAlbumNew = (limit?: number, offset?: number) =>
 export const getDigitalAlbumStyle = (options?: {
   limit?: number;
   offset?: number;
-  area: "Z_H" | "E_A" | "KR" | "JP";
+  area: 'Z_H' | 'E_A' | 'KR' | 'JP';
 }) => http.get(ALBUM.digitalStyleList, { params: options });
 
 /**
  * 获取数字专辑详情
  * @param id 专辑ID
  */
-export const getDigitalAlbumDetail = (id: number) =>
-  http.get(ALBUM.digitalDetail, { params: { id } });
+export const getDigitalAlbumDetail = (id: number) => http.get(ALBUM.digitalDetail, { params: { id } });

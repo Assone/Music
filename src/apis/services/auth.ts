@@ -1,16 +1,13 @@
-import { AUTH } from "@/config/path";
-import http from "@/libs/http";
-import { isString } from "@/utils";
+import { AUTH } from '@/config/path';
+import http from '@/libs/http';
+import { isString } from '@/utils';
 
 /**
  * 登陆
  * @param account 要登陆的账号，可以是邮箱或者手机号码
  * @param password 密码
  */
-export const login = (
-  account: string | number,
-  password: string
-): Promise<API.Auth.login> =>
+export const login = (account: string | number, password: string): Promise<API.Auth.login> =>
   isString(account)
     ? http.post<API.Auth.login>(AUTH.loginEmail, { email: account, password })
     : http.post(AUTH.loginPhone, { phone: account, password });
@@ -53,12 +50,8 @@ export const captchaVerify = (phone: number, captcha: string | number) =>
  * @param nickname 昵称
  * @param captcha 验证码
  */
-export const register = (
-  phone: number,
-  password: string,
-  nickname: string,
-  captcha: number | string
-) => http.post(AUTH.register, { phone, password, nickname, captcha });
+export const register = (phone: number, password: string, nickname: string, captcha: number | string) =>
+  http.post(AUTH.register, { phone, password, nickname, captcha });
 
 /**
  * 修改密码
@@ -67,12 +60,8 @@ export const register = (
  * @param nickname 昵称
  * @param captcha 验证码
  */
-export const changePassword = (
-  phone: number,
-  password: string,
-  nickname: string,
-  captcha: number | string
-) => http.post(AUTH.changePassword, { phone, password, nickname, captcha });
+export const changePassword = (phone: number, password: string, nickname: string, captcha: number | string) =>
+  http.post(AUTH.changePassword, { phone, password, nickname, captcha });
 
 /**
  * 更棒手机号码，(流程:先发送验证码到原手机号码,再发送验证码到新手机号码然后再调用此接口)
@@ -81,12 +70,7 @@ export const changePassword = (
  * @param phone 手机号码
  * @param area 国家区号
  */
-export const changePhone = (
-  oldCaptcha: number | string,
-  captcha: number | string,
-  phone: number,
-  area?: number
-) =>
+export const changePhone = (oldCaptcha: number | string, captcha: number | string, phone: number, area?: number) =>
   http.post(AUTH.changePhone, {
     oldcaptcha: oldCaptcha,
     captcha,
@@ -106,5 +90,4 @@ export const checkPhone = (phone: number, area?: number) =>
  * 初始化昵称
  * @param nickname 昵称
  */
-export const initNickname = (nickname: string) =>
-  http.post(AUTH.initNick, { nickname });
+export const initNickname = (nickname: string) => http.post(AUTH.initNick, { nickname });

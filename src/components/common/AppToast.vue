@@ -5,13 +5,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, VNode } from "vue";
+import { defineComponent, PropType, VNode } from 'vue';
 
 export default defineComponent({
   props: {
     message: {
       type: [String, Object] as PropType<string | VNode>,
-      deault: "",
+      deault: '',
     },
     duration: {
       type: Number,

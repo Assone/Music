@@ -1,9 +1,9 @@
-import { ARTIST } from "@/config/path";
-import http from "@/libs/http";
-import MAlbum from "@/models/Album";
-import MArtist from "@/models/Artist";
-import MArtistMV from "@/models/ArtistMV";
-import MSong from "@/models/Song";
+import { ARTIST } from '@/config/path';
+import http from '@/libs/http';
+import MAlbum from '@/models/Album';
+import MArtist from '@/models/Artist';
+import MArtistMV from '@/models/ArtistMV';
+import MSong from '@/models/Song';
 
 /**
  * 获取歌手分类列表
@@ -51,10 +51,7 @@ export const getArtistSongHot = (id: number) =>
  * @param options.limit 取出歌单数量 , 默认为 50
  * @param options.offset 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*50, 其中 50 为 limit 的值
  */
-export const getArtistSongAll = (
-  id: number,
-  options?: { order?: "hot" | "time"; limit?: number; offset?: number }
-) =>
+export const getArtistSongAll = (id: number, options?: { order?: 'hot' | 'time'; limit?: number; offset?: number }) =>
   http.get(ARTIST.songs, {
     params: {
       id,
@@ -70,12 +67,9 @@ export const getArtistSongAll = (
  */
 export const getArtistInfo = (id: number) =>
   http
-    .get<{ more: boolean; hotSongs: IrSongDetail[]; artist: IrArtistDetail }>(
-      ARTIST.info,
-      {
-        params: { id },
-      }
-    )
+    .get<{ more: boolean; hotSongs: IrSongDetail[]; artist: IrArtistDetail }>(ARTIST.info, {
+      params: { id },
+    })
     .then(({ artist, hotSongs }) => ({
       artist: new MArtist(artist),
       songs: hotSongs.map((song) => new MSong(song)),
@@ -100,12 +94,9 @@ export const getArtistMV = (id: number) =>
  */
 export const getArtistAlbum = (id: number, limit?: number, offset?: number) =>
   http
-    .get<{ artist: IrArtistDetail; hotAlbums: IrAlbumDetail[]; more: boolean }>(
-      ARTIST.album,
-      {
-        params: { id, limit, offset },
-      }
-    )
+    .get<{ artist: IrArtistDetail; hotAlbums: IrAlbumDetail[]; more: boolean }>(ARTIST.album, {
+      params: { id, limit, offset },
+    })
     .then(({ artist, hotAlbums }) => ({
       artist: new MArtist(artist),
       albums: hotAlbums.map((album) => new MAlbum(album)),
@@ -115,8 +106,7 @@ export const getArtistAlbum = (id: number, limit?: number, offset?: number) =>
  * 获取歌手描述
  * @param id 歌手ID
  */
-export const getArtistDecs = (id: number) =>
-  http.get(ARTIST.decs, { params: { id } });
+export const getArtistDecs = (id: number) => http.get(ARTIST.decs, { params: { id } });
 
 /**
  * 获取歌手详情

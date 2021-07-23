@@ -1,5 +1,5 @@
-import { isFunction } from "@/utils";
-import { Directive } from "vue";
+import { isFunction } from '@/utils';
+import { Directive } from 'vue';
 
 const clickOutside: Directive = {
   beforeMount(el, binding) {
@@ -13,11 +13,11 @@ const clickOutside: Directive = {
       }
     };
 
-    document.body.addEventListener("click", el.event, true);
+    document.body.addEventListener('click', el.event, true);
   },
 
   beforeUnmount(el) {
-    document.body.removeEventListener("click", el.event, true);
+    document.body.removeEventListener('click', el.event, true);
   },
 };
 

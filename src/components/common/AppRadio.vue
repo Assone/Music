@@ -7,44 +7,39 @@
         class="app-radio__inner relative inline-block h-4 w-4 rounded-3xl"
         :class="[`bg-green-500`, { 'is-checked': model === label }]"
       />
-      <input
-        class="hidden"
-        type="radio"
-        v-model="model"
-        :value="label"
-        :name="name"
-        aria-hidden="true"
-      />
+      <input v-model="model" class="hidden" type="radio" :value="label" :name="name" aria-hidden="true" />
     </span>
-    <span class="ml-2" v-if="$slots.default || showLabel">
+    <span v-if="$slots.default || showLabel" class="ml-2">
       <slot>{{ label }}</slot>
     </span>
   </label>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, PropType, toRefs } from "vue";
-import { radioGroupKey } from "./AppRadioGroup.vue";
+import { computed, defineComponent, inject, toRefs } from 'vue';
+import { radioGroupKey } from './AppRadioGroup.vue';
 
 export default defineComponent({
   props: {
     label: [String, Number],
     modelValue: {
-      default: "",
+      type: [String, Boolean, Number],
+      default: '',
     },
     name: {
       type: String,
-      default: "",
+      default: '',
     },
     disabled: Boolean,
     pointColor: String,
     showLabel: Boolean,
   },
+  emits: ['update:modelValue'],
   setup(props, { emit }) {
     const { modelValue } = toRefs(props);
 
     const radioGroup = inject(radioGroupKey);
-    const isGroup = computed(() => radioGroup?.name === "AppRadioGroup");
+    const isGroup = computed(() => radioGroup?.name === 'AppRadioGroup');
 
     const model = computed({
       get() {
@@ -54,7 +49,7 @@ export default defineComponent({
         if (isGroup.value) {
           radioGroup?.changeEvent(val);
         } else {
-          emit("update:modelValue", val);
+          emit('update:modelValue', val);
         }
       },
     });
@@ -70,7 +65,7 @@ export default defineComponent({
 @include b(app, radio) {
   @include e(inner) {
     &::before {
-      content: "";
+      content: '';
 
       position: absolute;
       top: 50%;

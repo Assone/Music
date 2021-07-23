@@ -5,8 +5,7 @@
 </template>
 
 <script lang="ts">
-import { nextTick } from "process";
-import { defineComponent, InjectionKey, provide, reactive, toRefs } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({});
 </script>

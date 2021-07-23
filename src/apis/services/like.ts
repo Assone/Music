@@ -52,8 +52,7 @@ export const likeCommentCancel = (id: number, commentId: number, type: 0 | 1 | 2
  * 5: 视频
  * 6: 动态
  */
-export const likeResource = (id: number, type: 1 | 4 | 5 | 6) =>
-  http.post(LIKE.resource, { id, t: 1, type });
+export const likeResource = (id: number, type: 1 | 4 | 5 | 6) => http.post(LIKE.resource, { id, t: 1, type });
 
 /**
  * 资源点赞取消
@@ -64,8 +63,7 @@ export const likeResource = (id: number, type: 1 | 4 | 5 | 6) =>
  * 5: 视频
  * 6: 动态
  */
-export const likeResourceCancel = (id: number, type: 1 | 4 | 5 | 6) =>
-  http.post(LIKE.resource, { id, t: 0, type });
+export const likeResourceCancel = (id: number, type: 1 | 4 | 5 | 6) => http.post(LIKE.resource, { id, t: 0, type });
 
 /**
  * 喜欢音乐

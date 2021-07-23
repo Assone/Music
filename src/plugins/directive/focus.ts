@@ -1,4 +1,4 @@
-import { Directive } from "vue";
+import { Directive } from 'vue';
 
 const focus: Directive = {
   mounted(el: HTMLElement) {

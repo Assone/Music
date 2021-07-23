@@ -1,17 +1,14 @@
-import { USER } from "@/config/path";
-import http from "@/libs/http";
-import MPlaylist from "@/models/Playlist";
-import MProfile from "@/models/Profile";
-import MUser from "@/models/User";
+import { USER } from '@/config/path';
+import http from '@/libs/http';
+import MPlaylist from '@/models/Playlist';
+import MProfile from '@/models/Profile';
 
 /**
  * 获取用户详情
  * @param uid 用户id
  */
 export const getUserDetail = (uid: number) =>
-  http
-    .get<API.User.detail>(USER.detail, { params: { uid } })
-    .then(({ profile }) => new MProfile(profile));
+  http.get<API.User.detail>(USER.detail, { params: { uid } }).then(({ profile }) => new MProfile(profile));
 
 /**
  * 获取账号信息
@@ -32,8 +29,7 @@ export const getUserLevel = () => http.get(USER.level);
  * 获取用户绑定信息
  * @param uid 用户id
  */
-export const getBindInfo = (uid: number) =>
-  http.get(USER.infoBind, { params: { uid } });
+export const getBindInfo = (uid: number) => http.get(USER.infoBind, { params: { uid } });
 
 /**
  * 更绑手机
@@ -73,11 +69,7 @@ export const updateUserInfo = (info: {
  * @param size 图片尺寸
  * @param offset 图片裁剪选项
  */
-export const updateUserAvatar = (
-  image: FormData,
-  size?: number,
-  offset?: { x?: number; y?: number }
-) =>
+export const updateUserAvatar = (image: FormData, size?: number, offset?: { x?: number; y?: number }) =>
   http.put(USER.updateAvatar, {
     imgFile: image,
     imgSize: size,
@@ -90,33 +82,28 @@ export const updateUserAvatar = (
  * @param uid 用户id
  */
 export const getUserPlaylist = (uid: number) =>
-  http
-    .get<API.User.playlist>(USER.playlist, { params: { uid } })
-    .then(({ more, playlist }) => ({
-      more,
-      playlist: playlist.map((item) => new MPlaylist(item)),
-    }));
+  http.get<API.User.playlist>(USER.playlist, { params: { uid } }).then(({ more, playlist }) => ({
+    more,
+    playlist: playlist.map((item) => new MPlaylist(item)),
+  }));
 
 /**
  * 获取用户电台
  * @param uid 用户id
  */
-export const getUserRadio = (uid: number) =>
-  http.get(USER.radio, { params: { uid } });
+export const getUserRadio = (uid: number) => http.get(USER.radio, { params: { uid } });
 
 /**
  * 获取用户关注列表
  * @param uid 用户id
  */
-export const getUserFollowing = (uid: number) =>
-  http.get(USER.following, { params: { uid } });
+export const getUserFollowing = (uid: number) => http.get(USER.following, { params: { uid } });
 
 /**
  * 获取用户粉丝列表
  * @param uid 用户id
  */
-export const getUserFollowers = (uid: number) =>
-  http.get(USER.followers, { params: { uid } });
+export const getUserFollowers = (uid: number) => http.get(USER.followers, { params: { uid } });
 
 /**
  * 关注用户
@@ -128,16 +115,14 @@ export const userFollow = (id: number) => http.post(USER.follow, { id, t: 1 });
  * 取消关注用户
  * @param id 用户id
  */
-export const userFollowCancel = (id: number) =>
-  http.post(USER.followCancel, { id, t: 0 });
+export const userFollowCancel = (id: number) => http.post(USER.followCancel, { id, t: 0 });
 
 /**
  * 获取用户播放记录
  * @param uid 用户id
  * @param type type=1 时只返回 weekData, type=0 时返回 allData
  */
-export const getUserPlayRecord = (uid: number, type?: 0 | 1) =>
-  http.get(USER.record, { params: { uid, type } });
+export const getUserPlayRecord = (uid: number, type?: 0 | 1) => http.get(USER.record, { params: { uid, type } });
 
 /**
  * 获取用户设置
@@ -179,5 +164,4 @@ export const signIn = (type?: 0 | 1) => http.post(USER.signIn, { type });
  * @param sourceid 歌单或专辑ID
  * @param time 音乐播放时间
  */
-export const clockIn = (id: number, sourceid: number, time?: number) =>
-  http.post(USER.clockIn, { id, sourceid, time });
+export const clockIn = (id: number, sourceid: number, time?: number) => http.post(USER.clockIn, { id, sourceid, time });

@@ -16,8 +16,7 @@ export const getNoticeOfComment = (limit: number, offset?: Date) =>
  * @param limit 返回数量
  * @param offset 偏移位置
  */
-export const getNoticeOfMe = (limit: number, offset?: number) =>
-  http.get(NOTICE.toMe, { params: { limit, offset } });
+export const getNoticeOfMe = (limit: number, offset?: number) => http.get(NOTICE.toMe, { params: { limit, offset } });
 
 /**
  * 获取通知
@@ -32,8 +31,7 @@ export const getNotice = (limit: number, offset: Date) =>
  * @param limit 返回数量
  * @param offset 偏移位置
  */
-export const getMessage = (limit?: number, offset?: number) =>
-  http.get(MESSAGE.get, { params: { limit, offset } });
+export const getMessage = (limit?: number, offset?: number) => http.get(MESSAGE.get, { params: { limit, offset } });
 
 /**
  * 发送私信

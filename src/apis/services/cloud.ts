@@ -1,6 +1,6 @@
-import { CLOUD_DISK } from "@/config/path";
-import http from "@/libs/http";
-import { isNumber } from "@/utils";
+import { CLOUD_DISK } from '@/config/path';
+import http from '@/libs/http';
+import { isNumber } from '@/utils';
 
 /**
  * 获取云盘数据
@@ -16,7 +16,7 @@ export const getCloudDiskData = (limit?: number, offset?: number) =>
  */
 export const getCloudDiskDataDetail = (id: number | number[]) =>
   http.get(CLOUD_DISK.dataDetail, {
-    params: { id: isNumber(id) ? id : id.join(",") },
+    params: { id: isNumber(id) ? id : id.join(',') },
   });
 
 /**
@@ -25,5 +25,5 @@ export const getCloudDiskDataDetail = (id: number | number[]) =>
  */
 export const deleteCloudDiskSong = (id: number | number[]) =>
   http.delete(CLOUD_DISK.delSong, {
-    params: { id: isNumber(id) ? id : id.join(",") },
+    params: { id: isNumber(id) ? id : id.join(',') },
   });

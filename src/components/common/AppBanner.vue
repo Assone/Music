@@ -7,11 +7,11 @@
 </template>
 
 <script lang="tsx">
-import { defineComponent, PropType } from "vue";
-import SwiperCore, { SwiperOptions, Mousewheel, Virtual } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/vue";
+import { defineComponent, PropType } from 'vue';
+import SwiperCore, { SwiperOptions, Mousewheel, Virtual } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 
-import "swiper/swiper.scss";
+import 'swiper/swiper.scss';
 
 SwiperCore.use([Mousewheel, Virtual]);
 
@@ -25,6 +25,7 @@ export default defineComponent({
   props: {
     options: Object as PropType<SwiperOptions>,
     data: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       type: Array as PropType<any[]>,
       required: true,
     },

@@ -1,6 +1,6 @@
-import { Directive, DirectiveBinding } from "vue";
-import { debounce as lodashDebounce } from "lodash-es";
-import { isFunction } from "@/utils";
+import { Directive } from 'vue';
+import { debounce as lodashDebounce } from 'lodash-es';
+import { isFunction } from '@/utils';
 
 const debounce: Directive = {
   beforeMount(el, binding) {
@@ -15,13 +15,13 @@ const debounce: Directive = {
     const time = Number(el.dataset.throttle) || 1000;
 
     if (isFunction(value)) {
-      for (const key in modifiers) {
+      Object.keys(modifiers).forEach((key) => {
         if (modifiers[key]) {
           el.addEventListener(key, lodashDebounce(value, time));
         }
-      }
+      });
     } else {
-      console.error("value must is a function");
+      console.error('value must is a function');
     }
   },
 };

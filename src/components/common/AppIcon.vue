@@ -5,13 +5,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, toRefs } from "vue";
+import { defineComponent, computed, toRefs } from 'vue';
 
 export default defineComponent({
   props: {
     prefix: {
       type: String,
-      default: "icon",
+      default: 'icon',
     },
     type: {
       type: String,
@@ -19,7 +19,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: "#333",
+      default: '#333',
     },
   },
   setup(props) {

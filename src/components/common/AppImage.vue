@@ -9,14 +9,7 @@
     <slot v-else-if="error" name="error">
       <div class="app-image__error">Error</div>
     </slot>
-    <img
-      v-else
-      :style="style"
-      class="app-image__inner"
-      :src="src"
-      :loading="lazy ? 'lazy' : 'eager'"
-      v-bind="$attrs"
-    />
+    <img v-else :style="style" class="app-image__inner" :src="src" :loading="lazy ? 'lazy' : 'eager'" v-bind="$attrs" />
   </picture>
 </template>
 
@@ -31,20 +24,20 @@ import {
   toRefs,
   watch,
   HTMLAttributes,
-} from "vue";
+} from 'vue';
 
 type SizeType = { width: number; height: number };
 
+// eslint-disable-next-line no-shadow
 const enum Fit {
-  NONE = "none",
-  CONTAIN = "contain",
-  COVER = "cover",
-  FILL = "fill",
-  SCALE_DOWN = "scale-down",
+  NONE = 'none',
+  CONTAIN = 'contain',
+  COVER = 'cover',
+  FILL = 'fill',
+  SCALE_DOWN = 'scale-down',
 }
 
-const isSupperObjectFit = () =>
-  document.documentElement.style.objectFit !== undefined;
+const isSupperObjectFit = () => document.documentElement.style.objectFit !== undefined;
 const useElementSize = (element: Element): SizeType => ({
   width: element.clientWidth,
   height: element.clientHeight,
@@ -63,13 +56,10 @@ export default defineComponent({
       type: String,
       require: true,
     },
-    source: Array as PropType<
-      { src: string; srcset: string; type: string; media: string }[]
-    >,
-    fit: String as PropType<
-      "none" | "contain" | "cover" | "fill" | "scale-down"
-    >,
+    source: Array as PropType<{ src: string; srcset: string; type: string; media: string }[]>,
+    fit: String as PropType<'none' | 'contain' | 'cover' | 'fill' | 'scale-down'>,
   },
+  emits: ['error'],
   setup(props, ctx) {
     const { lazy, src, fit } = toRefs(props);
     const instance = getCurrentInstance();
@@ -80,51 +70,40 @@ export default defineComponent({
     const width = ref(0);
     const height = ref(0);
 
-    const style = computed(
-      () =>
-        (fit?.value
-          ? isSupperObjectFit()
-            ? { "object-fit": fit.value }
-            : getImageStyle(fit.value)
-          : {}) as HTMLAttributes["style"]
-    );
+    const getImageStyle = (options: 'none' | 'contain' | 'cover' | 'fill' | 'scale-down') => {
+      const { width: containerWidth, height: containerHeight } = useElementSize(instance?.proxy?.$el);
+      let type = options;
 
-    watch(
-      () => src,
-      (src) => {
-        if (src?.value) loadImage();
-      }
-    );
-
-    const getImageStyle = (
-      options: "none" | "contain" | "cover" | "fill" | "scale-down"
-    ) => {
-      const { width: containerWidth, height: containerHeight } = useElementSize(
-        instance?.proxy?.$el
-      );
-      let fit = options;
-
-      if (!containerWidth || !containerHeight || !width.value || !height.value)
-        return {};
+      if (!containerWidth || !containerHeight || !width.value || !height.value) return {};
 
       const vertical = width.value / height.value < 1;
-      if (fit === Fit.SCALE_DOWN) {
-        const isSmaller =
-          width.value < containerWidth && height.value < containerHeight;
-        fit = isSmaller ? Fit.NONE : Fit.CONTAIN;
+      if (type === Fit.SCALE_DOWN) {
+        const isSmaller = width.value < containerWidth && height.value < containerHeight;
+        type = isSmaller ? Fit.NONE : Fit.CONTAIN;
       }
 
-      switch (fit) {
+      switch (type) {
         case Fit.NONE:
-          return { width: "auto", height: "auto" };
+          return { width: 'auto', height: 'auto' };
         case Fit.CONTAIN:
-          return vertical ? { width: "auto" } : { height: "auto" };
+          return vertical ? { width: 'auto' } : { height: 'auto' };
         case Fit.COVER:
-          return vertical ? { height: "auto" } : { width: "auto" };
+          return vertical ? { height: 'auto' } : { width: 'auto' };
         default:
           return {};
       }
     };
+
+    const style = computed(() => {
+      if (fit.value) {
+        return (
+          isSupperObjectFit() ? { 'object-fit': fit.value } : getImageStyle(fit.value)
+        ) as HTMLAttributes['style'];
+      }
+
+      return {};
+    });
+
     const handleLoad = (img: HTMLImageElement) => {
       loading.value = false;
       error.value = false;
@@ -134,21 +113,26 @@ export default defineComponent({
     const handleError = () => {
       loading.value = false;
       error.value = true;
-      ctx.emit("error");
+      ctx.emit('error');
     };
     const loadImage = () => {
       loading.value = true;
       error.value = false;
 
       const image = new Image();
-      image.addEventListener("load", () => handleLoad(image));
-      image.addEventListener("error", handleError);
+      image.addEventListener('load', () => handleLoad(image));
+      image.addEventListener('error', handleError);
 
-      Object.entries(ctx.attrs).forEach(([key, value]) =>
-        image.setAttribute(key, value as string)
-      );
+      Object.entries(ctx.attrs).forEach(([key, value]) => image.setAttribute(key, value as string));
       image.src = src?.value as string;
     };
+
+    watch(
+      () => src,
+      (url) => {
+        if (url?.value) loadImage();
+      }
+    );
 
     onMounted(() => {
       if (lazy.value) {

@@ -11,5 +11,5 @@ setInterceptorsResponse(
     // 响应错误时处理异常信息
     console.error(`Method: ${error.config?.method}, path: ${error.config?.url}. ${error.message}.`);
     throw error;
-  },
+  }
 );

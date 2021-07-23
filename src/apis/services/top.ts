@@ -77,11 +77,7 @@ export const getTopAllAbstract = () => http.get(TOP.allAbstract);
  * @param options.area: 地区,可选值为内地,港台,欧美,日本,韩国,不填则为全部
  * @param options.offset: 偏移数量 , 用于分页 , 如 :( 页数 -1)*30, 其中 30 为 limit 的值 , 默认 为 0
  */
-export const getTopMV = (options?: {
-  limit?: number;
-  area?: 0 | 1 | 2 | 3 | 4 | 5;
-  offset?: number;
-}) =>
+export const getTopMV = (options?: { limit?: number; area?: 0 | 1 | 2 | 3 | 4 | 5; offset?: number }) =>
   http.get(TOP.mv, {
     params: {
       limit: options?.limit,
@@ -110,8 +106,7 @@ export const getTopDigitalAlbum = (options?: {
  * @param limit 返回数量
  * @param offset 偏移位置
  */
-export const getTopProgram = (limit?: number, offset?: number) =>
-  http.get(TOP.program, { params: { limit, offset } });
+export const getTopProgram = (limit?: number, offset?: number) => http.get(TOP.program, { params: { limit, offset } });
 
 /**
  * 获取付费精品电台

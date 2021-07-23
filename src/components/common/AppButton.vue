@@ -12,17 +12,11 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineAsyncComponent,
-  defineComponent,
-  PropType,
-  toRefs,
-} from "vue";
+import { computed, defineAsyncComponent, defineComponent, PropType, toRefs } from 'vue';
 
 export default defineComponent({
   components: {
-    AppIcon: defineAsyncComponent(() => import("./AppIcon.vue")),
+    AppIcon: defineAsyncComponent(() => import('./AppIcon.vue')),
   },
   props: {
     round: Boolean,
@@ -32,11 +26,11 @@ export default defineComponent({
     autofocus: Boolean,
     type: {
       type: String,
-      default: "default",
+      default: 'default',
     },
     nativeType: {
-      type: String as PropType<"button" | "submit" | "reset">,
-      validator: (type: string) => ["button", "submit", "reset"].includes(type),
+      type: String as PropType<'button' | 'submit' | 'reset'>,
+      validator: (type: string) => ['button', 'submit', 'reset'].includes(type),
     },
     icon: String,
   },
@@ -45,10 +39,10 @@ export default defineComponent({
 
     const classList = computed(() => [
       {
-        "is-round": round.value,
-        "is-circle": circle.value,
-        "is-disabled": disabled.value,
-        "is-loading": loading.value,
+        'is-round': round.value,
+        'is-circle': circle.value,
+        'is-disabled': disabled.value,
+        'is-loading': loading.value,
       },
     ]);
 

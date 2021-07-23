@@ -23,8 +23,7 @@ export const getRecDailyHistory = () => http.get(RECOMMEND.history);
  * 获取历史日推详情数据
  * @param date 日期
  */
-export const getRecDailyHistoryData = (date: Date) =>
-  http.get(RECOMMEND.historyDetail, { params: { date } });
+export const getRecDailyHistoryData = (date: Date) => http.get(RECOMMEND.historyDetail, { params: { date } });
 
 /**
  * 获取推荐MV
@@ -40,12 +39,9 @@ export const getRecMV = () =>
  */
 export const getRecPlaylist = (limit?: number) =>
   http
-    .get<{ category: number; hasTaste: boolean; result: GetRecPlaylistResponse[] }>(
-      RECOMMEND.playlist,
-      {
-        params: { limit },
-      },
-    )
+    .get<{ category: number; hasTaste: boolean; result: GetRecPlaylistResponse[] }>(RECOMMEND.playlist, {
+      params: { limit },
+    })
     .then(({ result }) => result.map((playlist) => new MRecPlaylist(playlist)));
 
 /**
@@ -54,12 +50,9 @@ export const getRecPlaylist = (limit?: number) =>
  */
 export const getRecSong = (limit?: number) =>
   http
-    .get<{ category: number; result: (IrMetaSource & { song: IrRecSongDetail })[] }>(
-      RECOMMEND.song,
-      {
-        params: { limit },
-      },
-    )
+    .get<{ category: number; result: (IrMetaSource & { song: IrRecSongDetail })[] }>(RECOMMEND.song, {
+      params: { limit },
+    })
     .then(({ result }) =>
       result.map((item) => {
         const {
@@ -70,7 +63,7 @@ export const getRecSong = (limit?: number) =>
           ...new MMetaSource(item),
           artists: artists.map((artist) => ({ id: artist.id, name: artist.name })),
         };
-      }),
+      })
     );
 
 /**
@@ -93,5 +86,4 @@ export const getRecVideo = (offset?: number) => http.get(RECOMMEND.video, { para
  * 获取电台个性推荐
  * @param limit 返回数量
  */
-export const getRecRadioPersonal = (limit: number) =>
-  http.get(RECOMMEND.radioPersonal, { params: { limit } });
+export const getRecRadioPersonal = (limit: number) => http.get(RECOMMEND.radioPersonal, { params: { limit } });

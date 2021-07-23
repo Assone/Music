@@ -85,10 +85,9 @@ export const getMVDetail = (id: number) =>
  * @param id mv id
  */
 export const getMVInfo = (id: number) =>
-  http.get<{ commentCount: number; liked: boolean; likedCount: number; shareCount: number }>(
-    MV.info,
-    { params: { mvid: id } },
-  );
+  http.get<{ commentCount: number; liked: boolean; likedCount: number; shareCount: number }>(MV.info, {
+    params: { mvid: id },
+  });
 
 /**
  * 获取mv播放地址

@@ -21,8 +21,7 @@ export const getVideoList = () => http.get(VIDEO.classification);
  * @param id video group id
  * @param offset 偏移位置
  */
-export const getVideoByTag = (id: string, offset?: number) =>
-  http.get(VIDEO.tagToGroup, { params: { id, offset } });
+export const getVideoByTag = (id: string, offset?: number) => http.get(VIDEO.tagToGroup, { params: { id, offset } });
 
 /**
  * 获取全部视频

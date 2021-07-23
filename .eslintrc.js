@@ -3,9 +3,11 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    node: true,
   },
   globals: {
     Model: 'readonly',
+    NodeJS: 'readonly',
     defineProps: 'readonly',
     defineEmits: 'readonly',
     defineExpose: 'readonly',
@@ -28,11 +30,11 @@ module.exports = {
     'import/extensions': ['.js', '.jsx', '.mjs', '.ts', '.tsx'],
   },
   extends: [
+    'plugin:vue/base',
+    'plugin:vue/vue3-recommended',
     'eslint-config-airbnb-base',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:vue/base',
-    'plugin:vue/vue3-recommended',
     'plugin:prettier/recommended',
     'prettier',
   ],
@@ -56,6 +58,7 @@ module.exports = {
     ],
     'vue/require-default-prop': 'off',
     'import/no-unresolved': [2, { ignore: ['@intlify/vite-plugin-vue-i18n.'] }],
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
   },
   overrides: [
     {
@@ -71,7 +74,7 @@ module.exports = {
       },
     },
     {
-      files: ['src/store/**/*.ts'],
+      files: ['src/store/**/*.ts', 'src/plugins/**/*.ts', 'src/router/**/*.ts'],
       rules: {
         'no-param-reassign': 'off',
       },

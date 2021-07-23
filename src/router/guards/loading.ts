@@ -1,5 +1,5 @@
-import { NavigationGuard, NavigationHookAfter } from "vue-router";
-import { useNProgress } from "@vueuse/integrations/useNProgress";
+import { NavigationGuard, NavigationHookAfter } from 'vue-router';
+import { useNProgress } from '@vueuse/integrations/useNProgress';
 
 const { isLoading } = useNProgress();
 

@@ -24,7 +24,7 @@ export const shareToDynamic = (
   options?: {
     type?: shareDynamicType;
     content?: string;
-  },
+  }
 ) =>
   http.post(DYNAMIC.share, {
     id,
@@ -53,5 +53,4 @@ export const forwardDynamic = (uid: number, dynamicId: number, content: string) 
  * 删除用户动态
  * @param dynamicId 动态id
  */
-export const deleteDynamic = (dynamicId: number) =>
-  http.delete(DYNAMIC.delete, { params: { evId: dynamicId } });
+export const deleteDynamic = (dynamicId: number) => http.delete(DYNAMIC.delete, { params: { evId: dynamicId } });

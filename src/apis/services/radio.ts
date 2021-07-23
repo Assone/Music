@@ -26,8 +26,7 @@ export const getRadioSubscriber = (id: number, limit?: number, offset?: Date) =>
  * @param limit 返回数量
  * @param offset 偏移位置
  */
-export const getRadioHot = (limit?: number, offset?: number) =>
-  http.get(RADIO.hot, { params: { limit, offset } });
+export const getRadioHot = (limit?: number, offset?: number) => http.get(RADIO.hot, { params: { limit, offset } });
 
 /**
  * 获取电台 - 类别热门电台
@@ -36,11 +35,8 @@ export const getRadioHot = (limit?: number, offset?: number) =>
  * @param options.offset 偏移位置
  * @param options.cateId 类别ID
  */
-export const getRadioCategoryHot = (options?: {
-  limit?: number;
-  offset?: number;
-  cateId?: number;
-}) => http.get(RADIO.hotToCategory, { params: options });
+export const getRadioCategoryHot = (options?: { limit?: number; offset?: number; cateId?: number }) =>
+  http.get(RADIO.hotToCategory, { params: options });
 
 /**
  * 获取电台分类
@@ -85,10 +81,7 @@ export const getRadioToDayPreferred = () => http.get(RADIO.todayPreferred);
  * @param options.offset 偏移位置
  * @param options.asc 排序方式,默认为 false (新 => 老 ) 设置 true 可改为 老 => 新
  */
-export const getRadioProgram = (
-  rid: number,
-  options?: { limit?: number; offset?: number; asc?: boolean },
-) =>
+export const getRadioProgram = (rid: number, options?: { limit?: number; offset?: number; asc?: boolean }) =>
   http.get(RADIO.program, {
     params: { rid, limit: options?.limit, offset: options?.offset, asc: options?.asc },
   });
@@ -103,5 +96,4 @@ export const getRadioDetail = (rid: number) => http.get(RADIO.detail, { params: 
  * 获取电台节目详情
  * @param id 节目ID
  */
-export const getRadioProgramDetail = (id: number) =>
-  http.get(RADIO.programDetail, { params: { id } });
+export const getRadioProgramDetail = (id: number) => http.get(RADIO.programDetail, { params: { id } });

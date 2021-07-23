@@ -1,8 +1,5 @@
 <template>
-  <article
-    :class="['app-avatar', avatarClass, $attrs.class]"
-    :style="avatarStyle"
-  >
+  <article :class="['app-avatar', avatarClass, $attrs.class]" :style="avatarStyle">
     <AppIcon v-if="icon" :type="icon" />
     <slot v-else>
       <AppImage v-bind="{ ...$attrs, class: {} }" />
@@ -11,33 +8,25 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  defineAsyncComponent,
-  PropType,
-  toRefs,
-} from "vue";
+import { computed, defineComponent, defineAsyncComponent, PropType, toRefs } from 'vue';
 
 export default defineComponent({
-  inheritAttrs: false,
   components: {
-    AppImage: defineAsyncComponent(() => import("./AppImage.vue")),
-    AppIcon: defineAsyncComponent(() => import("./AppIcon.vue")),
+    AppImage: defineAsyncComponent(() => import('./AppImage.vue')),
+    AppIcon: defineAsyncComponent(() => import('./AppIcon.vue')),
   },
+  inheritAttrs: false,
   props: {
     icon: String,
     size: {
-      type: [Number, String] as PropType<"large" | "medium" | "small" | number>,
+      type: [Number, String] as PropType<'large' | 'medium' | 'small' | number>,
       validator: (size: string | number) =>
-        typeof size === "string"
-          ? ["large", "medium", "small"].includes(size)
-          : typeof size === "number",
+        typeof size === 'string' ? ['large', 'medium', 'small'].includes(size) : typeof size === 'number',
     },
     shape: {
-      type: String as PropType<"circle" | "square">,
-      default: "circle",
-      validator: (shape: string) => ["circle", "square"].includes(shape),
+      type: String as PropType<'circle' | 'square'>,
+      default: 'circle',
+      validator: (shape: string) => ['circle', 'square'].includes(shape),
     },
   },
   setup(props) {
@@ -46,15 +35,14 @@ export default defineComponent({
     const avatarClass = computed(() => {
       const list: string[] = [];
 
-      if (typeof size?.value === "string")
-        list.push(`app-avatar--${size.value}`);
+      if (typeof size?.value === 'string') list.push(`app-avatar--${size.value}`);
       if (icon?.value) list.push(`app-avatar--icon`);
       if (shape?.value) list.push(`app-avatar--${shape.value}`);
 
       return list;
     });
     const avatarStyle = computed(() =>
-      typeof size?.value === "number"
+      typeof size?.value === 'number'
         ? {
             width: `${size.value}px`,
             height: `${size.value}px`,

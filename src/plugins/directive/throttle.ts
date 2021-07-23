@@ -1,6 +1,6 @@
-import { Directive } from "vue";
-import { throttle as lodashThrottle } from "lodash-es";
-import { isFunction } from "@/utils";
+import { Directive } from 'vue';
+import { throttle as lodashThrottle } from 'lodash-es';
+import { isFunction } from '@/utils';
 
 const throttle: Directive = {
   mounted(el: HTMLElement, binding) {
@@ -8,13 +8,13 @@ const throttle: Directive = {
     const time = Number(el.dataset.throttle) || 1000;
 
     if (isFunction(value)) {
-      for (const key in modifiers) {
+      Object.keys(modifiers).forEach((key) => {
         if (modifiers[key]) {
           el.addEventListener(key, lodashThrottle(value, time));
         }
-      }
+      });
     } else {
-      console.error("value must is a function");
+      console.error('value must is a function');
     }
   },
 };
