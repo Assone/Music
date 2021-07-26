@@ -95,9 +95,10 @@
     "commit-msg": "commitlint -E GIT_PARAMS"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx,json,vue}": [
+    "src/**/*.{ts,tsx,vue}": [
       "prettier --write",
-      "eslint --fix"
+      "eslint --fix",
+      "jest"
     ]
   }
 }
