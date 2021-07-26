@@ -1,18 +1,26 @@
-import { Ref, computed } from 'vue';
+import { computed } from 'vue';
 
 import useStoreMutations from './useStoreMutations';
 import useStoreState from './useStoreState';
 
-export const useThemeColorHSL = (colorRaw: Ref<IAppConfig['themeColor'][0]>) =>
-  computed(() => {
-    const [h, s, l] = colorRaw.value.split(', ');
+export const useThemeColorHSL = () => {
+  const { color } = useStoreState();
 
-    return {
-      h,
-      s,
-      l,
-    };
+  const themeColorStyle = computed(() => {
+    const [h, s, l] = color.value.split(', ');
+
+    return [
+      `--theme-color-raw: ${color.value}`,
+      `--theme-color-h: ${h}`,
+      `--theme-color-s: ${s}`,
+      `--theme-color-l: ${l}`,
+    ];
   });
+
+  return {
+    themeColorStyle,
+  };
+};
 
 export const useTheme = () => {
   const { color, themeColor } = useStoreState();

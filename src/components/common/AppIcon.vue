@@ -35,8 +35,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 @include b(app, icon) {
   display: inline;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
 
   cursor: pointer;
   fill: currentColor;

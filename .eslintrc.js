@@ -1,4 +1,7 @@
-module.exports = {
+/**
+ * @type import('eslint').Linter.Config
+ */
+const config = {
   root: true,
   env: {
     browser: true,
@@ -13,7 +16,7 @@ module.exports = {
     defineExpose: 'readonly',
     withDefaults: 'readonly',
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['vue', '@typescript-eslint', 'prettier'],
   parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@typescript-eslint/parser', // Specifies the ESLint parser
@@ -33,6 +36,7 @@ module.exports = {
     'plugin:vue/base',
     'plugin:vue/vue3-recommended',
     'eslint-config-airbnb-base',
+    'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:prettier/recommended',
@@ -81,3 +85,5 @@ module.exports = {
     },
   ],
 };
+
+module.exports = config;
