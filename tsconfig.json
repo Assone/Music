@@ -10,11 +10,12 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "baseUrl": ".",
-    "outDir": "./dist/",
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": ["vite/client", "@intlify/vite-plugin-vue-i18n/client", "vite-plugin-pwa/client"]
+    "types": ["vite/client", "@intlify/vite-plugin-vue-i18n/client", "vite-plugin-pwa/client", "jest"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  // "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "tests/**/*.ts", "tests/**/*.tsx"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "tests/**/*.ts", "tests/**/*.tsx"],
+  "exclude": ["node_modules"]
 }
