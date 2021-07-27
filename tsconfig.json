@@ -11,7 +11,8 @@
     "lib": ["ESNext", "DOM"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@test/*": ["tests/*"]
     },
     "types": ["vite/client", "@intlify/vite-plugin-vue-i18n/client", "vite-plugin-pwa/client", "jest"]
   },

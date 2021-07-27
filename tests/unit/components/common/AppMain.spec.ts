@@ -1,17 +1,8 @@
-import { shallowMount } from '@vue/test-utils';
 import AppMain from '@/components/common/AppMain.vue';
+import { useTestCreated, useTestSlots } from '@test/helpers';
 
 describe('AppMain.vue', () => {
-  it('created', () => {
-    const wrapper = shallowMount(AppMain);
+  it('created', () => useTestCreated(AppMain));
 
-    expect(wrapper.classes()).toContain('app-main');
-  });
-
-  it('render slot', () => {
-    const template = '<span>default slots</span>';
-    const wrapper = shallowMount(AppMain, { slots: { default: template } });
-
-    expect(wrapper.html()).toContain(template);
-  });
+  it('render slot', () => useTestSlots(AppMain, { slots: { default: '<span>default slot</span>' } }));
 });

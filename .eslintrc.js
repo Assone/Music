@@ -26,7 +26,10 @@ const config = {
   settings: {
     'import/resolver': {
       alias: {
-        map: [['@', './src']],
+        map: [
+          ['@', './src'],
+          ['@test', './tests'],
+        ],
         extensions: ['.ts', '.js', '.jsx', '.json', '.vue'],
       },
     },

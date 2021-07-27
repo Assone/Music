@@ -1,21 +1,19 @@
 import { shallowMount } from '@vue/test-utils';
 import AppAside from '@/components/common/AppAside.vue';
+import { useTestCreated, useTestSlots } from '@test/helpers';
 
 describe('AppAside.vue', () => {
-  it('created', () => {
+  it('created', () => useTestCreated(AppAside));
+
+  it('render slot', () => useTestSlots(AppAside, { slots: { default: '<span>default slot</span>' } }));
+
+  it('set props width', async () => {
+    const width = '50px';
     const wrapper = shallowMount(AppAside);
 
-    expect(wrapper.classes()).toContain('app-aside');
-  });
+    expect(wrapper.get('aside').element.style.width).toBe('300px');
 
-  it('render slot', () => {
-    const template = '<span>default slot</span>';
-    const wrapper = shallowMount(AppAside, {
-      slots: {
-        default: template,
-      },
-    });
-
-    expect(wrapper.html()).toContain(template);
+    await wrapper.setProps({ width });
+    expect(wrapper.get('aside').element.style.width).toBe(width);
   });
 });
