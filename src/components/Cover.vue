@@ -1,6 +1,6 @@
 <template>
   <div class="cover relative" :class="$attrs.class" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
-    <div class="cover__inner hover:shadow-lg relative">
+    <div class="cover__inner hover:shadow-lg relative" @click="canTo ? toNextView() : ''">
       <MaskShadow :src="`${$attrs.src}`" class="hidden rounded-lg" :class="[hover ? $style['mask-shadow'] : '']" />
       <AppImage
         class="cover__image rounded-lg"
@@ -9,11 +9,7 @@
         fit="cover"
         v-bind="{ ...$attrs, class: {} }"
       />
-      <Mask
-        :class="[canTo ? 'cursor-pointer' : '']"
-        @click-inner="$emit('play', { type, id })"
-        @click="canTo ? toNextView() : ''"
-      />
+      <Mask :class="[canTo ? 'cursor-pointer' : '']" @click-inner.prevent.stop="$emit('play', { type, id })" />
 
       <slot name="inner" />
     </div>

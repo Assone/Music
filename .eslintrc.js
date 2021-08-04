@@ -10,6 +10,7 @@ const config = {
   },
   globals: {
     Model: 'readonly',
+    Structure: 'readonly',
     NodeJS: 'readonly',
     defineProps: 'readonly',
     defineEmits: 'readonly',
@@ -64,7 +65,7 @@ const config = {
       },
     ],
     'vue/require-default-prop': 'off',
-    'import/no-unresolved': [2, { ignore: ['@intlify/vite-plugin-vue-i18n.'] }],
+    'import/no-unresolved': [2, { ignore: ['@intlify/vite-plugin-vue-i18n.', 'vite-plugin-svg-icons/register'] }],
     'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
   },
   overrides: [

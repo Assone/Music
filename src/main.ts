@@ -15,6 +15,7 @@ import { isDev, isMobile } from './utils';
 createApp(App).use(router).use(store, key).use(i18n).use(directive).mount('#app');
 
 if (isDev && isMobile) {
+  // eslint-disable-next-line import/no-extraneous-dependencies
   import('eruda').then((eruda) => {
     eruda.init();
   });

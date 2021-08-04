@@ -97,8 +97,7 @@
   "lint-staged": {
     "src/**/*.{ts,tsx,vue}": [
       "prettier --write",
-      "eslint --fix",
-      "jest"
+      "eslint --fix"
     ]
   }
 }

@@ -1,7 +1,7 @@
 import { Module } from 'vuex';
 import { SET_AUDIO_TRACKS, SET_MV_TRACKS, SET_VIDEO_TRACKS } from '../type';
 
-const model: Module<StoreStateMedia, StoreStateRoot> = {
+const module: Module<StoreStateMedia, StoreStateRoot> = {
   namespaced: true,
   state: {
     tracks: [],
@@ -26,4 +26,4 @@ const model: Module<StoreStateMedia, StoreStateRoot> = {
   },
 };
 
-export default model;
+export default module;
