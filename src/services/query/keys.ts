@@ -1,9 +1,28 @@
-import { getAlbumDetail, getArtistAlbums, getPlaylistDetail } from '@/apis';
+import {
+  AlbumListArea,
+  getAlbumDetail,
+  getAlbumListByStyle,
+  getArtistAlbums,
+  getPlaylistDetail,
+  getRecommendPlaylist,
+} from '@/apis';
 import {
   createQueryKeys,
   mergeQueryKeys,
 } from '@lukemorales/query-key-factory';
 import { lastValueFrom } from 'rxjs';
+
+export const homeKeys = createQueryKeys('home', {
+  playlist: () => ({
+    queryKey: ['playlist'],
+    queryFn: () => lastValueFrom(getRecommendPlaylist()),
+  }),
+  album: () => ({
+    queryKey: ['album', AlbumListArea.ea],
+    queryFn: () =>
+      lastValueFrom(getAlbumListByStyle({ area: AlbumListArea.ea })),
+  }),
+});
 
 export const playlistKeys = createQueryKeys('playlist', {
   detail: (id: number) => ({
@@ -29,4 +48,9 @@ export const artistKeys = createQueryKeys('artist', {
   }),
 });
 
-export const queryKeys = mergeQueryKeys(playlistKeys, albumKeys, artistKeys);
+export const queryKeys = mergeQueryKeys(
+  homeKeys,
+  playlistKeys,
+  albumKeys,
+  artistKeys,
+);

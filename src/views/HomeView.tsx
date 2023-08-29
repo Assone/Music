@@ -1,32 +1,10 @@
-import {
-  AlbumListArea,
-  getAlbumListByStyle,
-  getRecommendPlaylist,
-} from '@/apis';
+import { homeKeys } from '@/services/query/keys';
 import { useQuery } from '@tanstack/react-query';
-import { Link, useNavigate } from '@tanstack/react-router';
-import { lastValueFrom } from 'rxjs';
+import { Link } from '@tanstack/react-router';
 
 const HomeView: React.FC = () => {
-  const navigate = useNavigate();
-
-  const { data: playlist = [] } = useQuery({
-    queryKey: ['recommendPlaylist'],
-    queryFn: () => lastValueFrom(getRecommendPlaylist()),
-  });
-  const { data: albums = [] } = useQuery({
-    queryKey: ['recommendAlbums'],
-    queryFn: () =>
-      lastValueFrom(getAlbumListByStyle({ area: AlbumListArea.ea })),
-  });
-
-  const onToPlaylistDetail = (id: ID) => {
-    navigate({ to: `/playlists/${id}` });
-  };
-
-  const onToAlbumDetail = (id: ID) => {
-    navigate({ to: `/albums/${id}` });
-  };
+  const { data: playlist = [] } = useQuery(homeKeys.playlist());
+  const { data: albums = [] } = useQuery(homeKeys.album());
 
   return (
     <div className="flex flex-col gap-2">
