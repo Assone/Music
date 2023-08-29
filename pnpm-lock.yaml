@@ -79,6 +79,9 @@ dependencies:
     version: 10.2.0
 
 devDependencies:
+  '@emotion/eslint-plugin':
+    specifier: ^11.11.0
+    version: 11.11.0(eslint@8.48.0)
   '@tanstack/eslint-plugin-query':
     specifier: ^4.32.5
     version: 4.32.5
@@ -1415,6 +1418,15 @@ packages:
       '@emotion/sheet': 1.2.2
       '@emotion/utils': 1.2.1
     dev: false
+
+  /@emotion/eslint-plugin@11.11.0(eslint@8.48.0):
+    resolution: {integrity: sha512-jCOYqU/0Sqm+g+6D7QuIlG99q8YAF0T7BP98zQF/MPZKfbcm46z5mizXn0YlhZ9AYZfNtZ1DeODXdncYxZzR4Q==}
+    engines: {node: '>=6'}
+    peerDependencies:
+      eslint: 6 || 7 || 8
+    dependencies:
+      eslint: 8.48.0
+    dev: true
 
   /@emotion/hash@0.9.1:
     resolution: {integrity: sha512-gJB6HLm5rYwSLI6PQa+X1t5CFGrv1J1TWG+sOyMCeKz2ojaj6Fnl/rZEspogG+cvqbt4AE/2eIyD2QfLKTBNlQ==}

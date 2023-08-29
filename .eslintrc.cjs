@@ -22,7 +22,13 @@ module.exports = {
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh', 'prettier', 'import', '@tanstack/query'],
+  plugins: [
+    'react-refresh',
+    'prettier',
+    'import',
+    '@tanstack/query',
+    '@emotion',
+  ],
   parserOptions: {
     project: ['./tsconfig.json', './tsconfig.*.json'],
     tsconfigRootDir: __dirname,
@@ -55,10 +61,10 @@ module.exports = {
     'react/prop-types': 'off',
     'react/jsx-no-undef': ['error', { allowGlobals: true }],
 
-    'no-shadow': 'off',
-
     '@tanstack/query/exhaustive-deps': 'error',
     '@tanstack/query/prefer-query-object-syntax': 'off',
+
+    'no-shadow': 'off',
 
     'import/extensions': [
       'error',
