@@ -47,3 +47,12 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </PersistQueryClientProvider>
   </React.StrictMode>,
 );
+
+if (
+  import.meta.env.DEV ||
+  (import.meta.env.PROD && window.location.search.includes('debug=true'))
+) {
+  import('eruda')
+    .then(({ default: eruda }) => eruda.init())
+    .catch(() => console.error('%c[Error] Failed to load eruda', 'color:red'));
+}
