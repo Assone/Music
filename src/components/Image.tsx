@@ -15,7 +15,7 @@ interface ImageProps
 const Image: React.FC<ImageProps> = ({
   source,
   placeholder,
-  lazy,
+  lazy = true,
   ...props
 }) => {
   const [loading, loadingActions] = useBoolean(true);
