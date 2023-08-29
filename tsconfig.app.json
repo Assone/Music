@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": [
+    "@tsconfig/strictest/tsconfig.json",
+    "@tsconfig/vite-react/tsconfig.json"
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "strictNullChecks": true,
+
+    "lib": ["ESNext", "DOM", "WebWorker"],
+    "types": ["vite-plugin-pwa/client"],
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src", "src/**/*.json", "auto-imports.d.ts"],
+  "exclude": ["src/**/__tests__/*"]
+}
