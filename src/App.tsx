@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@emotion/react';
-import { Outlet } from '@tanstack/react-router';
+import { Outlet, ScrollRestoration } from '@tanstack/react-router';
 import { AnimatePresence, LazyMotion, domMax, m } from 'framer-motion';
 
 declare module '@emotion/react' {
@@ -17,6 +17,7 @@ const App = () => (
     <ThemeProvider theme={{ color: { primary: 'red' } }}>
       <m.main className="min-h-screen">
         <AnimatePresence>
+          <ScrollRestoration />
           <Outlet />
         </AnimatePresence>
       </m.main>
