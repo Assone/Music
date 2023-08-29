@@ -16,6 +16,8 @@
     "lib": ["ESNext", "DOM", "WebWorker"],
     "types": ["vite-plugin-pwa/client"],
 
+    "jsxImportSource": "@emotion/react",
+
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

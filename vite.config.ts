@@ -13,7 +13,9 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [
     million.vite({ auto: true }),
-    react(),
+    react({
+      jsxImportSource: '@emotion/react',
+    }),
 
     AutoImport({
       dts: true,

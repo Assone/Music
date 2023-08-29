@@ -1,10 +1,18 @@
 import { artistKeys } from '@/services/query/keys';
 import { AlbumDetailRoute } from '@/services/router/map';
+import { cx } from '@emotion/css';
+import { css } from '@emotion/react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { Link, useRouteContext } from '@tanstack/react-router';
 import { format } from 'date-fns';
 import { m, useScroll, useSpring } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+
+const mediaBackgroundImage = (media: string, backgroundImage: string) => css`
+  @media ${media} {
+    background-image: url(${backgroundImage});
+  }
+`;
 
 const AlbumDetailView: React.FC = () => {
   const { queryOptions } = useRouteContext({ from: AlbumDetailRoute.id });
@@ -22,6 +30,7 @@ const AlbumDetailView: React.FC = () => {
   });
 
   const { data } = useQuery(queryOptions);
+  const coverResource = useGenerateResponsiveResources(data?.cover);
 
   const artistAlbumsQuery = useInfiniteQuery({
     ...artistKeys.albums(data?.artist.id || 0),
@@ -53,12 +62,16 @@ const AlbumDetailView: React.FC = () => {
         }}
       >
         <m.div
-          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat filter blur-3xl"
+          css={css`
+            ${coverResource.list.map((item) =>
+              mediaBackgroundImage(item.media, item.url!),
+            )}
+          `}
+          className={cx(
+            'absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat filter blur-3xl',
+          )}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          style={{
-            backgroundImage: `url(${data.cover})`,
-          }}
         />
 
         <div className="flex flex-col gap-2 p-4 backdrop-blur">
