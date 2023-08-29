@@ -65,12 +65,13 @@ export const AlbumDetailRoute = new Route({
 });
 
 const sourceSearchSchema = z.object({
-  page: z.number(),
+  page: z.number().or(z.undefined()),
   keyword: z.string().catch(''),
 });
 
 export const SearchRoute = new Route({
   path: '/search',
+  key: ({ search }) => search.keyword,
   component: lazyRouteComponent(() => import('@/views/SearchView')),
   getParentRoute: () => RootRoute,
   validateSearch: sourceSearchSchema,
