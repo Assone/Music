@@ -5,12 +5,14 @@ import {
   HomeRoute,
   PlaylistDetailRoute,
   RootRoute,
+  SearchRoute,
 } from './map';
 
 const routeTree = RootRoute.addChildren([
   HomeRoute,
   PlaylistDetailRoute,
   AlbumDetailRoute,
+  SearchRoute,
 ]);
 
 const router = new Router({

@@ -6,6 +6,7 @@ import {
   defer,
   lazyRouteComponent,
 } from '@tanstack/react-router';
+import { z } from 'zod';
 import queryClient from '../query/client';
 import { queryKeys } from '../query/keys';
 
@@ -61,4 +62,16 @@ export const AlbumDetailRoute = new Route({
   loader: ({ context: { queryClient }, routeContext: { queryOptions } }) => ({
     detail: defer(queryClient.ensureQueryData(queryOptions)),
   }),
+});
+
+const sourceSearchSchema = z.object({
+  page: z.number(),
+  keyword: z.string().catch(''),
+});
+
+export const SearchRoute = new Route({
+  path: '/search',
+  component: lazyRouteComponent(() => import('@/views/SearchView')),
+  getParentRoute: () => RootRoute,
+  validateSearch: sourceSearchSchema,
 });

@@ -34,7 +34,8 @@
     "react-i18next": "^13.2.0",
     "react-use": "^17.4.0",
     "rxjs": "^7.8.1",
-    "swiper": "^10.2.0"
+    "swiper": "^10.2.0",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@emotion/eslint-plugin": "^11.11.0",
