@@ -5,7 +5,6 @@ import {
   RouterContext,
   lazyRouteComponent,
 } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import queryClient from '../query/client';
 import { queryKeys } from '../query/keys';
 
@@ -14,12 +13,7 @@ const context = new RouterContext<{
 }>();
 
 export const RootRoute = context.createRootRoute({
-  component: () => (
-    <>
-      <App />
-      <TanStackRouterDevtools />
-    </>
-  ),
+  component: App,
 });
 
 export const HomeRoute = new Route({

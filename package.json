@@ -18,6 +18,7 @@
     "@tanstack/react-query-persist-client": "^4.33.0",
     "@tanstack/react-router": "0.0.1-beta.171",
     "@tanstack/router-devtools": "0.0.1-beta.171",
+    "@vercel/analytics": "^1.0.2",
     "ahooks": "^3.7.8",
     "axios": "^1.4.0",
     "date-fns": "^2.30.0",
