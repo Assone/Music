@@ -1,5 +1,4 @@
 import '@/assets/main.css';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { RouterProvider } from '@tanstack/react-router';
 import { Analytics } from '@vercel/analytics/react';
@@ -10,7 +9,10 @@ import persister from './services/persisters';
 import queryClient from './services/query/client';
 import router from './services/router';
 
-const TanStackRouterDevtools = import.meta.env.DEV
+const isDebug =
+  import.meta.env.DEV || window.location.search.includes('debug=true');
+
+const TanStackRouterDevtools = isDebug
   ? lazy(() =>
       // Lazy load in development
       import('@tanstack/router-devtools').then((res) => ({
@@ -20,6 +22,14 @@ const TanStackRouterDevtools = import.meta.env.DEV
       })),
     )
   : () => null; // Render nothing in production
+
+const ReactQueryDevtools = isDebug
+  ? lazy(() =>
+      import('@tanstack/react-query-devtools/production').then((d) => ({
+        default: d.ReactQueryDevtools,
+      })),
+    )
+  : () => null;
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
