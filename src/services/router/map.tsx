@@ -3,6 +3,7 @@ import { UseQueryOptions } from '@tanstack/react-query';
 import {
   Route,
   RouterContext,
+  defer,
   lazyRouteComponent,
 } from '@tanstack/react-router';
 import queryClient from '../query/client';
@@ -24,6 +25,7 @@ export const HomeRoute = new Route({
 
 export const PlaylistDetailRoute = new Route({
   path: '/playlists/$id',
+  key: ({ params }) => params.id,
   component: lazyRouteComponent(() => import('@/views/PlaylistDetailView')),
   getParentRoute: () => RootRoute,
   getContext: ({ params: { id } }) => {
@@ -36,16 +38,14 @@ export const PlaylistDetailRoute = new Route({
       queryOptions,
     };
   },
-  loader: async ({
-    context: { queryClient },
-    routeContext: { queryOptions },
-  }) => {
-    await queryClient.ensureQueryData(queryOptions);
-  },
+  loader: ({ context: { queryClient }, routeContext: { queryOptions } }) => ({
+    detail: defer(queryClient.ensureQueryData(queryOptions)),
+  }),
 });
 
 export const AlbumDetailRoute = new Route({
   path: '/albums/$id',
+  key: ({ params }) => params.id,
   component: lazyRouteComponent(() => import('@/views/AlbumDetailView')),
   getParentRoute: () => RootRoute,
   getContext: ({ params: { id } }) => {
@@ -58,10 +58,7 @@ export const AlbumDetailRoute = new Route({
       queryOptions,
     };
   },
-  loader: async ({
-    context: { queryClient },
-    routeContext: { queryOptions },
-  }) => {
-    await queryClient.ensureQueryData(queryOptions);
-  },
+  loader: ({ context: { queryClient }, routeContext: { queryOptions } }) => ({
+    detail: defer(queryClient.ensureQueryData(queryOptions)),
+  }),
 });
