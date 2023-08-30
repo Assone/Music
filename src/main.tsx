@@ -1,4 +1,5 @@
 import '@/assets/main.css';
+import { ErrorBoundary } from '@sentry/react';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { RouterProvider } from '@tanstack/react-router';
 import { Analytics } from '@vercel/analytics/react';
@@ -34,28 +35,30 @@ const ReactQueryDevtools = isDebug
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <PersistQueryClientProvider
-      client={queryClient}
-      persistOptions={{ persister }}
-    >
-      <RouterProvider router={router} />
+    <ErrorBoundary fallback={<p>An error has occurred</p>}>
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister }}
+      >
+        <RouterProvider router={router} />
 
-      <TanStackRouterDevtools router={router} />
-      <ReactQueryDevtools
-        initialIsOpen={false}
-        toggleButtonProps={{
-          style: {
-            position: 'fixed',
-            top: 10,
-            right: 10,
-            bottom: 'atuo',
-            left: 'auto',
-          },
-        }}
-      />
+        <TanStackRouterDevtools router={router} />
+        <ReactQueryDevtools
+          initialIsOpen={false}
+          toggleButtonProps={{
+            style: {
+              position: 'fixed',
+              top: 10,
+              right: 10,
+              bottom: 'atuo',
+              left: 'auto',
+            },
+          }}
+        />
 
-      <Analytics />
-    </PersistQueryClientProvider>
+        <Analytics />
+      </PersistQueryClientProvider>
+    </ErrorBoundary>
   </React.StrictMode>,
 );
 
