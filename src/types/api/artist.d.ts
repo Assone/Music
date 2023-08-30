@@ -7,4 +7,8 @@ export interface Album {
   code: number;
 }
 
+export interface Detail {
+  name: string;
+}
+
 export {};

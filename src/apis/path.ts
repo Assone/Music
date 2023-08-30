@@ -23,6 +23,8 @@ export const enum Song {
 export const enum Artist {
   // 获取歌手专辑
   album = '/artist/album',
+  // 获取歌手详情
+  detail = '/artist/detail',
 }
 
 export const enum Similar {
