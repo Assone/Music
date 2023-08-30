@@ -10,7 +10,8 @@
     "cypress.config.*",
     "nightwatch.conf.*",
     "playwright.config.*",
-    "tailwind.config.*"
+    "tailwind.config.*",
+    "ci.d.ts"
   ],
   "compilerOptions": {
     "composite": true,

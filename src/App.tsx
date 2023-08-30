@@ -1,4 +1,5 @@
 import { ThemeProvider } from '@emotion/react';
+import { withProfiler } from '@sentry/react';
 import { Outlet, ScrollRestoration } from '@tanstack/react-router';
 import { AnimatePresence, LazyMotion, domMax, m } from 'framer-motion';
 
@@ -25,4 +26,4 @@ const App = () => (
   </LazyMotion>
 );
 
-export default App;
+export default withProfiler(App);

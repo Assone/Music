@@ -8,6 +8,7 @@ import './services/i18n';
 import persister from './services/persisters';
 import queryClient from './services/query/client';
 import router from './services/router';
+import './services/sentry';
 
 const isDebug =
   import.meta.env.DEV || window.location.search.includes('debug=true');

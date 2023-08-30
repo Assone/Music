@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 import legacy from '@vitejs/plugin-legacy';
 import react from '@vitejs/plugin-react-swc';
 import million from 'million/compiler';
@@ -9,14 +10,22 @@ import { VitePWA } from 'vite-plugin-pwa';
 import { qrcode } from 'vite-plugin-qrcode';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
+const { SENTRY_AUTH_TOKEN, SENTRY_DSN, SENTRY_ORG, SENTRY_PROJECT } =
+  process.env;
+
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    __SENTRY_DSN__: JSON.stringify(SENTRY_DSN),
+    __SENTRY_AUTH_TOKEN__: JSON.stringify(SENTRY_AUTH_TOKEN),
+    __SENTRY_PROJECT__: JSON.stringify(SENTRY_PROJECT),
+    __SENTRY_ORG__: JSON.stringify(SENTRY_ORG),
+  },
   plugins: [
     million.vite({ auto: true }),
     react({
       jsxImportSource: '@emotion/react',
     }),
-
     AutoImport({
       dts: true,
       imports: ['react', 'react-i18next', 'ahooks'],
@@ -26,9 +35,7 @@ export default defineConfig({
       },
     }),
     tsconfigPaths(),
-
     qrcode(),
-
     legacy(),
     compression(),
     compression({
@@ -36,7 +43,6 @@ export default defineConfig({
       exclude: [/\.(br)$/, /\.(gz)$/],
     }),
     ViteImageOptimizer(),
-
     VitePWA({
       srcDir: 'src',
       filename: 'sw.ts',
@@ -78,6 +84,11 @@ export default defineConfig({
         ],
       },
     }),
+    sentryVitePlugin({
+      org: SENTRY_ORG,
+      project: SENTRY_PROJECT,
+      authToken: SENTRY_AUTH_TOKEN,
+    }),
   ],
   server: {
     proxy: {
@@ -87,5 +98,8 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
+  },
+  build: {
+    sourcemap: true,
   },
 });
