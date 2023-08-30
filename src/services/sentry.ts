@@ -1,4 +1,4 @@
-import Sentry from '@sentry/react';
+import * as Sentry from '@sentry/react';
 
 Sentry.init({
   environment: import.meta.env.MODE,
