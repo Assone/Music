@@ -3,7 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 
 const HomeView: React.FC = () => {
-  const { data: playlist = [] } = useQuery(homeKeys.playlist());
+  const { data: playlist = [] } = useQuery({
+    ...homeKeys.playlist(),
+  });
   const { data: albums = [] } = useQuery(homeKeys.album());
 
   return (
@@ -23,6 +25,7 @@ const HomeView: React.FC = () => {
           )}
         </SwiperContainer>
       </div>
+
       <div>
         <h2>Album</h2>
         <SwiperContainer

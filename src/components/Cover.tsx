@@ -9,7 +9,7 @@ const Cover: React.FC<CoverProps> = ({ src }) => {
   const { list } = useGenerateResponsiveResources(src);
 
   return (
-    <div className=" rounded overflow-hidden">
+    <div className="rounded overflow-hidden">
       <Image
         src={src}
         source={list.map((item) => ({ ...item, srcSet: item.url }))}
