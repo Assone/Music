@@ -106,6 +106,9 @@
     "useUpdateLayoutEffect": true,
     "useVirtualList": true,
     "useWebSocket": true,
-    "useWhyDidYouUpdate": true
+    "useWhyDidYouUpdate": true,
+    "Text": true,
+    "Title": true,
+    "Typography": true
   }
 }

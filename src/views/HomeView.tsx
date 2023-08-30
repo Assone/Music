@@ -11,7 +11,7 @@ const HomeView: React.FC = () => {
   return (
     <div className="flex flex-col gap-2">
       <div>
-        <h2>Playlist</h2>
+        <Title>Playlist</Title>
         <SwiperContainer
           source={playlist}
           containerProps={{ slidesPerView: 3.5, spaceBetween: 10 }}
@@ -27,7 +27,7 @@ const HomeView: React.FC = () => {
       </div>
 
       <div>
-        <h2>Album</h2>
+        <Title>Album</Title>
         <SwiperContainer
           source={albums}
           containerProps={{ slidesPerView: 3.5, spaceBetween: 10 }}
