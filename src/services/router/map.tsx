@@ -10,6 +10,8 @@ import { z } from 'zod';
 import queryClient from '../query/client';
 import { queryKeys } from '../query/keys';
 
+type QueryOptions = Omit<UseQueryOptions, 'queryKey' | 'queryFn'>;
+
 const context = new RouterContext<{
   queryClient: typeof queryClient;
 }>();
@@ -33,7 +35,7 @@ export const PlaylistDetailRoute = new Route({
     const queryOptions = {
       ...queryKeys.playlist.detail(+id),
       enabled: !!id,
-    } satisfies Omit<UseQueryOptions, 'queryKey' | 'queryFn'>;
+    } satisfies QueryOptions;
 
     return {
       queryOptions,
@@ -53,7 +55,27 @@ export const AlbumDetailRoute = new Route({
     const queryOptions = {
       ...queryKeys.album.detail(+id),
       enabled: !!id,
-    } satisfies Omit<UseQueryOptions, 'queryKey' | 'queryFn'>;
+    } satisfies QueryOptions;
+
+    return {
+      queryOptions,
+    };
+  },
+  loader: ({ context: { queryClient }, routeContext: { queryOptions } }) => ({
+    detail: defer(queryClient.ensureQueryData(queryOptions)),
+  }),
+});
+
+export const ArtistDetailRoute = new Route({
+  path: '/artists/$id',
+  key: ({ params }) => params.id,
+  component: lazyRouteComponent(() => import('@/views/ArtistDetailView')),
+  getParentRoute: () => RootRoute,
+  getContext: ({ params: { id } }) => {
+    const queryOptions = {
+      ...queryKeys.artist.detail(+id),
+      enabled: !!id,
+    } satisfies QueryOptions;
 
     return {
       queryOptions,

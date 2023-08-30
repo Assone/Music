@@ -2,6 +2,7 @@ import { Router } from '@tanstack/react-router';
 import queryClient from '../query/client';
 import {
   AlbumDetailRoute,
+  ArtistDetailRoute,
   HomeRoute,
   PlaylistDetailRoute,
   RootRoute,
@@ -13,6 +14,7 @@ const routeTree = RootRoute.addChildren([
   PlaylistDetailRoute,
   AlbumDetailRoute,
   SearchRoute,
+  ArtistDetailRoute,
 ]);
 
 const router = new Router({

@@ -3,6 +3,7 @@ import {
   getAlbumDetail,
   getAlbumListByStyle,
   getArtistAlbums,
+  getArtistDetail,
   getPlaylistDetail,
   getRecommendPlaylist,
   getSimilarArtist,
@@ -46,6 +47,10 @@ export const artistKeys = createQueryKeys('artist', {
       lastValueFrom(
         getArtistAlbums(id, ctx.pageParam as API.Common.PaginationOptions),
       ),
+  }),
+  detail: (id: number) => ({
+    queryKey: [id],
+    queryFn: ({ signal }) => lastValueFrom(getArtistDetail(id, { signal })),
   }),
 });
 
