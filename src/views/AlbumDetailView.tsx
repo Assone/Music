@@ -1,8 +1,7 @@
-import { artistKeys } from '@/services/query/keys';
 import { AlbumDetailRoute } from '@/services/router/map';
 import { cx } from '@emotion/css';
 import { css } from '@emotion/react';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Link, useRouteContext } from '@tanstack/react-router';
 import { format } from 'date-fns';
 import { m, useScroll, useSpring } from 'framer-motion';
@@ -31,18 +30,6 @@ const AlbumDetailView: React.FC = () => {
 
   const { data } = useQuery(queryOptions);
   const coverResource = useGenerateResponsiveResources(data?.cover);
-
-  const artistAlbumsQuery = useInfiniteQuery({
-    ...artistKeys.albums(data?.artist.id || 0),
-    enabled: !!data?.artist.id,
-    getNextPageParam: (lastPage, allPages) =>
-      lastPage.more ? { offset: allPages.length + 1 } : undefined,
-  });
-
-  const albums = useMemo(
-    () => artistAlbumsQuery.data?.pages.map((page) => page.hotAlbums).flat(),
-    [artistAlbumsQuery.data?.pages],
-  );
 
   const publishTime = useMemo(
     () =>
