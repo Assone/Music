@@ -48,3 +48,6 @@ export const notNullish = <T = unknown>(val?: T | null | undefined): val is T =>
 
 export const isRef = <T>(value: unknown): value is RefObject<T> =>
   isObject(value) && 'current' in value;
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const isFunction = typeOf<Function>('function');
