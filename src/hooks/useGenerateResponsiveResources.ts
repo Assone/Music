@@ -1,4 +1,5 @@
-import { isNumber } from '@/utils/is';
+import { isFunction, isNumber } from '@/utils/is';
+import { SerializedStyles, css } from '@emotion/react';
 import { useMemo } from 'react';
 
 type Breakpoints = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
@@ -68,7 +69,7 @@ const defaultFormatSource: FormatSourceCallback = (source, options) => {
   return source;
 };
 
-const generationMediaCondition = (width: number, nextWidth?: number) => {
+const generationMediaQueries = (width: number, nextWidth?: number) => {
   if (nextWidth) {
     return `(min-width: ${width}px) and (max-width: ${nextWidth - 1}px)`;
   }
@@ -80,6 +81,20 @@ const getBreakpointSizeOptionValue = (
   options?: BreakpointOptionsType,
   key: BreakpointSizeOptionsKeys = 'size',
 ) => (isNumber(options) ? options : options?.[key] || options?.size || 0);
+
+const createMediaQueriesClass = (
+  queries: string,
+  content: string | SerializedStyles,
+) => css`
+  @media ${queries} {
+    ${content}
+  }
+`;
+
+type GetMediaQueriesFn = (data: {
+  url?: string | undefined;
+  media: string;
+}) => string;
 
 export default function useGenerateResponsiveResources(
   source?: string,
@@ -109,7 +124,7 @@ export default function useGenerateResponsiveResources(
               })
             : undefined;
           const media = isNumber(options)
-            ? generationMediaCondition(width, nextWidth)
+            ? generationMediaQueries(width, nextWidth)
             : options.media;
 
           return { ...acc, [key]: { url, media } };
@@ -118,6 +133,7 @@ export default function useGenerateResponsiveResources(
       ),
     [breakpoints, formatSource, source],
   );
+
   const list = useMemo(
     () =>
       Object.entries(result).map(([breakpoint, { url, media }]) => ({
@@ -128,8 +144,20 @@ export default function useGenerateResponsiveResources(
     [result],
   );
 
+  const generateMediaQueriesClass = (
+    content: string | SerializedStyles | GetMediaQueriesFn,
+  ) => css`
+    ${list.map(({ media, url }) =>
+      createMediaQueriesClass(
+        media,
+        isFunction(content) ? content({ media, url }) : content,
+      ),
+    )}
+  `;
+
   return {
     ...result,
     list,
+    generateMediaQueriesClass,
   };
 }
