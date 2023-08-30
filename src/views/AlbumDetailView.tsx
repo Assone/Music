@@ -46,7 +46,8 @@ const AlbumDetailView: React.FC = () => {
 
   const similarArtist = useQuery({
     ...similarKeys.artist(data?.artist.id || 0),
-    enabled: !!data?.artist.id,
+    // enabled: !!data?.artist.id,
+    enabled: false,
   });
 
   console.log(similarArtist);

@@ -17,7 +17,7 @@ const PlaylistDetailView: React.FC = () => {
           </h2>
         </div>
       </div>
-      <TrackList trackIds={trackIds} />
+      <TrackList className="px-4" trackIds={trackIds} />
     </div>
   );
 };
