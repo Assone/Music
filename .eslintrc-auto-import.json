@@ -109,6 +109,7 @@
     "useWhyDidYouUpdate": true,
     "Text": true,
     "Title": true,
-    "Typography": true
+    "Typography": true,
+    "ArtistAlbums": true
   }
 }

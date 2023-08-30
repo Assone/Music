@@ -44,12 +44,6 @@ const AlbumDetailView: React.FC = () => {
     [artistAlbumsQuery.data?.pages],
   );
 
-  // const similarArtist = useQuery({
-  //   ...similarKeys.artist(data?.artist.id || 0),
-  //   // enabled: !!data?.artist.id,
-  //   enabled: false,
-  // });
-
   const publishTime = useMemo(
     () =>
       data?.times.publish ? format(data?.times.publish, 'yyyy-MM-dd') : '',
@@ -123,20 +117,7 @@ const AlbumDetailView: React.FC = () => {
       <div className="p-2 pr-0 dark:text-white flex flex-col gap-2">
         <div>更多关于{data.artist.name}的作品</div>
         <div>
-          <SwiperContainer
-            source={albums}
-            containerProps={{
-              slidesPerView: 3.5,
-              spaceBetween: 10,
-              onReachEnd: () => artistAlbumsQuery.fetchNextPage(),
-            }}
-          >
-            {({ picUrl, id }) => (
-              <Link to="/albums/$id" params={{ id: id.toString() }}>
-                <Cover src={picUrl} />
-              </Link>
-            )}
-          </SwiperContainer>
+          <ArtistAlbums id={data.artist.id} />
         </div>
       </div>
     </m.div>
