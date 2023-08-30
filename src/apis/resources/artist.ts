@@ -1,5 +1,5 @@
 import http from '@/services/http';
-import { from } from 'rxjs';
+import { from, map } from 'rxjs';
 import { Artist } from '../path';
 import { RequestConfig } from '../type';
 
@@ -23,4 +23,4 @@ export const getArtistAlbums = (
 export const getArtistDetail = (id: ID, config?: RequestConfig) =>
   from(
     http.get<API.Artist.Detail>(Artist.detail, { params: { id }, ...config }),
-  );
+  ).pipe(map((res) => res.data));
