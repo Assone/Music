@@ -24,3 +24,8 @@ export const enum Artist {
   // 获取歌手专辑
   album = '/artist/album',
 }
+
+export const enum Similar {
+  // 获取相似歌手
+  artist = '/simi/artist',
+}

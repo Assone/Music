@@ -5,6 +5,7 @@ import {
   getArtistAlbums,
   getPlaylistDetail,
   getRecommendPlaylist,
+  getSimilarArtist,
 } from '@/apis';
 import {
   createQueryKeys,
@@ -45,6 +46,13 @@ export const artistKeys = createQueryKeys('artist', {
       lastValueFrom(
         getArtistAlbums(id, ctx.pageParam as API.Common.PaginationOptions),
       ),
+  }),
+});
+
+export const similarKeys = createQueryKeys('similar', {
+  artist: (id: number) => ({
+    queryKey: [id],
+    queryFn: () => lastValueFrom(getSimilarArtist(id)),
   }),
 });
 

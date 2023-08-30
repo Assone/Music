@@ -17,9 +17,9 @@ const App = () => (
     <ThemeProvider theme={{ color: { primary: 'red' } }}>
       <m.main className="min-h-screen">
         <AnimatePresence>
-          <ScrollRestoration />
           <Outlet />
         </AnimatePresence>
+        <ScrollRestoration />
       </m.main>
     </ThemeProvider>
   </LazyMotion>

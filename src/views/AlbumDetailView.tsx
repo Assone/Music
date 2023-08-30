@@ -1,4 +1,4 @@
-import { artistKeys } from '@/services/query/keys';
+import { artistKeys, similarKeys } from '@/services/query/keys';
 import { AlbumDetailRoute } from '@/services/router/map';
 import { cx } from '@emotion/css';
 import { css } from '@emotion/react';
@@ -43,6 +43,13 @@ const AlbumDetailView: React.FC = () => {
     () => artistAlbumsQuery.data?.pages.map((page) => page.hotAlbums).flat(),
     [artistAlbumsQuery.data?.pages],
   );
+
+  const similarArtist = useQuery({
+    ...similarKeys.artist(data?.artist.id || 0),
+    enabled: !!data?.artist.id,
+  });
+
+  console.log(similarArtist);
 
   const publishTime = useMemo(
     () =>
