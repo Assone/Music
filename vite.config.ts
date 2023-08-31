@@ -94,7 +94,6 @@ export default defineConfig({
     }),
 
     visualizer({
-      emitFile: true,
       filename: 'bundle-analysis.html',
     }),
   ],
