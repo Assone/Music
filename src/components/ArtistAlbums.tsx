@@ -4,13 +4,15 @@ import { Link } from '@tanstack/react-router';
 
 interface ArtistAlbumsProps {
   id?: ID;
+  more?: boolean;
+  limit?: number;
 }
 
-const ArtistAlbums: React.FC<ArtistAlbumsProps> = ({ id }) => {
-  const { data, fetchNextPage } = useInfiniteQuery({
+const ArtistAlbums: React.FC<ArtistAlbumsProps> = ({ id, more, limit }) => {
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     ...artistKeys.albums(id || 0),
     getNextPageParam: (lastPage, allPages) =>
-      lastPage.more ? { offset: allPages.length + 1 } : undefined,
+      lastPage.more ? { offset: allPages.length + 1, limit } : undefined,
     enabled: !!id,
   });
 
@@ -20,9 +22,11 @@ const ArtistAlbums: React.FC<ArtistAlbumsProps> = ({ id }) => {
   );
 
   const onLoadingMore = () => {
-    fetchNextPage().catch((err) =>
-      console.error('%c[Query Error]', 'color: red;', err),
-    );
+    if (hasNextPage && more) {
+      fetchNextPage().catch((err) =>
+        console.error('%c[Query Error]', 'color: red;', err),
+      );
+    }
   };
 
   return (
