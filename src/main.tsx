@@ -4,11 +4,12 @@ import { RouterProvider } from '@tanstack/react-router';
 import { Analytics } from '@vercel/analytics/react';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './services/i18n';
 import persister from './services/persisters';
 import queryClient from './services/query/client';
 import router from './services/router';
-import './services/sentry';
+
+import('./services/sentry');
+import('./services/i18n');
 
 const isDebug =
   import.meta.env.DEV || window.location.search.includes('debug=true');
