@@ -17,9 +17,6 @@ const { SENTRY_AUTH_TOKEN, SENTRY_DSN, SENTRY_ORG, SENTRY_PROJECT } =
 export default defineConfig({
   define: {
     __SENTRY_DSN__: JSON.stringify(SENTRY_DSN),
-    __SENTRY_AUTH_TOKEN__: JSON.stringify(SENTRY_AUTH_TOKEN),
-    __SENTRY_PROJECT__: JSON.stringify(SENTRY_PROJECT),
-    __SENTRY_ORG__: JSON.stringify(SENTRY_ORG),
   },
   plugins: [
     million.vite({ auto: true }),
