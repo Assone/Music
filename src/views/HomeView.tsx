@@ -8,16 +8,8 @@ const HomeView: React.FC = () => {
   });
   const { data: albums = [] } = useQuery(homeKeys.album());
 
-  const onTriggerErrorTest = () => {
-    throw new Error('Trigger Error Test');
-  };
-
   return (
     <div className="flex flex-col gap-2">
-      <Typography.Text onClick={onTriggerErrorTest}>
-        Trigger Error Test
-      </Typography.Text>
-
       <div>
         <Title>Playlist</Title>
         <SwiperContainer
