@@ -99,5 +99,6 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
+    cssMinify: 'lightningcss',
   },
 });
