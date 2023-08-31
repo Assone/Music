@@ -2,6 +2,7 @@ import { sentryVitePlugin } from '@sentry/vite-plugin';
 import legacy from '@vitejs/plugin-legacy';
 import react from '@vitejs/plugin-react-swc';
 import million from 'million/compiler';
+import { visualizer } from 'rollup-plugin-visualizer';
 import AutoImport from 'unplugin-auto-import/vite';
 import { defineConfig } from 'vite';
 import { compression } from 'vite-plugin-compression2';
@@ -24,6 +25,7 @@ export default defineConfig({
     react({
       jsxImportSource: '@emotion/react',
     }),
+
     AutoImport({
       dts: true,
       imports: ['react', 'react-i18next', 'ahooks'],
@@ -34,6 +36,7 @@ export default defineConfig({
     }),
     tsconfigPaths(),
     qrcode(),
+
     legacy(),
     compression(),
     compression({
@@ -41,6 +44,7 @@ export default defineConfig({
       exclude: [/\.(br)$/, /\.(gz)$/],
     }),
     ViteImageOptimizer(),
+
     VitePWA({
       srcDir: 'src',
       filename: 'sw.ts',
@@ -82,10 +86,16 @@ export default defineConfig({
         ],
       },
     }),
+
     sentryVitePlugin({
       org: SENTRY_ORG,
       project: SENTRY_PROJECT,
       authToken: SENTRY_AUTH_TOKEN,
+    }),
+
+    visualizer({
+      emitFile: true,
+      filename: 'bundle-analysis.html',
     }),
   ],
   server: {

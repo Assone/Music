@@ -26,3 +26,6 @@ dist-ssr
 
 # Sentry Auth Token
 .env.sentry-build-plugin
+
+# Rollup Plugin Visualizer
+bundle-analysis.html
