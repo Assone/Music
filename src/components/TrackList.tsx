@@ -42,17 +42,20 @@ const TrackList: React.FC<TrackListProps> = ({
   );
 
   return (
-    <m.ul className={className}>
-      {list.map((track) => (
-        <TrackListItem track={track} key={track.id} />
-      ))}
+    <div className={className}>
+      <m.ul>
+        {list.map((track) => (
+          <TrackListItem track={track} key={track.id} />
+        ))}
+      </m.ul>
+
       <div ref={tail} />
       {list.length > 0 && (
         <div className="dark:text-gray-500">
           {renderTrackListInfo({ count: list.length, duration })}
         </div>
       )}
-    </m.ul>
+    </div>
   );
 };
 
