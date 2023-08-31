@@ -31,7 +31,7 @@ interface MediaConditionSourceOptions {
 
 const defaultBreakpoints: BreakpointOptions = {
   xs: {
-    size: 256,
+    size: 384,
     media: '(max-width: 639px)',
   },
   sm: {
