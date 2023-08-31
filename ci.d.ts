@@ -4,5 +4,6 @@ declare namespace NodeJS {
     readonly SENTRY_AUTH_TOKEN: string;
     readonly SENTRY_PROJECT: string;
     readonly SENTRY_ORG: string;
+    readonly NODE_ENV: 'development' | 'production' | 'test';
   }
 }
