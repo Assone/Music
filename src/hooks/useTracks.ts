@@ -1,8 +1,7 @@
-import { getSongDetail } from '@/apis/resources/song';
-import Queue from '@/models/Queue';
+import { getSongDetail } from '@/apis';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { RefObject } from 'react';
 import { lastValueFrom } from 'rxjs';
-import useIntersectionObserver from './useIntersectionObserver';
 
 export interface Track {
   id: ID;
@@ -19,54 +18,48 @@ interface UseTracksOptions {
 export default function useTracks(
   ids: ID[],
   target: RefObject<HTMLDivElement>,
-  { lazy = true, limit = 50 }: UseTracksOptions = {},
+  { limit = 50 }: UseTracksOptions = {},
 ) {
-  const queue = useRef(new Queue<ID[]>());
-  const [tracks, setTracks] = useState<Track[]>([]);
+  const query = useInfiniteQuery({
+    queryKey: ['tracks', ids, limit],
+    queryFn: async ({ pageParam = 0 }) => {
+      const start = pageParam * limit;
+      const end = start + limit;
+      const list = ids.slice(start, end);
 
-  const fetch = (stop?: VoidFunction) => {
-    const idList = queue.current.dequeue();
-
-    if (idList?.length) {
-      lastValueFrom(getSongDetail(idList))
-        .then((songs) => {
-          setTracks((prevTracks) => prevTracks.concat(songs));
-        })
-        .catch(() => console.error('获取歌曲详情失败'));
-    } else {
-      stop?.();
-    }
-  };
-
-  const { resume, stop } = useIntersectionObserver(
-    target.current,
-    ([{ isIntersecting } = { isIntersecting: false }]) => {
-      if (isIntersecting) {
-        fetch(stop);
-      }
+      return list.length ? lastValueFrom(getSongDetail(list)) : [];
     },
-    { immediate: false },
+    getNextPageParam: (lastPage, pages) => {
+      if (lastPage.length < limit) {
+        return undefined;
+      }
+
+      return pages.length;
+    },
+  });
+
+  const tracks = useMemo(
+    () => query.data?.pages.flat() ?? [],
+    [query.data?.pages],
   );
 
-  useEffect(() => {
-    queue.current.clear();
-
-    if (ids.length === 0) return;
-
-    if (lazy && ids.length > limit) {
-      for (let i = 0; i < ids.length; i += limit) {
-        queue.current.enqueue(ids.slice(i, i + limit));
+  const { stop } = useIntersectionObserver(
+    target.current,
+    ([{ isIntersecting = false } = {}]) => {
+      if (isIntersecting && !query.isFetching) {
+        if (query.hasNextPage) {
+          query.fetchNextPage().catch((error) => {
+            console.error('%c[Error useTracks]', 'color: #f00;', error);
+          });
+        } else {
+          stop();
+        }
       }
-    } else {
-      queue.current.enqueue(ids);
-    }
+    },
+  );
 
-    if (lazy) {
-      resume();
-    } else {
-      fetch();
-    }
-  }, [ids, lazy, limit, resume]);
-
-  return tracks;
+  return {
+    ...query,
+    tracks,
+  };
 }

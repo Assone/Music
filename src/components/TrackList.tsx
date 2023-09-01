@@ -31,7 +31,7 @@ const TrackList: React.FC<TrackListProps> = ({
   ),
 }) => {
   const tail = useRef<HTMLDivElement>(null);
-  const tracks = useTracks(trackIds, tail);
+  const { tracks, isFetching } = useTracks(trackIds, tail);
   const list = useMemo(
     () => (source.length ? source : tracks),
     [source, tracks],
@@ -49,6 +49,7 @@ const TrackList: React.FC<TrackListProps> = ({
         ))}
       </m.ul>
 
+      {isFetching && <p>Loading...</p>}
       <div ref={tail} />
       {list.length > 0 && (
         <div className="dark:text-gray-500">
