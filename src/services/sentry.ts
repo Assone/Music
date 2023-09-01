@@ -4,6 +4,7 @@ Sentry.init({
   environment: import.meta.env.MODE,
   dsn: __SENTRY_DSN__,
   integrations: [
+    new Sentry.BrowserProfilingIntegration(),
     new Sentry.BrowserTracing({
       // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
       tracePropagationTargets: ['localhost'],
