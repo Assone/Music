@@ -46,10 +46,10 @@ const TrackListItem: React.FC<TrackListItemProps> = ({
       <div className="flex-1 overflow-hidden">
         <div className=" truncate">{track.name}</div>
         {artists && (
-          <div className="flex gap-1">
+          <div className="truncate">
             {track.artists?.map(({ id, name }) => (
               <Link
-                className='after:content-[","] last-of-type:after:content-[""] truncate'
+                className='after:content-[","] last-of-type:after:content-[""] mr-1 last-of-type:mr-0'
                 to="/artists/$id"
                 params={{ id: id.toString() }}
                 key={id}
