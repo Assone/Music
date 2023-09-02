@@ -1,3 +1,4 @@
+import containerQueriesPlugin from '@tailwindcss/container-queries';
 import type { Config } from 'tailwindcss';
 
 export default {
@@ -6,5 +7,5 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [containerQueriesPlugin],
 } satisfies Config;

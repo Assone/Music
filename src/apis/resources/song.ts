@@ -12,12 +12,22 @@ export const getSongDetail = (ids: ID | ID[]) =>
   from(http.get<API.Song.Detail>(Song.detail, { params: { ids } })).pipe(
     map(({ songs }) => songs),
     mapArray((song) => {
-      const { dt: duration, name, id } = song;
+      const { dt: duration, name, id, al, ar } = song;
+      const cover = al?.picUrl;
+      const artists = ar.map(({ id, name }) => ({ id, name }));
+      const album = {
+        id: al.id,
+        name: al.name,
+        cover: al.picUrl,
+      };
 
       return {
         id,
         name,
         duration,
+        cover,
+        artists,
+        album,
       };
     }),
   );

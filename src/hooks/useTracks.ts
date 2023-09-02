@@ -7,7 +7,10 @@ export interface Track {
   id: ID;
   name: Name;
   duration: number;
+  cover?: string;
   no?: number;
+  artists?: { id: ID; name: Name }[];
+  album?: { id: ID; name: Name; cover?: string };
 }
 
 interface UseTracksOptions {

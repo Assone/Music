@@ -1,12 +1,6 @@
+import { Track } from '@/hooks/useTracks';
 import { computeDuration } from '@/utils/source';
 import { HTMLMotionProps, m } from 'framer-motion';
-
-interface Track {
-  id: ID;
-  name: Name;
-  duration: number;
-  no?: number;
-}
 
 interface TrackListInfo {
   count: number;
@@ -16,6 +10,8 @@ interface TrackListInfo {
 interface TrackListProps extends Pick<HTMLMotionProps<'ul'>, 'className'> {
   tracks?: Track[] | undefined;
   trackIds?: ID[];
+  cover?: boolean;
+  artists?: boolean;
   renderTrackListInfo?: (info: TrackListInfo) => React.ReactNode;
 }
 
@@ -23,6 +19,8 @@ const TrackList: React.FC<TrackListProps> = ({
   className,
   tracks: source = [],
   trackIds = [],
+  cover,
+  artists,
   renderTrackListInfo = ({ count, duration }) => (
     <>
       <span>{count} tracks</span>
@@ -32,7 +30,7 @@ const TrackList: React.FC<TrackListProps> = ({
 }) => {
   const tail = useRef<HTMLDivElement>(null);
   const { tracks, isFetching } = useTracks(trackIds, tail);
-  const list = useMemo(
+  const list = useMemo<Track[]>(
     () => (source.length ? source : tracks),
     [source, tracks],
   );
@@ -45,7 +43,12 @@ const TrackList: React.FC<TrackListProps> = ({
     <div className={className}>
       <m.ul>
         {list.map((track) => (
-          <TrackListItem track={track} key={track.id} />
+          <TrackListItem
+            track={track}
+            key={track.id}
+            cover={cover}
+            artists={artists}
+          />
         ))}
       </m.ul>
 

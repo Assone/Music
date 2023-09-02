@@ -16,8 +16,12 @@ const PlaylistDetailView: React.FC = () => {
             {data?.name}
           </h2>
         </div>
+        <div className="flex gap-4 p-2">
+          <PlayButton />
+          <PlayButton />
+        </div>
       </div>
-      <TrackList className="px-4" trackIds={trackIds} />
+      <TrackList className="px-4" trackIds={trackIds} cover artists />
     </div>
   );
 };

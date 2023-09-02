@@ -5,7 +5,7 @@ import { ImgHTMLAttributes, SourceHTMLAttributes } from 'react';
 interface ImageProps
   extends Pick<
     ImgHTMLAttributes<HTMLImageElement>,
-    'className' | 'src' | 'srcSet' | 'sizes'
+    'className' | 'src' | 'srcSet' | 'sizes' | 'alt'
   > {
   placeholder?: React.ReactNode;
   source?: SourceHTMLAttributes<HTMLSourceElement>[];

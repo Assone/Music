@@ -94,6 +94,9 @@ devDependencies:
   '@sentry/vite-plugin':
     specifier: ^2.7.0
     version: 2.7.0
+  '@tailwindcss/container-queries':
+    specifier: ^0.1.1
+    version: 0.1.1(tailwindcss@3.3.3)
   '@tanstack/eslint-plugin-query':
     specifier: ^4.32.5
     version: 4.32.5
@@ -2178,6 +2181,14 @@ packages:
 
   /@swc/types@0.1.4:
     resolution: {integrity: sha512-z/G02d+59gyyUb7KYhKi9jOhicek6QD2oMaotUyG+lUkybpXoV49dY9bj7Ah5Q+y7knK2jU67UTX9FyfGzaxQg==}
+    dev: true
+
+  /@tailwindcss/container-queries@0.1.1(tailwindcss@3.3.3):
+    resolution: {integrity: sha512-p18dswChx6WnTSaJCSGx6lTmrGzNNvm2FtXmiO6AuA1V4U5REyoqwmT6kgAsIMdjo07QdAfYXHJ4hnMtfHzWgA==}
+    peerDependencies:
+      tailwindcss: '>=3.2.0'
+    dependencies:
+      tailwindcss: 3.3.3
     dev: true
 
   /@tanstack/eslint-plugin-query@4.32.5:
