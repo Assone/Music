@@ -42,7 +42,18 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       >
         <RouterProvider router={router} />
 
-        <TanStackRouterDevtools router={router} />
+        <TanStackRouterDevtools
+          router={router}
+          toggleButtonProps={{
+            style: {
+              position: 'fixed',
+              top: 16,
+              right: 70,
+              bottom: 'atuo',
+              left: 'auto',
+            },
+          }}
+        />
         <ReactQueryDevtools
           initialIsOpen={false}
           toggleButtonProps={{

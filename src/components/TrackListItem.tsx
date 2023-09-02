@@ -1,5 +1,6 @@
 import { Track } from '@/hooks/useTracks';
 import { formatDuration, normalizeTrackNo } from '@/utils/source';
+import { cx } from '@emotion/css';
 import { Link } from '@tanstack/react-router';
 import { m } from 'framer-motion';
 import Image from './Image';
@@ -9,6 +10,7 @@ interface TrackListItemProps {
   cover?: boolean;
   album?: boolean;
   artists?: boolean;
+  className?: string;
 }
 
 const TrackListItem: React.FC<TrackListItemProps> = ({
@@ -16,6 +18,7 @@ const TrackListItem: React.FC<TrackListItemProps> = ({
   cover,
   album,
   artists,
+  className,
 }) => {
   const index = useMemo(() => normalizeTrackNo(track.no), [track.no]);
   const duration = useMemo(
@@ -25,7 +28,10 @@ const TrackListItem: React.FC<TrackListItemProps> = ({
 
   return (
     <m.li
-      className="flex gap-2 text-base text-gray-200 py-2 select-none items-center"
+      className={cx(
+        'flex gap-2 text-base text-gray-200 py-2 select-none items-center',
+        className,
+      )}
       initial={{ opacity: 0 }}
       exit={{ opacity: 0 }}
       animate={{ opacity: 1 }}

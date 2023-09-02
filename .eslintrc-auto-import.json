@@ -110,6 +110,7 @@
     "Text": true,
     "Title": true,
     "Typography": true,
-    "ArtistAlbums": true
+    "ArtistAlbums": true,
+    "TabBar": true
   }
 }
