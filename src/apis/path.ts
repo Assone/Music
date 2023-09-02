@@ -31,3 +31,8 @@ export const enum Similar {
   // 获取相似歌手
   artist = '/simi/artist',
 }
+
+export const enum Search {
+  // 搜索资源
+  resource = '/cloudsearch',
+}
