@@ -18,7 +18,7 @@ interface UseTracksOptions {
 export default function useTracks(
   ids: ID[],
   target: RefObject<HTMLDivElement>,
-  { limit = 50 }: UseTracksOptions = {},
+  { limit = 20 }: UseTracksOptions = {},
 ) {
   const query = useInfiniteQuery({
     queryKey: ['tracks', ids, limit],
