@@ -42,7 +42,7 @@ const TrackListItem: React.FC<TrackListItemProps> = ({
       <div className="flex-1">
         <div className="truncate">{track.name}</div>
         {artists && (
-          <div className="flex gap-1">
+          <div className="flex gap-1 truncate">
             {track.artists?.map(({ id, name }) => (
               <Link
                 className='after:content-[","] last-of-type:after:content-[""]'
