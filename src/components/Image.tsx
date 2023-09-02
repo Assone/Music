@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { cx } from '@emotion/css';
 import { AnimatePresence, m, useAnimation } from 'framer-motion';
 import { ImgHTMLAttributes, SourceHTMLAttributes } from 'react';
 
@@ -16,6 +17,7 @@ const Image: React.FC<ImageProps> = ({
   source,
   placeholder,
   lazy = true,
+  className,
   ...props
 }) => {
   const [loading, loadingActions] = useBoolean(true);
@@ -33,7 +35,7 @@ const Image: React.FC<ImageProps> = ({
   }, [imageAnimation, loadingActions, placeholderAnimation]);
 
   return (
-    <picture className="relative">
+    <picture className={cx('relative', className)}>
       {source?.map((sourceProps, index) => (
         <source key={sourceProps.srcSet || index} {...sourceProps} />
       ))}
