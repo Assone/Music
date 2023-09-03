@@ -17,7 +17,6 @@ const HomeView: React.FC = () => {
           containerProps={{
             slidesPerView: 3.5,
             spaceBetween: 10,
-            virtual: true,
           }}
         >
           {(item) => (
