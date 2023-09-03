@@ -1,5 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /// <reference types="vite/client" />
+/// <reference types="vite-plugin-pwa/react" />
+/// <reference types="vite-plugin-pwa/info" />
 
 interface ImportMetaEnv {
   readonly VITE_APP_API_BASEURL: string;

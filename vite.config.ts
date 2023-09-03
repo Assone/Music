@@ -62,10 +62,6 @@ export default defineConfig({
       srcDir: 'src',
       filename: 'sw.ts',
       strategies: 'injectManifest',
-      // devOptions: {
-      //   enabled: true,
-      //   type: 'module',
-      // },
       workbox: {
         runtimeCaching: [
           {

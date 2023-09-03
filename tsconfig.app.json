@@ -16,10 +16,11 @@
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
 
-    "lib": ["ESNext", "DOM", "WebWorker"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable", "WebWorker"],
     "types": [
       "vite/client",
-      "vite-plugin-pwa/client",
+      "vite-plugin-pwa/react",
+      "vite-plugin-pwa/info",
       "unplugin-icons/types/react"
     ],
 

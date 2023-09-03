@@ -76,7 +76,6 @@ module.exports = {
         json: 'always',
       },
     ],
-
     'import/no-extraneous-dependencies': [
       'error',
       {
@@ -90,5 +89,6 @@ module.exports = {
         ],
       },
     ],
+    'import/no-unresolved': ['error', { ignore: ['^virtual'] }],
   },
 };

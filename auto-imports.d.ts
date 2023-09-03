@@ -90,6 +90,7 @@ declare global {
   const useReactive: typeof import('ahooks')['useReactive']
   const useReducer: typeof import('react')['useReducer']
   const useRef: typeof import('react')['useRef']
+  const useReloadPrompt: typeof import('./src/hooks/useReloadPrompt')['default']
   const useRequest: typeof import('ahooks')['useRequest']
   const useResetState: typeof import('ahooks')['useResetState']
   const useResponsive: typeof import('ahooks')['useResponsive']

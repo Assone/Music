@@ -4,6 +4,7 @@
   "exclude": [],
   "compilerOptions": {
     "composite": true,
+    "allowJs": false,
     "types": ["node"]
   }
 }

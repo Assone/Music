@@ -7,6 +7,8 @@ import {
   useRouterState,
 } from '@tanstack/react-router';
 import { AnimatePresence, LazyMotion, m } from 'framer-motion';
+import { Toaster } from 'react-hot-toast';
+import useReloadPrompt from './hooks/useReloadPrompt';
 
 declare module '@emotion/react' {
   export interface Theme {
@@ -22,6 +24,8 @@ declare module '@emotion/react' {
 const App: React.FC = () => {
   const route = useRouterState();
   const navigate = useNavigate();
+
+  useReloadPrompt();
 
   const onRouteChange = useCallback(
     (path: string) => {
@@ -65,6 +69,8 @@ const App: React.FC = () => {
             onChange={onRouteChange}
           />
           <ScrollRestoration />
+
+          <Toaster />
         </ThemeProvider>
       </LazyMotion>
     </ErrorBoundary>

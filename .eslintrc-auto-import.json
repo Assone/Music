@@ -116,6 +116,7 @@
     "IconCarbonApps": true,
     "IconMdiAccountBox": true,
     "IconFluentEmojiHouse": true,
-    "IconFluentEmojiGear": true
+    "IconFluentEmojiGear": true,
+    "useReloadPrompt": true
   }
 }
