@@ -53,7 +53,7 @@ const TrackList: React.FC<TrackListProps> = ({
       </m.ul>
       <div ref={tail} />
       {isFetching && <p>Loading...</p>}
-      {list.length > 0 && (
+      {isFetching === false && list.length > 0 && (
         <div className="dark:text-gray-500">
           {renderTrackListInfo({ count: list.length, duration })}
         </div>
