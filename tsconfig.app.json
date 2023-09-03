@@ -17,7 +17,11 @@
     "allowImportingTsExtensions": true,
 
     "lib": ["ESNext", "DOM", "WebWorker"],
-    "types": ["vite/client", "vite-plugin-pwa/client"],
+    "types": [
+      "vite/client",
+      "vite-plugin-pwa/client",
+      "unplugin-icons/types/react"
+    ],
 
     "jsxImportSource": "@emotion/react",
 

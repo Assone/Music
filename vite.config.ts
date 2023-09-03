@@ -4,6 +4,8 @@ import react from '@vitejs/plugin-react-swc';
 import million from 'million/compiler';
 import { visualizer } from 'rollup-plugin-visualizer';
 import AutoImport from 'unplugin-auto-import/vite';
+import IconsResolver from 'unplugin-icons/resolver';
+import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import { compression } from 'vite-plugin-compression2';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
@@ -33,7 +35,18 @@ export default defineConfig({
       eslintrc: {
         enabled: true,
       },
+      resolvers: [
+        IconsResolver({
+          prefix: 'Icon',
+          extension: 'jsx',
+          alias: {
+            fluent: 'fluent-emoji',
+          },
+        }),
+      ],
     }),
+    Icons({ compiler: 'jsx', jsx: 'react' }),
+
     tsconfigPaths(),
     qrcode(),
 

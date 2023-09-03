@@ -48,11 +48,19 @@ const App: React.FC = () => {
             </AnimatePresence>
           </m.main>
           <TabBar
-            className="sticky bottom-0 shadow-lg bg-black/75 backdrop-blur z-10"
+            className="sticky bottom-0 bg-black/25 backdrop-blur z-10 drop-shadow shadow-inner"
             activeKey={route.location.pathname}
             items={[
-              { key: '/', title: 'Home' },
-              { key: '/settings', title: 'Settings' },
+              {
+                key: '/',
+                title: 'Home',
+                icon: <IconFluentEmojiHouse />,
+              },
+              {
+                key: '/settings',
+                title: 'Settings',
+                icon: <IconFluentEmojiGear />,
+              },
             ]}
             onChange={onRouteChange}
           />

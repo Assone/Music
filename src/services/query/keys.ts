@@ -43,10 +43,12 @@ export const albumKeys = createQueryKeys('album', {
 export const artistKeys = createQueryKeys('artist', {
   albums: (id: number) => ({
     queryKey: [id],
-    queryFn: (ctx) =>
-      lastValueFrom(
-        getArtistAlbums(id, ctx.pageParam as API.Common.PaginationOptions),
-      ),
+    queryFn: (ctx) => {
+      const { limit = 10, offset } = (ctx.pageParam ||
+        {}) as API.Common.PaginationOptions;
+
+      return lastValueFrom(getArtistAlbums(id, { limit, offset }));
+    },
   }),
   detail: (id: number) => ({
     queryKey: [id],

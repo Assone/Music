@@ -98,7 +98,7 @@ const AlbumDetailView: React.FC = () => {
       <div className="p-2 pr-0 dark:text-white flex flex-col gap-2">
         <div>更多关于{data.artist.name}的作品</div>
         <div>
-          <ArtistAlbums id={data.artist.id} />
+          <ArtistAlbums id={data.artist.id} limit={10} />
         </div>
       </div>
     </m.div>

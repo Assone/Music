@@ -112,6 +112,10 @@
     "Typography": true,
     "ArtistAlbums": true,
     "TabBar": true,
-    "SafeArea": true
+    "SafeArea": true,
+    "IconCarbonApps": true,
+    "IconMdiAccountBox": true,
+    "IconFluentEmojiHouse": true,
+    "IconFluentEmojiGear": true
   }
 }
