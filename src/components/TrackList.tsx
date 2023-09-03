@@ -1,5 +1,6 @@
 import { Track } from '@/hooks/useTracks';
 import { computeDuration } from '@/utils/source';
+import { TrackListVariants } from '@/utils/variants';
 import { HTMLMotionProps, m } from 'framer-motion';
 
 interface TrackListInfo {
@@ -41,7 +42,7 @@ const TrackList: React.FC<TrackListProps> = ({
 
   return (
     <div className={className}>
-      <m.ul>
+      <m.ul variants={TrackListVariants} initial="hidden" animate="show">
         {list.map((track) => (
           <TrackListItem
             track={track}

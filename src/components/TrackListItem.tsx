@@ -1,5 +1,6 @@
 import { Track } from '@/hooks/useTracks';
 import { formatDuration, normalizeTrackNo } from '@/utils/source';
+import { TrackListItemVariants } from '@/utils/variants';
 import { cx } from '@emotion/css';
 import { Link } from '@tanstack/react-router';
 import { m } from 'framer-motion';
@@ -31,9 +32,7 @@ const TrackListItem: React.FC<TrackListItemProps> = ({
         'flex gap-2 text-base text-gray-200 py-2 select-none items-center',
         className,
       )}
-      initial={{ opacity: 0 }}
-      exit={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      variants={TrackListItemVariants}
       whileTap={{ scale: 1.05, opacity: 0.8 }}
     >
       {index && (
