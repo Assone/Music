@@ -117,6 +117,8 @@
     "IconMdiAccountBox": true,
     "IconFluentEmojiHouse": true,
     "IconFluentEmojiGear": true,
-    "useReloadPrompt": true
+    "useReloadPrompt": true,
+    "IconFluentSearch": true,
+    "IconFluentEmojiMagnifyingGlassTiltedLeft": true
   }
 }

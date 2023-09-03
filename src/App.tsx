@@ -61,6 +61,11 @@ const App: React.FC = () => {
                 icon: <IconFluentEmojiHouse />,
               },
               {
+                key: '/search',
+                title: 'Search',
+                icon: <IconFluentEmojiMagnifyingGlassTiltedLeft />,
+              },
+              {
                 key: '/settings',
                 title: 'Settings',
                 icon: <IconFluentEmojiGear />,

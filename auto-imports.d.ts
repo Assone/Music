@@ -10,6 +10,8 @@ declare global {
   const IconCarbonApps: typeof import('~icons/carbon/apps.jsx')['default']
   const IconFluentEmojiGear: typeof import('~icons/fluent-emoji/gear.jsx')['default']
   const IconFluentEmojiHouse: typeof import('~icons/fluent-emoji/house.jsx')['default']
+  const IconFluentEmojiMagnifyingGlassTiltedLeft: typeof import('~icons/fluent-emoji/magnifying-glass-tilted-left.jsx')['default']
+  const IconFluentSearch: typeof import('~icons/fluent-emoji/search.jsx')['default']
   const IconMdiAccountBox: typeof import('~icons/mdi/account-box.jsx')['default']
   const Image: typeof import('./src/components/Image')['default']
   const PlayButton: typeof import('./src/components/PlayButton')['default']

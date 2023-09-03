@@ -35,7 +35,7 @@ const AlbumDetailView: React.FC = () => {
   if (!data) return null;
 
   return (
-    <m.div>
+    <m.div className="flex flex-col gap-2">
       <m.div
         ref={target}
         className="relative transition-all"
