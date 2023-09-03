@@ -3,6 +3,7 @@ import './artist';
 import './playlist';
 import './recommend';
 import './song';
+import './search';
 
 declare global {
   namespace API {
@@ -24,6 +25,10 @@ declare global {
 
     namespace Artist {
       export * from './artist';
+    }
+
+    namespace Search {
+      export * from './search';
     }
 
     namespace Common {

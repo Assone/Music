@@ -13,6 +13,7 @@ import {
   mergeQueryKeys,
 } from '@lukemorales/query-key-factory';
 import { lastValueFrom } from 'rxjs';
+import { getSearchHotList, getSearchResource } from '@/apis/resources/search';
 
 export const homeKeys = createQueryKeys('home', {
   playlist: () => ({
@@ -60,6 +61,17 @@ export const similarKeys = createQueryKeys('similar', {
   artist: (id: number) => ({
     queryKey: [id],
     queryFn: () => lastValueFrom(getSimilarArtist(id)),
+  }),
+});
+
+export const searchKeys = createQueryKeys('search', {
+  resource: (keywords: string) => ({
+    queryKey: [keywords],
+    queryFn: () => lastValueFrom(getSearchResource(keywords)),
+  }),
+  hot: () => ({
+    queryKey: ['hot'],
+    queryFn: ({ signal }) => lastValueFrom(getSearchHotList({ signal })),
   }),
 });
 

@@ -1,4 +1,6 @@
 import http from '@/services/http';
+import { from, map } from 'rxjs';
+import { mapArray } from '@/utils/rxjs';
 import { Search } from '../path';
 import { RequestConfig } from '../type';
 
@@ -20,7 +22,12 @@ interface SearchOptions extends API.Common.PaginationOptions {
   type?: SearchType;
 }
 
-// eslint-disable-next-line import/prefer-default-export
+/**
+ * 搜索
+ * @param keywords 关键词
+ * @param options 搜索选项
+ * @param config 请求配置
+ */
 export const getSearchResource = (
   keywords: string,
   options?: SearchOptions,
@@ -28,4 +35,16 @@ export const getSearchResource = (
 ) =>
   from(
     http.get(Search.resource, { params: { keywords, ...options }, ...config }),
+  );
+
+/**
+ * 获取热搜列表
+ * @param config 请求配置
+ */
+export const getSearchHotList = (config?: RequestConfig) =>
+  from(http.get<API.Search.HotList>(Search.hot, config)).pipe(
+    map((res) => res.data),
+    mapArray((data) => ({
+      keyword: data.searchWord,
+    })),
   );

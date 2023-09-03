@@ -35,4 +35,6 @@ export const enum Similar {
 export const enum Search {
   // 搜索资源
   resource = '/cloudsearch',
+  // 热搜列表
+  hot = '/search/hot/detail',
 }
