@@ -3,7 +3,6 @@ import { formatDuration, normalizeTrackNo } from '@/utils/source';
 import { cx } from '@emotion/css';
 import { Link } from '@tanstack/react-router';
 import { m } from 'framer-motion';
-import Image from './Image';
 
 interface TrackListItemProps {
   track: Track;
@@ -43,14 +42,16 @@ const TrackListItem: React.FC<TrackListItemProps> = ({
         </div>
       )}
       {cover && (
-        <Image
+        <Cover
           className="w-10 h-10 flex-shrink-0"
           src={track.cover}
           alt={track.name}
         />
       )}
       <div className="flex-1 overflow-hidden">
-        <div className=" truncate">{track.name}</div>
+        <Typography.Title level={5} className="truncate font-bold">
+          {track.name}
+        </Typography.Title>
         {artists && (
           <div className="truncate">
             {track.artists?.map(({ id, name }) => (
@@ -60,7 +61,7 @@ const TrackListItem: React.FC<TrackListItemProps> = ({
                 params={{ id: id.toString() }}
                 key={id}
               >
-                <Typography.Text>{name}</Typography.Text>
+                <Typography.Text className=" text-sm">{name}</Typography.Text>
               </Link>
             ))}
           </div>
