@@ -46,10 +46,10 @@ export default function useTracks(
     [query.data?.pages],
   );
 
-  const { stop } = useIntersectionObserver(
+  const { stop, resume } = useIntersectionObserver(
     target.current,
     ([{ isIntersecting = false } = {}]) => {
-      if (isIntersecting && !query.isFetching) {
+      if (isIntersecting && query.isFetching === false) {
         if (query.hasNextPage) {
           query.fetchNextPage().catch((error) => {
             console.error('%c[Error useTracks]', 'color: #f00;', error);
@@ -60,6 +60,10 @@ export default function useTracks(
       }
     },
   );
+
+  useEffect(() => {
+    resume();
+  }, [ids, resume]);
 
   return {
     ...query,

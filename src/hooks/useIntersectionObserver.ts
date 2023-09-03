@@ -32,12 +32,11 @@ export default function useIntersectionObserver(
   }, [target]);
 
   useEffect(() => {
-    if (!isSupported) return;
+    if (!isSupported) return noop;
 
     clean.current();
 
-    if (!isActive) return;
-    if (!targets.length) return;
+    if (!isActive || !targets.length) return noop;
 
     const observer = new IntersectionObserver(callback, {
       threshold,
@@ -50,6 +49,10 @@ export default function useIntersectionObserver(
     clean.current = () => {
       observer.disconnect();
       clean.current = noop;
+    };
+
+    return () => {
+      clean.current();
     };
   }, [callback, isActive, isSupported, root, rootMargin, targets, threshold]);
 
