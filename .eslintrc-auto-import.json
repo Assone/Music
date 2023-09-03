@@ -111,6 +111,7 @@
     "Title": true,
     "Typography": true,
     "ArtistAlbums": true,
-    "TabBar": true
+    "TabBar": true,
+    "SafeArea": true
   }
 }
