@@ -52,7 +52,7 @@ const App: React.FC = () => {
             </AnimatePresence>
           </m.main>
           <TabBar
-            className="sticky bottom-0 bg-black/25 backdrop-blur z-10 drop-shadow shadow-inner"
+            className="sticky bottom-0 bg-black/75 backdrop-blur z-10 drop-shadow shadow-inner"
             activeKey={route.location.pathname}
             items={[
               {
