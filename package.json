@@ -87,6 +87,7 @@
     "vite-plugin-pwa": "^0.16.4",
     "vite-plugin-qrcode": "^0.2.2",
     "vite-tsconfig-paths": "^4.2.0",
-    "workbox-precaching": "^7.0.0"
+    "workbox-precaching": "^7.0.0",
+    "workbox-window": "^7.0.0"
   }
 }
