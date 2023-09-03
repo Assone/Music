@@ -14,7 +14,11 @@ const HomeView: React.FC = () => {
         <Title>Playlist</Title>
         <SwiperContainer
           source={playlist}
-          containerProps={{ slidesPerView: 3.5, spaceBetween: 10 }}
+          containerProps={{
+            slidesPerView: 3.5,
+            spaceBetween: 10,
+            virtual: true,
+          }}
         >
           {(item) => (
             <div className="w-full h-full" key={item.id}>

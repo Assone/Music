@@ -2,7 +2,7 @@
 /* eslint-disable react/require-default-props */
 import 'swiper/css';
 import 'swiper/css/a11y';
-import { A11y } from 'swiper/modules';
+import { A11y, Virtual } from 'swiper/modules';
 import {
   Swiper,
   SwiperProps,
@@ -29,13 +29,17 @@ const SwiperContainer = <T extends Record<string, any>>({
   const modules = useMemo(() => {
     const list = containerProps?.modules ?? [];
 
-    return [A11y, ...list];
+    return [A11y, Virtual, ...list];
   }, [containerProps?.modules]);
 
   return (
     <Swiper {...containerProps} modules={modules}>
       {source.map((data, index) => (
-        <SwiperSlide {...sliderProps} key={sourceKey ? data[sourceKey] : index}>
+        <SwiperSlide
+          {...sliderProps}
+          key={sourceKey ? data[sourceKey] : index}
+          virtualIndex={index}
+        >
           {children(data, index)}
         </SwiperSlide>
       ))}
