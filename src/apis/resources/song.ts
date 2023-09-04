@@ -1,4 +1,5 @@
 import http from '@/services/http';
+import { formatSong } from '@/utils/format';
 import { mapArray } from '@/utils/rxjs';
 import { from, map } from 'rxjs';
 import { Song } from '../path';
@@ -11,23 +12,5 @@ import { Song } from '../path';
 export const getSongDetail = (ids: ID | ID[]) =>
   from(http.get<API.Song.Detail>(Song.detail, { params: { ids } })).pipe(
     map(({ songs }) => songs),
-    mapArray((song) => {
-      const { dt: duration, name, id, al, ar } = song;
-      const cover = al?.picUrl;
-      const artists = ar.map(({ id, name }) => ({ id, name }));
-      const album = {
-        id: al.id,
-        name: al.name,
-        cover: al.picUrl,
-      };
-
-      return {
-        id,
-        name,
-        duration,
-        cover,
-        artists,
-        album,
-      };
-    }),
+    mapArray(formatSong),
   );

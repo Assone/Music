@@ -119,6 +119,7 @@
     "IconFluentEmojiGear": true,
     "useReloadPrompt": true,
     "IconFluentSearch": true,
-    "IconFluentEmojiMagnifyingGlassTiltedLeft": true
+    "IconFluentEmojiMagnifyingGlassTiltedLeft": true,
+    "SearchTrackList": true
   }
 }

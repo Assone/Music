@@ -23,3 +23,5 @@ export type Difference<
     ? Difference<Rest, U>
     : [First, ...Difference<Rest, U>]
   : T;
+
+export type AnyFn = (...args: any[]) => any;

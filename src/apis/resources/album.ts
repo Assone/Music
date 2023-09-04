@@ -10,7 +10,7 @@ export enum AlbumListArea {
   jp = 'JP', // 日本
 }
 
-interface AlbumListByStyleParams extends API.Common.PaginationOptions {
+interface AlbumListByStyleParams extends API.RequestArgs.PaginationOptions {
   area?: AlbumListArea;
 }
 

@@ -16,6 +16,7 @@ declare global {
   const Image: typeof import('./src/components/Image')['default']
   const PlayButton: typeof import('./src/components/PlayButton')['default']
   const SafeArea: typeof import('./src/components/SafeArea')['default']
+  const SearchTrackList: typeof import('./src/components/SearchTrackList')['default']
   const SwiperContainer: typeof import('./src/components/SwiperContainer')['default']
   const TabBar: typeof import('./src/components/TabBar')['default']
   const Text: typeof import('./src/components/Typography/Text')['default']

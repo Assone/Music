@@ -8,12 +8,12 @@ import {
   getRecommendPlaylist,
   getSimilarArtist,
 } from '@/apis';
+import { getSearchHotList, getSearchResource } from '@/apis/resources/search';
 import {
   createQueryKeys,
   mergeQueryKeys,
 } from '@lukemorales/query-key-factory';
 import { lastValueFrom } from 'rxjs';
-import { getSearchHotList, getSearchResource } from '@/apis/resources/search';
 
 export const homeKeys = createQueryKeys('home', {
   playlist: () => ({
@@ -46,7 +46,7 @@ export const artistKeys = createQueryKeys('artist', {
     queryKey: [id],
     queryFn: (ctx) => {
       const { limit = 10, offset } = (ctx.pageParam ||
-        {}) as API.Common.PaginationOptions;
+        {}) as API.RequestArgs.PaginationOptions;
 
       return lastValueFrom(getArtistAlbums(id, { limit, offset }));
     },

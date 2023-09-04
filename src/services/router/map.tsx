@@ -88,7 +88,7 @@ export const ArtistDetailRoute = new Route({
 
 const sourceSearchSchema = z.object({
   page: z.number().or(z.undefined()),
-  keyword: z.string().catch(''),
+  keyword: z.string().or(z.undefined()),
 });
 
 export const SearchRoute = new Route({

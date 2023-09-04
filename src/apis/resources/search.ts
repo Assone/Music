@@ -1,10 +1,11 @@
 import http from '@/services/http';
-import { from, map } from 'rxjs';
+import { formatSong } from '@/utils/format';
 import { mapArray } from '@/utils/rxjs';
+import { from, map } from 'rxjs';
 import { Search } from '../path';
 import { RequestConfig } from '../type';
 
-enum SearchType {
+export enum SearchType {
   song = 1,
   album = 10,
   artist = 100,
@@ -18,7 +19,7 @@ enum SearchType {
   sound = 2000,
 }
 
-interface SearchOptions extends API.Common.PaginationOptions {
+interface SearchOptions extends API.RequestArgs.PaginationOptions {
   type?: SearchType;
 }
 
@@ -34,7 +35,15 @@ export const getSearchResource = (
   config?: RequestConfig,
 ) =>
   from(
-    http.get(Search.resource, { params: { keywords, ...options }, ...config }),
+    http.get<API.Search.SearchResource>(Search.resource, {
+      params: { keywords, ...options },
+      ...config,
+    }),
+  ).pipe(
+    map((res) => res.result),
+    map((data) => ({
+      songs: data.songs.map(formatSong),
+    })),
   );
 
 /**

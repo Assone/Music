@@ -11,7 +11,7 @@ import { RequestConfig } from '../type';
 // eslint-disable-next-line import/prefer-default-export
 export const getArtistAlbums = (
   id: ID,
-  params?: API.Common.PaginationOptions,
+  params?: API.RequestArgs.PaginationOptions,
 ) =>
   from(http.get<API.Artist.Album>(Artist.album, { params: { id, ...params } }));
 

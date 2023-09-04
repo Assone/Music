@@ -1,9 +1,10 @@
 import './album';
 import './artist';
+import './common';
 import './playlist';
 import './recommend';
-import './song';
 import './search';
+import './song';
 
 declare global {
   namespace API {
@@ -32,6 +33,10 @@ declare global {
     }
 
     namespace Common {
+      export * from './common';
+    }
+
+    namespace RequestArgs {
       interface PaginationOptions {
         limit?: number;
         offset?: number;
