@@ -15,12 +15,20 @@ const SearchTrackList: React.FC<SearchTrackListProps> = ({
 }) => {
   const { data = [] } = useQuery({
     queryKey: ['search', keyword],
-    queryFn: () => lastValueFrom(getSearchResource(keyword || '')),
+    queryFn: ({ signal }) =>
+      lastValueFrom(getSearchResource(keyword || '', {}, { signal })),
     enabled: !!keyword,
     select: (data) => data.songs,
   });
 
-  return <TrackList className={cx(className)} tracks={data} cover />;
+  return (
+    <TrackList
+      className={cx(className)}
+      tracks={data}
+      cover
+      renderTrackListInfo={() => null}
+    />
+  );
 };
 
 export default SearchTrackList;
