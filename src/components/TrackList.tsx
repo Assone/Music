@@ -14,6 +14,7 @@ interface TrackListProps extends Pick<HTMLMotionProps<'ul'>, 'className'> {
   cover?: boolean;
   artists?: boolean;
   renderTrackListInfo?: (info: TrackListInfo) => React.ReactNode;
+  onClick?: (track: Track) => void;
 }
 
 const TrackList: React.FC<TrackListProps> = ({
@@ -22,6 +23,7 @@ const TrackList: React.FC<TrackListProps> = ({
   trackIds = [],
   cover,
   artists,
+  onClick,
   renderTrackListInfo = ({ count, duration }) => (
     <>
       <span>{count} tracks</span>
@@ -36,7 +38,8 @@ const TrackList: React.FC<TrackListProps> = ({
     [source, tracks],
   );
   const duration = useMemo(
-    () => computeDuration(list.reduce((acc, cur) => acc + cur.duration, 0)),
+    () =>
+      computeDuration(list.reduce((acc, cur) => acc + (cur?.duration || 0), 0)),
     [list],
   );
 
@@ -49,6 +52,7 @@ const TrackList: React.FC<TrackListProps> = ({
             key={track.id}
             cover={cover}
             artists={artists}
+            onClick={() => onClick?.(track)}
           />
         ))}
       </m.ul>

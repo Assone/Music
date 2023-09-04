@@ -1,5 +1,5 @@
 import http from '@/services/http';
-import { formatSong } from '@/utils/format';
+import { formatPlaylistInfo, formatSong } from '@/utils/format';
 import { mapArray } from '@/utils/rxjs';
 import { from, map } from 'rxjs';
 import { Search } from '../path';
@@ -42,7 +42,8 @@ export const getSearchResource = (
   ).pipe(
     map((res) => res.result),
     map((data) => ({
-      songs: data.songs.map(formatSong),
+      songs: data.songs?.map(formatSong),
+      playlists: data.playlists?.map(formatPlaylistInfo),
     })),
   );
 

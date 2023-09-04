@@ -47,7 +47,7 @@ const SearchView: React.FC = () => {
 
       {!isEmpty && (
         <div className="flex flex-col gap-2">
-          <Typography.Title level={2}>搜索结果</Typography.Title>
+          <Typography.Title level={2}>单曲</Typography.Title>
           <SearchTrackList keyword={keyword} />
         </div>
       )}

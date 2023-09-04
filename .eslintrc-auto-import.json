@@ -120,6 +120,7 @@
     "useReloadPrompt": true,
     "IconFluentSearch": true,
     "IconFluentEmojiMagnifyingGlassTiltedLeft": true,
-    "SearchTrackList": true
+    "SearchTrackList": true,
+    "SearchSongsTrackList": true
   }
 }

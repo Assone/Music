@@ -11,6 +11,7 @@ interface TrackListItemProps {
   album?: boolean;
   artists?: boolean;
   className?: string;
+  onClick?: VoidFunction;
 }
 
 const TrackListItem: React.FC<TrackListItemProps> = ({
@@ -19,6 +20,7 @@ const TrackListItem: React.FC<TrackListItemProps> = ({
   album,
   artists,
   className,
+  onClick,
 }) => {
   const index = useMemo(() => normalizeTrackNo(track.no), [track.no]);
   const duration = useMemo(
@@ -34,6 +36,7 @@ const TrackListItem: React.FC<TrackListItemProps> = ({
       )}
       variants={TrackListItemVariants}
       whileTap={{ scale: 1.05, opacity: 0.8 }}
+      onClick={onClick}
     >
       {index && (
         <div className="flex min-w-max items-center justify-center">

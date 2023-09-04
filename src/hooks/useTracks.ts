@@ -6,7 +6,7 @@ import { lastValueFrom } from 'rxjs';
 export interface Track {
   id: ID;
   name: Name;
-  duration: number;
+  duration?: number;
   cover?: string;
   no?: number;
   artists?: { id: ID; name: Name }[];

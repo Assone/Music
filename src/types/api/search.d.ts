@@ -1,9 +1,43 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Song } from './common';
+import { Playlist, Song, User } from './common';
+
+interface SearchPlaylist
+  extends Pick<
+    Playlist,
+    | 'id'
+    | 'name'
+    | 'coverImgUrl'
+    | 'subscribed'
+    | 'trackCount'
+    | 'userId'
+    | 'playCount'
+    | 'specialType'
+    | 'score'
+    | 'description'
+    | 'highQuality'
+  > {
+  creator: Pick<
+    User,
+    | 'nickname'
+    | 'userId'
+    | 'userType'
+    | 'avatarUrl'
+    | 'authStatus'
+    | 'expertTags'
+    | 'experts'
+  >;
+  bookCount: number;
+  officialTags?: any;
+  action?: any;
+  actionType?: any;
+  recommendText?: any;
+}
 
 type SearchResourceResult = {
   searchQcReminder?: any;
   songs: Song[];
+  playlists: Playlist[];
+  playlistCount: number;
   songCount: number;
 };
 
