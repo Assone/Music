@@ -8,6 +8,10 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import { m } from 'framer-motion';
 
+const SearchSongsTrackList = lazy(
+  () => import('@/components/SearchSongsTrackList'),
+);
+
 const SearchView: React.FC = () => {
   const { keyword } = useSearch({ from: SearchRoute.id });
   const navigate = useNavigate();
@@ -48,7 +52,7 @@ const SearchView: React.FC = () => {
       {!isEmpty && (
         <div className="flex flex-col gap-2">
           <Typography.Title level={2}>单曲</Typography.Title>
-          <SearchTrackList keyword={keyword} />
+          <SearchSongsTrackList keyword={keyword} />
         </div>
       )}
 

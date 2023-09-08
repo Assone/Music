@@ -13,7 +13,7 @@ const SearchSongsTrackList: React.FC<SearchSongsTrackListProps> = ({
   className,
   keyword,
 }) => {
-  const { data = [] } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ['search', keyword],
     queryFn: ({ signal }) =>
       lastValueFrom(
@@ -28,6 +28,10 @@ const SearchSongsTrackList: React.FC<SearchSongsTrackListProps> = ({
     enabled: !!keyword,
     select: (data) => data.songs,
   });
+
+  if (isFetching) {
+    return <div>loading...</div>;
+  }
 
   return (
     <TrackList
