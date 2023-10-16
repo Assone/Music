@@ -28,10 +28,9 @@ export const HomeRoute = new Route({
 
 export const PlaylistDetailRoute = new Route({
   path: '/playlists/$id',
-  key: ({ params }) => params.id,
   component: lazyRouteComponent(() => import('@/views/PlaylistDetailView')),
   getParentRoute: () => RootRoute,
-  getContext: ({ params: { id } }) => {
+  beforeLoad: ({ params: { id } }) => {
     const queryOptions = {
       ...queryKeys.playlist.detail(+id),
       enabled: !!id,
@@ -41,17 +40,17 @@ export const PlaylistDetailRoute = new Route({
       queryOptions,
     };
   },
-  loader: ({ context: { queryClient }, routeContext: { queryOptions } }) => ({
+  loader: ({ context: { queryClient, queryOptions } }) => ({
     detail: defer(queryClient.ensureQueryData(queryOptions)),
   }),
 });
 
 export const AlbumDetailRoute = new Route({
   path: '/albums/$id',
-  key: ({ params }) => params.id,
+
   component: lazyRouteComponent(() => import('@/views/AlbumDetailView')),
   getParentRoute: () => RootRoute,
-  getContext: ({ params: { id } }) => {
+  beforeLoad: ({ params: { id } }) => {
     const queryOptions = {
       ...queryKeys.album.detail(+id),
       enabled: !!id,
@@ -61,17 +60,17 @@ export const AlbumDetailRoute = new Route({
       queryOptions,
     };
   },
-  loader: ({ context: { queryClient }, routeContext: { queryOptions } }) => ({
+  loader: ({ context: { queryClient, queryOptions } }) => ({
     detail: defer(queryClient.ensureQueryData(queryOptions)),
   }),
 });
 
 export const ArtistDetailRoute = new Route({
   path: '/artists/$id',
-  key: ({ params }) => params.id,
+
   component: lazyRouteComponent(() => import('@/views/ArtistDetailView')),
   getParentRoute: () => RootRoute,
-  getContext: ({ params: { id } }) => {
+  beforeLoad: ({ params: { id } }) => {
     const queryOptions = {
       ...queryKeys.artist.detail(+id),
       enabled: !!id,
@@ -81,7 +80,7 @@ export const ArtistDetailRoute = new Route({
       queryOptions,
     };
   },
-  loader: ({ context: { queryClient }, routeContext: { queryOptions } }) => ({
+  loader: ({ context: { queryClient, queryOptions } }) => ({
     detail: defer(queryClient.ensureQueryData(queryOptions)),
   }),
 });
@@ -93,7 +92,6 @@ const sourceSearchSchema = z.object({
 
 export const SearchRoute = new Route({
   path: '/search',
-  key: ({ search }) => search.keyword,
   component: lazyRouteComponent(() => import('@/views/SearchView')),
   getParentRoute: () => RootRoute,
   validateSearch: sourceSearchSchema,
