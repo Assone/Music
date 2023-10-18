@@ -21,7 +21,6 @@
     "@tanstack/react-router": "0.0.1-beta.194",
     "@tanstack/router-devtools": "0.0.1-beta.194",
     "@vercel/analytics": "^1.1.1",
-    "ahooks": "^3.7.8",
     "axios": "^1.5.1",
     "classnames": "^2.3.2",
     "date-fns": "^2.30.0",

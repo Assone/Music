@@ -20,19 +20,19 @@ const Image: React.FC<ImageProps> = ({
   className,
   ...props
 }) => {
-  const [loading, loadingActions] = useBoolean(true);
+  const [loading, setLoading] = useState(true);
   const imageAnimation = useAnimation();
   const placeholderAnimation = useAnimation();
 
   const onLoad = useCallback(() => {
-    loadingActions.set(false);
+    setLoading(false);
     imageAnimation
       .start({ opacity: 1 })
       .catch(() => console.error('image animation error'));
     placeholderAnimation
       .start({ opacity: 0 })
       .catch(() => console.error('placeholder animation error'));
-  }, [imageAnimation, loadingActions, placeholderAnimation]);
+  }, [imageAnimation, placeholderAnimation]);
 
   return (
     <picture className={cx('relative', className)}>
@@ -47,6 +47,7 @@ const Image: React.FC<ImageProps> = ({
           transition={{ duration: 0.6 }}
           animate={imageAnimation}
           onLoad={onLoad}
+          onLoadStart={() => setLoading(true)}
           loading={lazy ? 'lazy' : undefined}
           {...props}
         />

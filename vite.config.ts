@@ -31,7 +31,7 @@ export default defineConfig(() => {
 
       AutoImport({
         dts: true,
-        imports: ['react', 'react-i18next', 'ahooks'],
+        imports: ['react', 'react-i18next'],
         dirs: ['src/components/**', 'src/hooks'],
         eslintrc: {
           enabled: true,
