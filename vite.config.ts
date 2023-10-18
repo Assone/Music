@@ -13,11 +13,11 @@ import { VitePWA } from 'vite-plugin-pwa';
 import { qrcode } from 'vite-plugin-qrcode';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-const { SENTRY_AUTH_TOKEN, SENTRY_DSN, SENTRY_ORG, SENTRY_PROJECT } =
+const { SENTRY_AUTH_TOKEN, SENTRY_DSN, SENTRY_ORG, SENTRY_PROJECT, CI } =
   process.env;
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(() => {
   const config: UserConfig = {
     define: {
       __SENTRY_DSN__: JSON.stringify(SENTRY_DSN),
@@ -63,6 +63,7 @@ export default defineConfig(({ mode }) => {
         srcDir: 'src',
         filename: 'sw.ts',
         strategies: 'injectManifest',
+        registerType: 'autoUpdate',
         workbox: {
           runtimeCaching: [
             {
@@ -97,7 +98,7 @@ export default defineConfig(({ mode }) => {
         },
       }),
 
-      process.env.CI &&
+      CI &&
         sentryVitePlugin({
           org: SENTRY_ORG,
           project: SENTRY_PROJECT,
