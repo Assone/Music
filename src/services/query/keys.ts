@@ -4,6 +4,7 @@ import {
   getAlbumListByStyle,
   getArtistAlbums,
   getArtistDetail,
+  getArtistMvs,
   getPlaylistDetail,
   getRecommendPlaylist,
   getSimilarArtist,
@@ -54,6 +55,12 @@ export const artistKeys = createQueryKeys('artist', {
   detail: (id: number) => ({
     queryKey: [id],
     queryFn: ({ signal }) => lastValueFrom(getArtistDetail(id, { signal })),
+    contextQueries: {
+      mv: () => ({
+        queryKey: [id],
+        queryFn: () => lastValueFrom(getArtistMvs(id)),
+      }),
+    },
   }),
 });
 

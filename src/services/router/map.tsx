@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import App from '@/App';
 import { UseQueryOptions } from '@tanstack/react-query';
 import {
@@ -40,14 +41,17 @@ export const PlaylistDetailRoute = new Route({
       queryOptions,
     };
   },
-  loader: ({ context: { queryClient, queryOptions } }) => ({
-    detail: defer(queryClient.ensureQueryData(queryOptions)),
-  }),
+  loader: async ({ context: { queryClient, queryOptions } }) => {
+    const detail = await queryClient.fetchQuery(queryOptions);
+
+    return {
+      detail,
+    };
+  },
 });
 
 export const AlbumDetailRoute = new Route({
   path: '/albums/$id',
-
   component: lazyRouteComponent(() => import('@/views/AlbumDetailView')),
   getParentRoute: () => RootRoute,
   beforeLoad: ({ params: { id } }) => {
@@ -60,9 +64,13 @@ export const AlbumDetailRoute = new Route({
       queryOptions,
     };
   },
-  loader: ({ context: { queryClient, queryOptions } }) => ({
-    detail: defer(queryClient.ensureQueryData(queryOptions)),
-  }),
+  loader: async ({ context: { queryClient, queryOptions } }) => {
+    const detail = await queryClient.fetchQuery(queryOptions);
+
+    return {
+      detail,
+    };
+  },
 });
 
 export const ArtistDetailRoute = new Route({
@@ -78,11 +86,20 @@ export const ArtistDetailRoute = new Route({
 
     return {
       queryOptions,
+      id: +id,
     };
   },
-  loader: ({ context: { queryClient, queryOptions } }) => ({
-    detail: defer(queryClient.ensureQueryData(queryOptions)),
-  }),
+  loader: async ({ context: { queryClient, queryOptions, id } }) => {
+    const detail = await queryClient.fetchQuery(queryOptions);
+    const mv = defer(
+      queryClient.fetchQuery({ ...queryKeys.artist.detail(id)._ctx.mv() }),
+    );
+
+    return {
+      detail,
+      mv,
+    };
+  },
 });
 
 const sourceSearchSchema = z.object({

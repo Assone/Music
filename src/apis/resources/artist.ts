@@ -1,4 +1,6 @@
 import http from '@/services/http';
+import { formatSourceInfo } from '@/utils/format';
+import { mapArray } from '@/utils/rxjs';
 import { from, map } from 'rxjs';
 import { Artist } from '../path';
 import { RequestConfig } from '../type';
@@ -23,4 +25,22 @@ export const getArtistAlbums = (
 export const getArtistDetail = (id: ID, config?: RequestConfig) =>
   from(
     http.get<API.Artist.Detail>(Artist.detail, { params: { id }, ...config }),
-  ).pipe(map((res) => res.data));
+  ).pipe(map((res) => res.data.artist));
+
+/**
+ * 获取歌手MV
+ * @param id 歌手ID
+ */
+export const getArtistMvs = (id: ID) =>
+  from(http.get<API.Artist.Mv>(Artist.mv, { params: { id } })).pipe(
+    map((res) => res.mvs),
+    mapArray((mv) => {
+      const sourceInfo = formatSourceInfo(mv);
+      const { imgurl16v9: cover } = mv;
+
+      return {
+        ...sourceInfo,
+        cover,
+      };
+    }),
+  );

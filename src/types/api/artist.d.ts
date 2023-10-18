@@ -112,6 +112,36 @@ type ArtistDetailData = {
   user: User;
 };
 
+type MvArtist = {
+  img1v1Id: number;
+  topicPerson: number;
+  alias: any[];
+  picUrl: string;
+  briefDesc: string;
+  picId: number;
+  img1v1Url: string;
+  albumSize: number;
+  trans: string;
+  musicSize: number;
+  name: string;
+  id: number;
+  img1v1Id_str: string;
+};
+
+type Mv = {
+  id: number;
+  name: string;
+  status: number;
+  imgurl: string;
+  artistName: string;
+  artist: MvArtist;
+  imgurl16v9: string;
+  duration: number;
+  playCount: number;
+  publishTime: string;
+  subed: boolean;
+};
+
 export interface Album {
   artist: Artist;
   hotAlbums: HotAlbum[];
@@ -123,6 +153,13 @@ export interface Detail {
   code: number;
   message: string;
   data: ArtistDetailData;
+}
+
+export interface Mv {
+  mvs: Mv[];
+  time: number;
+  hasMore: boolean;
+  code: number;
 }
 
 export {};

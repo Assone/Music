@@ -1,24 +1,22 @@
 import { AlbumDetailRoute } from '@/services/router/map';
 import { cx } from '@emotion/css';
-import { useQuery } from '@tanstack/react-query';
-import { Link, useRouteContext } from '@tanstack/react-router';
+import { Link, useLoader } from '@tanstack/react-router';
 import { format } from 'date-fns';
 import { m, useScroll, useSpring } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 const AlbumDetailView: React.FC = () => {
-  const { queryOptions } = useRouteContext({ from: AlbumDetailRoute.id });
+  const { detail } = useLoader({ from: AlbumDetailRoute.id });
   const { t } = useTranslation();
 
-  const { data } = useQuery(queryOptions);
   const { generateMediaQueriesClass } = useGenerateResponsiveResources(
-    data?.cover,
+    detail?.cover,
   );
 
   const publishTime = useMemo(
     () =>
-      data?.times.publish ? format(data?.times.publish, 'yyyy-MM-dd') : '',
-    [data?.times.publish],
+      detail?.times.publish ? format(detail?.times.publish, 'yyyy-MM-dd') : '',
+    [detail?.times.publish],
   );
 
   const target = useRef<HTMLDivElement>(null);
@@ -31,8 +29,6 @@ const AlbumDetailView: React.FC = () => {
     damping: 30,
     restDelta: 0.01,
   });
-
-  if (!data) return null;
 
   return (
     <m.div className="flex flex-col gap-2">
@@ -56,17 +52,17 @@ const AlbumDetailView: React.FC = () => {
 
         <div className="flex flex-col gap-2 p-4 backdrop-blur">
           <div className="flex flex-col items-center justify-center gap-2">
-            <Cover src={data.cover} />
+            <Cover src={detail.cover} />
             <h2 className="text-center text-xl font-bold dark:text-gray-100">
-              {data.name}
+              {detail.name}
             </h2>
           </div>
           <Link
             className="text-center text-lg font-semibold text-gray-500"
             to="/artists/$id"
-            params={{ id: data.artist.id.toString() }}
+            params={{ id: detail.artist.id.toString() }}
           >
-            {data.artist.name}
+            {detail.artist.name}
           </Link>
           <div className="flex gap-4 p-2">
             <PlayButton />
@@ -77,7 +73,7 @@ const AlbumDetailView: React.FC = () => {
 
       <TrackList
         className="px-4"
-        tracks={data.songs}
+        tracks={detail.songs}
         renderTrackListInfo={({ duration, count }) => (
           <div className=" select-none">
             <div>{publishTime}</div>
@@ -90,15 +86,15 @@ const AlbumDetailView: React.FC = () => {
                 {t('unit.minutes')}
               </span>
             </div>
-            {data.company && <div>&copy; {data.company}</div>}
+            {detail.company && <div>&copy; {detail.company}</div>}
           </div>
         )}
       />
 
       <div className="p-2 pr-0 dark:text-white flex flex-col gap-2">
-        <div>更多关于{data.artist.name}的作品</div>
+        <div>更多关于{detail.artist.name}的作品</div>
         <div>
-          <ArtistAlbums id={data.artist.id} limit={10} />
+          <ArtistAlbums id={detail.artist.id} limit={10} />
         </div>
       </div>
     </m.div>

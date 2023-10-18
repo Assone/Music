@@ -17,11 +17,8 @@ const isDebug =
 
 const TanStackRouterDevtools = isDebug
   ? lazy(() =>
-      // Lazy load in development
       import('@tanstack/router-devtools').then((res) => ({
         default: res.TanStackRouterDevtools,
-        // For Embedded Mode
-        // default: res.TanStackRouterDevtoolsPanel
       })),
     )
   : () => null; // Render nothing in production
@@ -44,6 +41,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <QueryProvider client={queryClient} persistOptions={{ persister }}>
         <RouterProvider router={router} />
 
+        <Analytics />
+
         <TanStackRouterDevtools
           router={router}
           toggleButtonProps={{
@@ -56,20 +55,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             },
           }}
         />
-        <ReactQueryDevtools
-          initialIsOpen={false}
-          toggleButtonProps={{
-            style: {
-              position: 'fixed',
-              top: 10,
-              right: 10,
-              bottom: 'atuo',
-              left: 'auto',
-            },
-          }}
-        />
-
-        <Analytics />
+        <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
       </QueryProvider>
     </React.Suspense>
   </React.StrictMode>,
