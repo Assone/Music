@@ -40,11 +40,11 @@ const AlbumDetailView: React.FC = () => {
         }}
       >
         <m.div
-          css={generateMediaQueriesClass(
-            ({ url }) => `background-image: url(${url})`,
-          )}
           className={cx(
             'absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat filter blur-3xl',
+            generateMediaQueriesClass(
+              ({ url }) => `background-image: url(${url})`,
+            ),
           )}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

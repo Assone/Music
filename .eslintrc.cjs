@@ -27,7 +27,7 @@ module.exports = {
     'prettier',
     'import',
     '@tanstack/query',
-    '@emotion',
+    '@stylexjs'
   ],
   parserOptions: {
     project: ['./tsconfig.json', './tsconfig.*.json'],
@@ -63,6 +63,8 @@ module.exports = {
 
     '@tanstack/query/exhaustive-deps': 'error',
     '@tanstack/query/prefer-query-object-syntax': 'off',
+
+    "@stylexjs/valid-styles": "error",
 
     'no-shadow': 'off',
 

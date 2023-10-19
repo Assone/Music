@@ -1,4 +1,3 @@
-import { ThemeProvider } from '@emotion/react';
 import { ErrorBoundary, withProfiler } from '@sentry/react';
 import {
   Outlet,
@@ -8,15 +7,6 @@ import {
 } from '@tanstack/react-router';
 import { AnimatePresence, LazyMotion, m } from 'framer-motion';
 import { Toaster } from 'react-hot-toast';
-
-declare module '@emotion/react' {
-  export interface Theme {
-    color: {
-      primary: string;
-      secondary: string;
-    };
-  }
-}
 
 const App: React.FC = () => {
   const route = useRouterState();
@@ -38,40 +28,36 @@ const App: React.FC = () => {
       <LazyMotion
         features={() => import('framer-motion').then((res) => res.domMax)}
       >
-        <ThemeProvider
-          theme={{ color: { primary: '#00b578', secondary: '#666' } }}
-        >
-          <m.main className="min-h-[calc(100vh-4rem)]">
-            <AnimatePresence>
-              <Outlet />
-            </AnimatePresence>
-          </m.main>
-          <TabBar
-            className="sticky bottom-0 bg-black/75 backdrop-blur z-10 drop-shadow shadow-inner"
-            activeKey={route.location.pathname}
-            items={[
-              {
-                key: '/',
-                title: 'Home',
-                icon: <IconFluentEmojiHouse />,
-              },
-              {
-                key: '/search',
-                title: 'Search',
-                icon: <IconFluentEmojiMagnifyingGlassTiltedLeft />,
-              },
-              {
-                key: '/settings',
-                title: 'Settings',
-                icon: <IconFluentEmojiGear />,
-              },
-            ]}
-            onChange={onRouteChange}
-          />
-          <ScrollRestoration />
+        <m.main className="min-h-[calc(100vh-4rem)]">
+          <AnimatePresence>
+            <Outlet />
+          </AnimatePresence>
+        </m.main>
+        <TabBar
+          className="sticky bottom-0 bg-black/75 backdrop-blur z-10 drop-shadow shadow-inner"
+          activeKey={route.location.pathname}
+          items={[
+            {
+              key: '/',
+              title: 'Home',
+              icon: <IconFluentEmojiHouse />,
+            },
+            {
+              key: '/search',
+              title: 'Search',
+              icon: <IconFluentEmojiMagnifyingGlassTiltedLeft />,
+            },
+            {
+              key: '/settings',
+              title: 'Settings',
+              icon: <IconFluentEmojiGear />,
+            },
+          ]}
+          onChange={onRouteChange}
+        />
+        <ScrollRestoration />
 
-          <Toaster />
-        </ThemeProvider>
+        <Toaster />
       </LazyMotion>
     </ErrorBoundary>
   );

@@ -25,9 +25,7 @@ export default defineConfig(() => {
     },
     plugins: [
       million.vite({ auto: true }),
-      react({
-        jsxImportSource: '@emotion/react',
-      }),
+      react(),
 
       AutoImport({
         dts: true,

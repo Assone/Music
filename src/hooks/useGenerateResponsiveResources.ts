@@ -1,5 +1,5 @@
 import { isFunction, isNumber } from '@/utils/is';
-import { SerializedStyles, css } from '@emotion/react';
+import { css } from '@emotion/css';
 import { useMemo } from 'react';
 
 type Breakpoints = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
@@ -82,10 +82,7 @@ const getBreakpointSizeOptionValue = (
   key: BreakpointSizeOptionsKeys = 'size',
 ) => (isNumber(options) ? options : options?.[key] || options?.size || 0);
 
-const createMediaQueriesClass = (
-  queries: string,
-  content: string | SerializedStyles,
-) => css`
+const createMediaQueriesClass = (queries: string, content: string) => css`
   @media ${queries} {
     ${content}
   }
@@ -145,7 +142,7 @@ export default function useGenerateResponsiveResources(
   );
 
   const generateMediaQueriesClass = (
-    content: string | SerializedStyles | GetMediaQueriesFn,
+    content: string | GetMediaQueriesFn,
   ) => css`
     ${list.map(({ media, url }) =>
       createMediaQueriesClass(

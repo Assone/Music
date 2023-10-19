@@ -12,22 +12,20 @@ const ArtistDetailView: React.FC = () => {
       <Typography.Title>{detail.name}</Typography.Title>
       <Suspense fallback={<div>Loading...</div>}>
         <Await promise={mv}>
-          {(mvs) => {
-            return (
-              <div>
-                <SwiperContainer
-                  source={mvs}
-                  sourceKey="id"
-                  containerProps={{
-                    slidesPerView: 3.2,
-                    spaceBetween: 10,
-                  }}
-                >
-                  {(mv) => <Image src={mv.cover} />}
-                </SwiperContainer>
-              </div>
-            );
-          }}
+          {(mvs) => (
+            <div>
+              <SwiperContainer
+                source={mvs}
+                sourceKey="id"
+                containerProps={{
+                  slidesPerView: 3.2,
+                  spaceBetween: 10,
+                }}
+              >
+                {(mv) => <Image src={mv.cover} />}
+              </SwiperContainer>
+            </div>
+          )}
         </Await>
       </Suspense>
     </div>

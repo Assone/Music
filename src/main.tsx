@@ -35,6 +35,25 @@ const QueryProvider = import.meta.env.DEV
   ? QueryClientProvider
   : PersistQueryClientProvider;
 
+if (import.meta.env.DEV) {
+  import('@stylexjs/dev-runtime')
+    .then(({ default: inject }) => {
+      inject({
+        // configuration options
+        dev: true,
+        test: false,
+        classNamePrefix: 'app-',
+        definedStylexCSSVariables: {
+          primary: {
+            lightMode: 'black',
+            darkMode: 'white',
+          },
+        },
+      });
+    })
+    .catch(() => {});
+}
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <React.Suspense fallback={<p>Loading...</p>}>

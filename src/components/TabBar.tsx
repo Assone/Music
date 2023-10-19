@@ -60,9 +60,6 @@ const TabBar: React.FC<TabBarProps> = ({
               key={key}
               className="flex flex-1 flex-col gap-1 items-center"
               onClick={() => onActiveChange(key)}
-              css={(theme) => ({
-                color: isActive ? theme.color.primary : theme.color.secondary,
-              })}
             >
               {icon}
               {title}
