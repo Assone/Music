@@ -43,12 +43,6 @@ if (import.meta.env.DEV) {
         dev: true,
         test: false,
         classNamePrefix: 'app-',
-        definedStylexCSSVariables: {
-          primary: {
-            lightMode: 'black',
-            darkMode: 'white',
-          },
-        },
       });
     })
     .catch(() => {});

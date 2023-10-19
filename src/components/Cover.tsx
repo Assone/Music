@@ -1,6 +1,5 @@
 import useGenerateResponsiveResources from '@/hooks/useGenerateResponsiveResources';
-import { cx } from '@emotion/css';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import { ImgHTMLAttributes } from 'react';
 import Image from './Image';
 
@@ -22,9 +21,9 @@ const Cover: React.FC<CoverProps> = ({
 
   return (
     <div
-      className={cx(
+      className={classnames(
         'overflow-hidden',
-        classNames({
+        classnames({
           rounded,
         }),
         className,

@@ -1,5 +1,5 @@
 import { isFunction } from '@/utils/is';
-import { cx } from '@emotion/css';
+import classnames from 'classnames';
 import { m } from 'framer-motion';
 
 type TabBarItemContent =
@@ -45,7 +45,9 @@ const TabBar: React.FC<TabBarProps> = ({
 
   return (
     <div className={className}>
-      <m.ul className={cx('flex justify-center h-full items-center py-2')}>
+      <m.ul
+        className={classnames('flex justify-center h-full items-center py-2')}
+      >
         {items.map(({ key, ...options }) => {
           const isActive = active === key;
           const icon = isFunction(options.icon)

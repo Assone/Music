@@ -1,6 +1,6 @@
 import { AlbumDetailRoute } from '@/services/router/map';
-import { cx } from '@emotion/css';
 import { Link, useLoader } from '@tanstack/react-router';
+import classnames from 'classnames';
 import { format } from 'date-fns';
 import { m, useScroll, useSpring } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -40,11 +40,11 @@ const AlbumDetailView: React.FC = () => {
         }}
       >
         <m.div
-          className={cx(
+          className={classnames(
             'absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat filter blur-3xl',
-            generateMediaQueriesClass(
-              ({ url }) => `background-image: url(${url})`,
-            ),
+            generateMediaQueriesClass(({ url }) => ({
+              backgroundImage: `url(${url})`,
+            })),
           )}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

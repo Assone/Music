@@ -1,7 +1,7 @@
 import { Track } from '@/hooks/useTracks';
 import { formatDuration, normalizeTrackNo } from '@/utils/source';
 import { TrackListItemVariants } from '@/utils/variants';
-import { cx } from '@emotion/css';
+import classnames from 'classnames';
 import { Link } from '@tanstack/react-router';
 import { m } from 'framer-motion';
 
@@ -30,7 +30,7 @@ const TrackListItem: React.FC<TrackListItemProps> = ({
 
   return (
     <m.li
-      className={cx(
+      className={classnames(
         'flex gap-2 text-base text-gray-200 py-2 select-none items-center',
         className,
       )}

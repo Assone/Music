@@ -24,8 +24,6 @@
       "unplugin-icons/types/react"
     ],
 
-    "jsxImportSource": "@emotion/react",
-
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

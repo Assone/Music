@@ -1,4 +1,4 @@
-import { cx } from '@emotion/css';
+import classnames from 'classnames';
 import { m } from 'framer-motion';
 
 interface PlayButtonProps {
@@ -7,7 +7,7 @@ interface PlayButtonProps {
 
 const PlayButton: React.FC<PlayButtonProps> = ({ onPlay }) => (
   <m.button
-    className={cx([
+    className={classnames([
       'dark:text-white w-full rounded-xl bg-green-500 p-2 select-none transition-all',
     ])}
     onClick={onPlay}

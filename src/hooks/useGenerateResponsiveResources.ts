@@ -1,6 +1,7 @@
-import { isFunction, isNumber } from '@/utils/is';
-import { css } from '@emotion/css';
-import { useMemo } from 'react';
+import { isNumber } from '@/utils/is';
+import { CSSProperties, useMemo } from 'react';
+import stylex from '@stylexjs/stylex';
+import { UserAuthoredStyles } from '@stylexjs/stylex/lib/StyleXTypes';
 
 type Breakpoints = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
@@ -82,16 +83,10 @@ const getBreakpointSizeOptionValue = (
   key: BreakpointSizeOptionsKeys = 'size',
 ) => (isNumber(options) ? options : options?.[key] || options?.size || 0);
 
-const createMediaQueriesClass = (queries: string, content: string) => css`
-  @media ${queries} {
-    ${content}
-  }
-`;
-
 type GetMediaQueriesFn = (data: {
   url?: string | undefined;
   media: string;
-}) => string;
+}) => CSSProperties;
 
 export default function useGenerateResponsiveResources(
   source?: string,
@@ -141,16 +136,41 @@ export default function useGenerateResponsiveResources(
     [result],
   );
 
-  const generateMediaQueriesClass = (
-    content: string | GetMediaQueriesFn,
-  ) => css`
-    ${list.map(({ media, url }) =>
-      createMediaQueriesClass(
-        media,
-        isFunction(content) ? content({ media, url }) : content,
-      ),
-    )}
-  `;
+  const generateMediaQueriesClass = (content: GetMediaQueriesFn) => {
+    const data = list.reduce((pre, { media, url }) => {
+      const properties = content({ media, url });
+
+      const values = {
+        ...pre,
+      };
+
+      const keys = Object.keys(properties);
+
+      for (let i = 0; i < keys.length; i += 1) {
+        const key = keys[i] as keyof CSSProperties;
+        const propertie = properties[key] as keyof UserAuthoredStyles;
+        const value = values[key];
+
+        if (value) {
+          values[key] = {
+            ...value,
+            [`@media ${media}`]: propertie,
+          };
+        } else {
+          values[key] = {
+            [`@media ${media}`]: propertie,
+          };
+        }
+      }
+
+      return values;
+    }, {} as UserAuthoredStyles);
+
+    // eslint-disable-next-line @stylexjs/valid-styles
+    const style = stylex.create({ base: data });
+
+    return stylex(style.base);
+  };
 
   return {
     ...result,

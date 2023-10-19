@@ -1,5 +1,5 @@
-import { cx } from '@emotion/css';
 import classnames from 'classnames';
+
 import { HTMLAttributes, PropsWithChildren } from 'react';
 
 export interface TitleProps
@@ -19,7 +19,7 @@ const Title: React.FC<PropsWithChildren<TitleProps>> = ({
     <Tag
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
-      className={cx(
+      className={classnames(
         classnames({
           'text-3xl': level === 1,
           'text-2xl': level === 2,

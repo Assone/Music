@@ -1,5 +1,5 @@
 import { SearchType, getSearchResource } from '@/apis/resources/search';
-import { cx } from '@emotion/css';
+import classnames from 'classnames';
 import { useQuery } from '@tanstack/react-query';
 import { HTMLMotionProps } from 'framer-motion';
 import { lastValueFrom } from 'rxjs';
@@ -35,7 +35,7 @@ const SearchSongsTrackList: React.FC<SearchSongsTrackListProps> = ({
 
   return (
     <TrackList
-      className={cx(className)}
+      className={classnames(className)}
       tracks={data}
       cover
       artists
