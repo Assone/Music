@@ -18,8 +18,8 @@ dependencies:
     specifier: ^5.0.0
     version: 5.0.0(react-dom@18.2.0)(react@18.2.0)
   '@tanstack/react-query-devtools':
-    specifier: ^5.0.0
-    version: 5.0.0(@tanstack/react-query@5.0.0)(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^5.0.1
+    version: 5.0.1(@tanstack/react-query@5.0.0)(react-dom@18.2.0)(react@18.2.0)
   '@tanstack/react-query-persist-client':
     specifier: ^4.36.1
     version: 4.36.1(@tanstack/react-query@5.0.0)
@@ -69,8 +69,8 @@ dependencies:
     specifier: ^2.4.1
     version: 2.4.1(csstype@3.1.2)(react-dom@18.2.0)(react@18.2.0)
   react-i18next:
-    specifier: ^13.3.0
-    version: 13.3.0(i18next@23.6.0)(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^13.3.1
+    version: 13.3.1(i18next@23.6.0)(react-dom@18.2.0)(react@18.2.0)
   react-use:
     specifier: ^17.4.0
     version: 17.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -119,11 +119,11 @@ devDependencies:
     specifier: ^6.9.9
     version: 6.9.9
   '@types/react':
-    specifier: ^18.2.29
-    version: 18.2.29
+    specifier: ^18.2.30
+    version: 18.2.30
   '@types/react-dom':
-    specifier: ^18.2.13
-    version: 18.2.13
+    specifier: ^18.2.14
+    version: 18.2.14
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.8.0
     version: 6.8.0(@typescript-eslint/parser@6.8.0)(eslint@8.51.0)(typescript@5.2.2)
@@ -200,14 +200,14 @@ devDependencies:
     specifier: ^0.16.6
     version: 0.16.6(rollup@2.79.1)
   unplugin-icons:
-    specifier: ^0.17.0
-    version: 0.17.0(@svgr/core@8.1.0)
+    specifier: ^0.17.1
+    version: 0.17.1(@svgr/core@8.1.0)
   vite:
     specifier: ^4.5.0
     version: 4.5.0(@types/node@20.8.7)(lightningcss@1.22.0)(terser@5.22.0)
   vite-plugin-compression2:
-    specifier: ^0.10.5
-    version: 0.10.5(rollup@2.79.1)
+    specifier: ^0.10.6
+    version: 0.10.6(rollup@2.79.1)
   vite-plugin-image-optimizer:
     specifier: ^1.1.7
     version: 1.1.7(vite@4.5.0)
@@ -1854,17 +1854,6 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@nolyfill/es-aggregate-error@1.0.21:
-    resolution: {integrity: sha512-1P+7535ZSQAD/BoSmeu+xv9eOZA5oCQ3e40rO5ZVbFZBafWR+WoZJsoEwlzUDsZz9iFFIKQiMsrSsN4HbUMtTQ==}
-    engines: {node: '>=12.4.0'}
-    dependencies:
-      '@nolyfill/shared': 1.0.21
-    dev: true
-
-  /@nolyfill/shared@1.0.21:
-    resolution: {integrity: sha512-qDc/NoaFU23E0hhiDPeUrvWzTXIPE+RbvRQtRWSeHHNmCIgYI9HS1jKzNYNJxv4jvZ/1VmM3L6rNVxbj+LBMNA==}
-    dev: true
-
   /@pkgr/utils@2.4.2:
     resolution: {integrity: sha512-POgTXhjrTfbTV63DiFXav4lBHiICLKKwDeaKn9Nphwj7WH6m0hMMCaJkMyRWjgtPFyRKRVoMXXjczsTQRDEhYw==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
@@ -2361,8 +2350,8 @@ packages:
       '@tanstack/query-core': 4.36.1
     dev: false
 
-  /@tanstack/react-query-devtools@5.0.0(@tanstack/react-query@5.0.0)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-4yw29d89eOqUmliRKGmEOjuq2AGSM3i4jjw/YFMrErg0neVITy2bkoU3fPXZ339czlupqq0b4e20uFVtqkEqGQ==}
+  /@tanstack/react-query-devtools@5.0.1(@tanstack/react-query@5.0.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-AM1Cx29jnryisTDLetjQB5eg46ax8th1/qADqfV/leWmKEQGCVohkT+JmpXEGQJ4X6MzJYiyoC6YQBdS82jR+w==}
     peerDependencies:
       '@tanstack/react-query': ^5.0.0
       react: ^18.0.0
@@ -2520,14 +2509,14 @@ packages:
     resolution: {integrity: sha512-wYLxw35euwqGvTDx6zfY1vokBFnsK0HNrzc6xNHchxfO2hpuRg74GbkEW7e3sSmPvj0TjCDT1VCa6OtHXnubsg==}
     dev: true
 
-  /@types/react-dom@18.2.13:
-    resolution: {integrity: sha512-eJIUv7rPP+EC45uNYp/ThhSpE16k22VJUknt5OLoH9tbXoi8bMhwLf5xRuWMywamNbWzhrSmU7IBJfPup1+3fw==}
+  /@types/react-dom@18.2.14:
+    resolution: {integrity: sha512-V835xgdSVmyQmI1KLV2BEIUgqEuinxp9O4G6g3FqO/SqLac049E53aysv0oEFD2kHfejeKU+ZqL2bcFWj9gLAQ==}
     dependencies:
-      '@types/react': 18.2.29
+      '@types/react': 18.2.30
     dev: true
 
-  /@types/react@18.2.29:
-    resolution: {integrity: sha512-Z+ZrIRocWtdD70j45izShRwDuiB4JZqDegqMFW/I8aG5DxxLKOzVNoq62UIO82v9bdgi+DO1jvsb9sTEZUSm+Q==}
+  /@types/react@18.2.30:
+    resolution: {integrity: sha512-OfqdJnDsSo4UNw0bqAjFCuBpLYQM7wvZidz0hVxHRjrEkzRlvZL1pJVyOSY55HMiKvRNEo9DUBRuEl7FNlJ/Vg==}
     dependencies:
       '@types/prop-types': 15.7.9
       '@types/scheduler': 0.16.4
@@ -5074,6 +5063,14 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
+  /local-pkg@0.5.0:
+    resolution: {integrity: sha512-ok6z3qlYyCDS4ZEU27HaU6x/xZa9Whf8jD4ptH5UZTQYZVYeb9bnZ3ojVhiJNLiXK1Hfc0GNbLXcmZ5plLDDBg==}
+    engines: {node: '>=14'}
+    dependencies:
+      mlly: 1.4.2
+      pkg-types: 1.0.3
+    dev: true
+
   /locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
@@ -5804,8 +5801,8 @@ packages:
       - csstype
     dev: false
 
-  /react-i18next@13.3.0(i18next@23.6.0)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-FlR9xjYHSPIJfQspEmkN0yOlxgRyNuiJKJ8gCaZH08UJ7SZHG+VrptEPcpEMEchjNoCOZdKcvJ3PnmHEZhkeXg==}
+  /react-i18next@13.3.1(i18next@23.6.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-JAtYREK879JXaN9GdzfBI4yJeo/XyLeXWUsRABvYXiFUakhZJ40l+kaTo+i+A/3cKIED41kS/HAbZ5BzFtq/Og==}
     peerDependencies:
       i18next: '>= 23.2.3'
       react: '>= 16.8.0'
@@ -6828,8 +6825,8 @@ packages:
       - rollup
     dev: true
 
-  /unplugin-icons@0.17.0(@svgr/core@8.1.0):
-    resolution: {integrity: sha512-gMv66eY/Hj64heM55XrfDH3LUCWI51mtkBVUPVl9VkpvLgAYhdVe9nRuzu6p+idmCLSQVq7xiPxQcD4aXCgW5A==}
+  /unplugin-icons@0.17.1(@svgr/core@8.1.0):
+    resolution: {integrity: sha512-KsWejBPCHokYCNDQUzGu6R3E3XDYH/YpewgQwrVBXgpl1iR0RdW1NEGNdjlbuapwVnZXVgA5eiDTfNaQCawSdg==}
     peerDependencies:
       '@svgr/core': '>=7.0.0'
       '@svgx/core': ^1.0.1
@@ -6854,7 +6851,7 @@ packages:
       '@svgr/core': 8.1.0(typescript@5.2.2)
       debug: 4.3.4
       kolorist: 1.8.0
-      local-pkg: 0.4.3
+      local-pkg: 0.5.0
       unplugin: 1.5.0
     transitivePeerDependencies:
       - supports-color
@@ -6915,10 +6912,9 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
 
-  /vite-plugin-compression2@0.10.5(rollup@2.79.1):
-    resolution: {integrity: sha512-IaZUzl9pmZXSAwX3XA6LiB9S7vWK/+4P1r5hT/NlygFWjF6OXNbXJq2/jtkh4HzsxILa0+kwmihTYbJRR406Uw==}
+  /vite-plugin-compression2@0.10.6(rollup@2.79.1):
+    resolution: {integrity: sha512-R6jQNVeutoJAcxbTCiRqH1ESmKdQYQOUlAMJhy2YaTMsmZYjspy0KoVL9DKAJcprRIYG2Z9MlvfY7nX+ADTXmQ==}
     dependencies:
-      '@nolyfill/es-aggregate-error': 1.0.21
       '@rollup/pluginutils': 5.0.5(rollup@2.79.1)
     transitivePeerDependencies:
       - rollup
