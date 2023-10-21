@@ -63,8 +63,6 @@ module.exports = {
     "@tanstack/query/exhaustive-deps": "error",
     "@tanstack/query/prefer-query-object-syntax": "off",
 
-    "@stylexjs/valid-styles": "error",
-
     "no-shadow": "off",
 
     "import/extensions": [
