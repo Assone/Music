@@ -10,6 +10,7 @@
     "cypress.config.*",
     "nightwatch.conf.*",
     "playwright.config.*",
+    "postcss.config.*",
     "tailwind.config.*",
     "ci.d.ts"
   ],
@@ -17,6 +18,8 @@
     "composite": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   }
 }
