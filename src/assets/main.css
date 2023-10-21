@@ -5,8 +5,7 @@
 @tailwind utilities;
 
 html {
-  font-family:
-    'Noto Sans SC',
+    font-family: 'Noto Sans SC',
     ui-sans-serif,
     system-ui,
     -apple-system,
@@ -21,5 +20,4 @@ html {
     'Segoe UI Emoji',
     'Segoe UI Symbol',
     'Noto Color Emoji';
-  font-display: optional;
 }

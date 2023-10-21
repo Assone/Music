@@ -7,7 +7,11 @@ export const normalizeTrackNo = (trackNo?: number) =>
  * 格式化时长
  * @param duration 时长，单位为毫米
  */
-export const formatDuration = (duration: number) => {
+export const formatDuration = (duration?: number) => {
+  if (duration === undefined) {
+    return undefined;
+  }
+
   const minutes = Math.floor(duration / 1000 / 60);
   const seconds = Math.floor((duration / 1000) % 60);
   return `${minutes}:${String(seconds).padStart(2, '0')}`;
@@ -20,7 +24,7 @@ interface ComputeDurationOptions {
 /**
  * 计算时长
  * @param milliseconds 时长，单位为毫米
- * @param expression 格式化表达式
+ * @param options
  */
 export const computeDuration = (
   milliseconds: number,

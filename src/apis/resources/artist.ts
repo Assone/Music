@@ -1,5 +1,5 @@
 import http from '@/services/http';
-import { formatSourceInfo } from '@/utils/format';
+import { formatSong, formatSourceInfo } from '@/utils/format';
 import { mapArray } from '@/utils/rxjs';
 import { from, map } from 'rxjs';
 import { Artist } from '../path';
@@ -32,7 +32,7 @@ export const getArtistDetail = (id: ID, config?: RequestConfig) =>
  * @param id 歌手ID
  */
 export const getArtistMvs = (id: ID) =>
-  from(http.get<API.Artist.Mv>(Artist.mv, { params: { id } })).pipe(
+  from(http.get<API.Artist.MV>(Artist.mv, { params: { id } })).pipe(
     map((res) => res.mvs),
     mapArray((mv) => {
       const sourceInfo = formatSourceInfo(mv);
@@ -43,4 +43,14 @@ export const getArtistMvs = (id: ID) =>
         cover,
       };
     }),
+  );
+
+/**
+ * 获取歌手歌曲
+ * @param id 歌手ID
+ */
+export const getArtistSongs = (id: ID) =>
+  from(http.get<API.Artist.Songs>(Artist.songs, { params: { id } })).pipe(
+    map((res) => res.hotSongs),
+    mapArray(formatSong),
   );

@@ -25,7 +25,7 @@ export default function useTracks(
 ) {
   const query = useInfiniteQuery({
     queryKey: ['tracks', ids, limit],
-    queryFn: async ({ pageParam = 0 }) => {
+    queryFn: async ({ pageParam }) => {
       const start = pageParam * limit;
       const end = start + limit;
       const list = ids.slice(start, end);
@@ -39,6 +39,8 @@ export default function useTracks(
 
       return pages.length;
     },
+    initialPageParam: 0,
+    enabled: ids.length > 0,
   });
 
   const tracks = useMemo(

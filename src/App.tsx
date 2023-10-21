@@ -15,7 +15,7 @@ const App: React.FC = () => {
   const onRouteChange = useCallback(
     (path: string) => {
       navigate({
-        to: path,
+        to: path as '/search',
       }).catch((err) => {
         console.error('%c[Error]: router navigate', 'color: red; ', err);
       });
@@ -55,6 +55,7 @@ const App: React.FC = () => {
           ]}
           onChange={onRouteChange}
         />
+
         <ScrollRestoration />
 
         <Toaster />

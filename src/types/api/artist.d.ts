@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Artist, Album as HotAlbum } from './common';
+import { Album as HotAlbum, Artist, Song } from './common';
 
 type AvatarDetail = {
   userType: number;
@@ -155,10 +155,17 @@ export interface Detail {
   data: ArtistDetailData;
 }
 
-export interface Mv {
+export interface MV {
   mvs: Mv[];
   time: number;
   hasMore: boolean;
+  code: number;
+}
+
+export interface Songs {
+  artist: Artist;
+  hotSongs: Song[];
+  more: boolean;
   code: number;
 }
 

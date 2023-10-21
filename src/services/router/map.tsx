@@ -2,10 +2,10 @@
 import App from '@/App';
 import { UseQueryOptions } from '@tanstack/react-query';
 import {
-  Route,
-  RouterContext,
   defer,
   lazyRouteComponent,
+  Route,
+  RouterContext,
 } from '@tanstack/react-router';
 import { z } from 'zod';
 import queryClient from '../query/client';
@@ -75,7 +75,6 @@ export const AlbumDetailRoute = new Route({
 
 export const ArtistDetailRoute = new Route({
   path: '/artists/$id',
-
   component: lazyRouteComponent(() => import('@/views/ArtistDetailView')),
   getParentRoute: () => RootRoute,
   beforeLoad: ({ params: { id } }) => {
@@ -94,10 +93,14 @@ export const ArtistDetailRoute = new Route({
     const mv = defer(
       queryClient.fetchQuery({ ...queryKeys.artist.detail(id)._ctx.mv() }),
     );
+    const songs = defer(
+      queryClient.fetchQuery({ ...queryKeys.artist.detail(id)._ctx.songs() }),
+    );
 
     return {
       detail,
       mv,
+      songs,
     };
   },
 });

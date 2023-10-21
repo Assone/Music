@@ -27,6 +27,8 @@ export const enum Artist {
   detail = '/artist/detail',
   // 获取歌手MV
   mv = '/artist/mv',
+  // 获取歌手歌曲
+  songs = '/artists',
 }
 
 export const enum Similar {

@@ -5,6 +5,7 @@ import {
   getArtistAlbums,
   getArtistDetail,
   getArtistMvs,
+  getArtistSongs,
   getPlaylistDetail,
   getRecommendPlaylist,
   getSimilarArtist,
@@ -60,6 +61,10 @@ export const artistKeys = createQueryKeys('artist', {
         queryKey: [id],
         queryFn: () => lastValueFrom(getArtistMvs(id)),
       }),
+      songs: () => ({
+        queryKey: [id],
+        queryFn: () => lastValueFrom(getArtistSongs(id)),
+      }),
     },
   }),
 });
@@ -85,6 +90,7 @@ export const searchKeys = createQueryKeys('search', {
 export const queryKeys = mergeQueryKeys(
   homeKeys,
   playlistKeys,
+  similarKeys,
   albumKeys,
   artistKeys,
 );
