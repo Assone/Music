@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import App from '@/App';
+import Root from '@/Root';
 import { UseQueryOptions } from '@tanstack/react-query';
 import {
   defer,
@@ -18,7 +18,7 @@ const context = new RouterContext<{
 }>();
 
 export const RootRoute = context.createRootRoute({
-  component: App,
+  component: Root,
 });
 
 export const HomeRoute = new Route({

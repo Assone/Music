@@ -1,12 +1,6 @@
 import { ErrorBoundary, withProfiler } from '@sentry/react';
-import {
-  Outlet,
-  ScrollRestoration,
-  useNavigate,
-  useRouterState,
-} from '@tanstack/react-router';
+import { Outlet, useNavigate, useRouterState } from '@tanstack/react-router';
 import { AnimatePresence, LazyMotion, m } from 'framer-motion';
-import { Toaster } from 'react-hot-toast';
 
 const App: React.FC = () => {
   const route = useRouterState();
@@ -55,10 +49,6 @@ const App: React.FC = () => {
           ]}
           onChange={onRouteChange}
         />
-
-        <ScrollRestoration />
-
-        <Toaster />
       </LazyMotion>
     </ErrorBoundary>
   );
