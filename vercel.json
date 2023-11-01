@@ -1,14 +1,8 @@
 {
-  "builds": [
-    {
-      "src": "./server˝.js",
-      "use": "@vercel/node@3.0.7"
-    }
-  ],
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/((?!assets/).*)",
+      "destination": "/api/ssr.ts"
     }
   ],
   "headers": [
