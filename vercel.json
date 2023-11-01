@@ -1,4 +1,10 @@
 {
+  "functions": {
+    "server.js": {
+      "memory": 3008,
+      "maxDuration": 60
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",
