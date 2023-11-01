@@ -11,23 +11,23 @@ async function createServer() {
   const app = express();
   const isProduction = process.env.NODE_ENV === 'production';
 
-  // Create Vite server in middleware mode and configure the app type as
-  // 'custom', disabling Vite's own HTML serving logic so parent server
-  // can take control
-  const vite = await createViteServer({
-    server: { middlewareMode: true },
-    appType: 'custom',
-  });
-
-  // Use vite's connect instance as middleware. If you use your own
-  // express router (express.Router()), you should use router.use
-  app.use(vite.middlewares);
-
   if (isProduction) {
     app.use(compression());
     app.use(
       express.static(path.resolve(__dirname, 'dist/client'), { index: false }),
     );
+  } else {
+    // Create Vite server in middleware mode and configure the app type as
+    // 'custom', disabling Vite's own HTML serving logic so parent server
+    // can take control
+    const vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: 'custom',
+    });
+
+    // Use vite's connect instance as middleware. If you use your own
+    // express router (express.Router()), you should use router.use
+    app.use(vite.middlewares);
   }
 
   app.use('*', async (req, res) => {

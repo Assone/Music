@@ -1,14 +1,8 @@
 {
-  "functions": {
-    "server.js": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  },
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/((?!assets/).*)",
+      "destination": "/api/ssr.ts"
     }
   ],
   "headers": [
