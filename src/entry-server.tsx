@@ -150,7 +150,7 @@ const injectManifest = (
 };
 
 export function createFetchRequest(req: ExRequest): Request {
-  const origin = `${req.protocol}://${req.get('host')}`;
+  const origin = `${req.protocol}://${req.headers.host}`;
   // Note: This had to take originalUrl into account for presumably vite's proxying
   const url = new URL(req.originalUrl || req.url, origin);
 

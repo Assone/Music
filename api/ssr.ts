@@ -20,10 +20,15 @@ export default async function handler(
     path.resolve(process.cwd(), './dist/server/entry-server.js')
   )) as { render: (...args: unknown[]) => Promise<void> };
 
+  const newRequest = {
+    ...request,
+    protocol: 'https',
+  };
+
   console.log('rendering', url);
 
   await render(url, {
-    request,
+    request: newRequest,
     response,
     template,
     isProduction: true,
