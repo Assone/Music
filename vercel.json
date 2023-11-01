@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/((?!assets/).*)",
-      "destination": "/api/ssr.ts"
+      "destination": "/api/ssr.js"
     }
   ],
   "headers": [
