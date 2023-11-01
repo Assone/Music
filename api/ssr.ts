@@ -17,6 +17,8 @@ export default async function handler(
     path.resolve(process.cwd(), './dist/server/entry-server.js')
   );
 
+  console.log('rendering', url);
+
   await render(url, {
     request,
     response,
