@@ -1,10 +1,7 @@
-import { QueryClientProvider } from '@tanstack/react-query';
-import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from 'react-hot-toast';
 import App from './App';
-import persister from './services/persisters';
-import queryClient from './services/query/client';
 
 const isDebug =
   import.meta.env.DEV || window.location.search.includes('debug=true');
@@ -17,20 +14,35 @@ const ReactQueryDevtools = isDebug
     )
   : () => null;
 
-const QueryProvider = import.meta.env.DEV
-  ? QueryClientProvider
-  : PersistQueryClientProvider;
+// const QueryProvider = import.meta.env.DEV
+//   ? QueryClientProvider
+//   : PersistQueryClientProvider;
 
-const Root: React.FC = () => (
-  <QueryProvider client={queryClient} persistOptions={{ persister }}>
-    <App />
+const Root: React.FC = () => {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            // With SSR, we usually want to set some default staleTime
+            // above 0 to avoid refetching immediately on the client
+            staleTime: 60 * 1000,
+          },
+        },
+      }),
+  );
 
-    <Toaster />
+  return (
+    <QueryClientProvider client={queryClient}>
+      <App />
 
-    <Analytics />
+      <Toaster />
 
-    <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
-  </QueryProvider>
-);
+      <Analytics />
+
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
+    </QueryClientProvider>
+  );
+};
 
 export default Root;

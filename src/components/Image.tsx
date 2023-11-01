@@ -42,7 +42,7 @@ const Image: React.FC<ImageProps> = ({
 
       <AnimatePresence>
         <m.img
-          initial={{ opacity: 0 }}
+          initial={import.meta.env.SSR ? false : { opacity: 0 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6 }}
           animate={imageAnimation}
@@ -57,7 +57,7 @@ const Image: React.FC<ImageProps> = ({
         <AnimatePresence>
           <m.div
             className="absolute inset-0 bg-white dark:bg-black"
-            initial={{ opacity: 1 }}
+            initial={import.meta.env.SSR ? false : { opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6 }}
             animate={placeholderAnimation}

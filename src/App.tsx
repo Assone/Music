@@ -1,5 +1,6 @@
 import { withProfiler } from '@sentry/react';
 import { AnimatePresence, LazyMotion, m } from 'framer-motion';
+import { Suspense } from 'react';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -18,7 +19,9 @@ const App: React.FC = () => {
     >
       <m.main className="min-h-[calc(100vh-4rem)]">
         <AnimatePresence>
-          <Outlet />
+          <Suspense>
+            <Outlet />
+          </Suspense>
         </AnimatePresence>
       </m.main>
       <TabBar
