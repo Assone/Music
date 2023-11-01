@@ -31,32 +31,30 @@ const QueryProvider = import.meta.env.DEV
   ? QueryClientProvider
   : PersistQueryClientProvider;
 
-const Root: React.FC = () => {
-  return (
-    <QueryProvider client={queryClient} persistOptions={{ persister }}>
-      <App />
+const Root: React.FC = () => (
+  <QueryProvider client={queryClient} persistOptions={{ persister }}>
+    <App />
 
-      <ScrollRestoration />
+    <ScrollRestoration />
 
-      <Toaster />
+    <Toaster />
 
-      <Analytics />
+    <Analytics />
 
-      <TanStackRouterDevtools
-        router={router}
-        toggleButtonProps={{
-          style: {
-            position: 'fixed',
-            top: 16,
-            right: 70,
-            bottom: 'atuo',
-            left: 'auto',
-          },
-        }}
-      />
-      <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
-    </QueryProvider>
-  );
-};
+    <TanStackRouterDevtools
+      router={router}
+      toggleButtonProps={{
+        style: {
+          position: 'fixed',
+          top: 16,
+          right: 70,
+          bottom: 'atuo',
+          left: 'auto',
+        },
+      }}
+    />
+    <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
+  </QueryProvider>
+);
 
 export default Root;

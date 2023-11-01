@@ -50,7 +50,6 @@ const requestCache = async (event: FetchEvent, type: string) => {
 
 const ignoreCacheType = ['script', 'document', 'manifest', 'image'];
 
-// eslint-disable-next-line no-restricted-globals
 self.addEventListener('fetch', (e) => {
   const event = e;
   const { request } = event;

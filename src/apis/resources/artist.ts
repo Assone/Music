@@ -10,7 +10,6 @@ import { RequestConfig } from '../type';
  * @param id 歌手ID
  * @param params 分页参数
  */
-// eslint-disable-next-line import/prefer-default-export
 export const getArtistAlbums = (
   id: ID,
   params?: API.RequestArgs.PaginationOptions,

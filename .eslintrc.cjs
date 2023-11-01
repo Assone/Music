@@ -5,89 +5,85 @@ module.exports = {
   root: true,
   env: { browser: true, es2020: true },
   extends: [
-    "eslint:recommended",
+    'eslint:recommended',
 
-    "plugin:react-hooks/recommended",
+    'plugin:react-hooks/recommended',
 
-    "airbnb",
-    "airbnb/hooks",
-    "plugin:react/jsx-runtime",
+    'airbnb',
+    'airbnb/hooks',
+    'plugin:react/jsx-runtime',
 
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
 
-    "plugin:@tanstack/eslint-plugin-query/recommended",
+    'plugin:@tanstack/eslint-plugin-query/recommended',
 
-    "prettier",
-    ".eslintrc-auto-import.json"
+    'prettier',
+    '.eslintrc-auto-import.json',
   ],
-  ignorePatterns: ["dist", ".eslintrc.cjs"],
-  parser: "@typescript-eslint/parser",
-  plugins: [
-    "react-refresh",
-    "prettier",
-    "import",
-    "@tanstack/query"
-  ],
+  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  parser: '@typescript-eslint/parser',
+  plugins: ['react-refresh', 'prettier', 'import', '@tanstack/query'],
   parserOptions: {
-    project: ["./tsconfig.json", "./tsconfig.*.json"],
-    tsconfigRootDir: __dirname
+    project: ['./tsconfig.json', './tsconfig.*.json'],
+    tsconfigRootDir: __dirname,
   },
   settings: {
     // 'import/parsers': {
     //   '@typescript-eslint/parser': ['.ts', '.tsx'],
     // },
-    "import/resolver": {
+    'import/resolver': {
       typescript: true,
       node: true,
       alias: {
-        map: [["@", "./src/"]],
-        extensions: [".ts", ".tsx", ".json"]
-      }
-    }
+        map: [['@', './src/']],
+        extensions: ['.ts', '.tsx', '.json'],
+      },
+    },
   },
   rules: {
-    "prettier/prettier": "error",
+    'prettier/prettier': 'error',
 
-    "react-refresh/only-export-components": [
-      "warn",
-      { allowConstantExport: true }
+    'react-refresh/only-export-components': [
+      'warn',
+      { allowConstantExport: true },
     ],
-    "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
-    "react/function-component-definition": [
-      "error",
-      { namedComponents: ["arrow-function"] }
+    'react/jsx-filename-extension': [1, { extensions: ['.tsx'] }],
+    'react/function-component-definition': [
+      'error',
+      { namedComponents: ['arrow-function'] },
     ],
-    "react/prop-types": "off",
-    "react/jsx-no-undef": ["error", { allowGlobals: true }],
+    'react/prop-types': 'off',
+    'react/jsx-no-undef': ['error', { allowGlobals: true }],
 
-    "@tanstack/query/exhaustive-deps": "error",
-    "@tanstack/query/prefer-query-object-syntax": "off",
+    '@tanstack/query/exhaustive-deps': 'error',
+    '@tanstack/query/prefer-query-object-syntax': 'off',
 
-    "no-shadow": "off",
+    'no-shadow': 'off',
 
-    "import/extensions": [
-      "error",
+    'import/extensions': [
+      'error',
       {
-        js: "never",
-        ts: "never",
-        tsx: "never",
-        svg: "always",
-        json: "always"
-      }
+        js: 'never',
+        ts: 'never',
+        tsx: 'never',
+        svg: 'always',
+        json: 'always',
+      },
     ],
-    "import/no-extraneous-dependencies": [
-      "error",
+    'import/no-extraneous-dependencies': [
+      'error',
       {
         devDependencies: [
-          "**/*.test.ts",
-          "**/*.spec.ts",
-          "**/*.page.ts",
-          "vite.config.ts",
-          "playwright.config.ts",
-          "vitest.config.ts"
-        ]
-      }
+          '**/*.test.ts',
+          '**/*.spec.ts',
+          '**/*.page.ts',
+          'vite.config.ts',
+          'playwright.config.ts',
+          'vitest.config.ts',
+          'tailwind.config.ts',
+        ],
+      },
     ],
-    "import/no-unresolved": ["error", { ignore: ["^virtual"] }]
-  }
+    'import/no-unresolved': ['error', { ignore: ['^virtual'] }],
+  },
 };

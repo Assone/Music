@@ -7,6 +7,7 @@ import { Recommend } from '../path';
  * 获取推荐歌单
  * @param limit 取出数量 , 默认为 30
  */
+// eslint-disable-next-line import/prefer-default-export
 export const getRecommendPlaylist = (limit?: number) =>
   from(
     http.get<API.Recommend.Playlist>(Recommend.playlist, { params: { limit } }),
