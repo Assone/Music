@@ -1,20 +1,21 @@
 import { searchKeys } from '@/services/query/keys';
-import { SearchRoute } from '@/services/router/map';
 import {
   SearchHotListContainerVariants,
   SearchHotListItemVariants,
 } from '@/utils/variants';
 import { useQuery } from '@tanstack/react-query';
-import { useNavigate, useSearch } from '@tanstack/react-router';
+
 import { m } from 'framer-motion';
+import { Suspense } from 'react';
 
 const SearchSongsTrackList = lazy(
   () => import('@/components/SearchSongsTrackList'),
 );
 
 const SearchView: React.FC = () => {
-  const { keyword } = useSearch({ from: SearchRoute.id });
-  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams(location.search);
+  const keyword = searchParams.get('keyword') || '';
 
   const { data: hotList } = useQuery({
     ...searchKeys.hot(),
@@ -24,16 +25,10 @@ const SearchView: React.FC = () => {
   const onKeywordChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const keyword = event.target.value;
-
-      navigate({
-        search: {
-          keyword,
-        },
-      }).catch((error) => {
-        console.error('%c[Navigation Error]', 'color: #f00', error);
-      });
+      searchParams.set('keyword', keyword);
+      setSearchParams(searchParams);
     },
-    [navigate],
+    [searchParams, setSearchParams],
   );
 
   const isEmpty = keyword === undefined || keyword === '';
@@ -52,7 +47,9 @@ const SearchView: React.FC = () => {
       {!isEmpty && (
         <div className="flex flex-col gap-2">
           <Typography.Title level={2}>单曲</Typography.Title>
-          <SearchSongsTrackList keyword={keyword} />
+          <Suspense>
+            <SearchSongsTrackList keyword={keyword} />
+          </Suspense>
         </div>
       )}
 
@@ -73,13 +70,8 @@ const SearchView: React.FC = () => {
                 whileTap={{ scale: 0.9 }}
                 variants={SearchHotListItemVariants}
                 onClick={() => {
-                  navigate({
-                    search: {
-                      keyword,
-                    },
-                  }).catch((error) => {
-                    console.error('%c[Navigation Error]', 'color: #f00', error);
-                  });
+                  searchParams.set('keyword', keyword);
+                  setSearchParams(searchParams);
                 }}
               >
                 <Typography.Text>{keyword}</Typography.Text>

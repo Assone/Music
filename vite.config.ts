@@ -29,7 +29,7 @@ export default defineConfig(() => {
 
       AutoImport({
         dts: true,
-        imports: ['react', 'react-i18next'],
+        imports: ['react', 'react-router-dom', 'react-i18next'],
         dirs: ['src/components/**', 'src/hooks'],
         eslintrc: {
           enabled: true,

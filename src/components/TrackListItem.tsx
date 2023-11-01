@@ -2,7 +2,6 @@ import { Track } from '@/hooks/useTracks';
 import { formatDuration, normalizeTrackNo } from '@/utils/source';
 import { TrackListItemVariants } from '@/utils/variants';
 import classnames from 'classnames';
-import { Link } from '@tanstack/react-router';
 import { m } from 'framer-motion';
 
 interface TrackListItemProps {
@@ -59,8 +58,7 @@ const TrackListItem: React.FC<TrackListItemProps> = ({
             {track.artists?.map(({ id, name }) => (
               <Link
                 className='after:content-[","] last-of-type:after:content-[""] mr-1 last-of-type:mr-0'
-                to="/artists/$id"
-                params={{ id: id.toString() }}
+                to={`/artists/${id}`}
                 key={id}
               >
                 <Typography.Text className=" text-sm">{name}</Typography.Text>
@@ -70,7 +68,7 @@ const TrackListItem: React.FC<TrackListItemProps> = ({
         )}
       </div>
       {album && track.album && (
-        <Link to="/albums/$id" params={{ id: track.album.id.toString() }}>
+        <Link to={`/albums/${track.album.id}`}>
           <Typography.Text>{track.album?.name}</Typography.Text>
         </Link>
       )}

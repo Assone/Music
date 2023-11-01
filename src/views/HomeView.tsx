@@ -1,6 +1,5 @@
 import { homeKeys } from '@/services/query/keys';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from '@tanstack/react-router';
 
 const HomeView: React.FC = () => {
   const { data: playlist = [] } = useQuery({
@@ -21,7 +20,7 @@ const HomeView: React.FC = () => {
         >
           {(item) => (
             <div className="w-full h-full" key={item.id}>
-              <Link to="/playlists/$id" params={{ id: item.id.toString() }}>
+              <Link to={`/playlists/${item.id}`}>
                 <Cover src={item.cover} />
               </Link>
             </div>
@@ -37,7 +36,7 @@ const HomeView: React.FC = () => {
         >
           {(item) => (
             <div className="w-full h-full" key={item.id}>
-              <Link to="/albums/$id" params={{ id: item.id.toString() }}>
+              <Link to={`/albums/${item.id}`}>
                 <Cover src={item.cover} />
               </Link>
             </div>

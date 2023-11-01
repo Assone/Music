@@ -1,12 +1,13 @@
-import { AlbumDetailRoute } from '@/services/router/map';
-import { Link, useLoader } from '@tanstack/react-router';
+import { albumKeys } from '@/services/query/keys';
+import { useQuery } from '@tanstack/react-query';
 import classnames from 'classnames';
 import { format } from 'date-fns';
 import { m, useScroll, useSpring } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 const AlbumDetailView: React.FC = () => {
-  const { detail } = useLoader({ from: AlbumDetailRoute.id });
+  const { id } = useParams<'id'>();
+  const { data: detail } = useQuery(albumKeys.detail(+id!));
   const { t } = useTranslation();
 
   const { generateMediaQueriesClass } = useGenerateResponsiveResources(
@@ -52,17 +53,16 @@ const AlbumDetailView: React.FC = () => {
 
         <div className="flex flex-col gap-2 p-4 backdrop-blur">
           <div className="flex flex-col items-center justify-center gap-2">
-            <Cover src={detail.cover} />
+            <Cover src={detail?.cover} />
             <h2 className="text-center text-xl font-bold dark:text-gray-100">
-              {detail.name}
+              {detail?.name}
             </h2>
           </div>
           <Link
             className="text-center text-lg font-semibold text-gray-500"
-            to="/artists/$id"
-            params={{ id: detail.artist.id.toString() }}
+            to={`/artists/${detail?.artist.id}`}
           >
-            {detail.artist.name}
+            {detail?.artist.name}
           </Link>
           <div className="flex gap-4 p-2">
             <PlayButton />
@@ -73,7 +73,7 @@ const AlbumDetailView: React.FC = () => {
 
       <TrackList
         className="px-4"
-        tracks={detail.songs}
+        tracks={detail?.songs}
         renderTrackListInfo={({ duration, count }) => (
           <div className=" select-none">
             <div>{publishTime}</div>
@@ -86,15 +86,15 @@ const AlbumDetailView: React.FC = () => {
                 {t('unit.minutes')}
               </span>
             </div>
-            {detail.company && <div>&copy; {detail.company}</div>}
+            {detail?.company && <div>&copy; {detail.company}</div>}
           </div>
         )}
       />
 
       <div className="p-2 pr-0 dark:text-white flex flex-col gap-2">
-        <div>更多关于{detail.artist.name}的作品</div>
+        <div>更多关于{detail?.artist.name}的作品</div>
         <div>
-          <ArtistAlbums id={detail.artist.id} limit={10} />
+          <ArtistAlbums id={detail?.artist.id} limit={10} />
         </div>
       </div>
     </m.div>

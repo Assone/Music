@@ -1,10 +1,9 @@
-import { PlaylistDetailRoute } from '@/services/router/map';
+import { queryKeys } from '@/services/query/keys';
 import { useQuery } from '@tanstack/react-query';
-import { useRouteContext } from '@tanstack/react-router';
 
 const PlaylistDetailView: React.FC = () => {
-  const { queryOptions } = useRouteContext({ from: PlaylistDetailRoute.id });
-  const { data, isFetched } = useQuery(queryOptions);
+  const { id } = useParams<'id'>();
+  const { data, isFetched } = useQuery(queryKeys.playlist.detail(+id!));
   const trackIds = useMemo(() => data?.trackIds || [], [data?.trackIds]);
 
   return (

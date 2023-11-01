@@ -1,6 +1,5 @@
 import { artistKeys } from '@/services/query/keys';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { Link } from '@tanstack/react-router';
 
 interface ArtistAlbumsProps {
   id?: ID;
@@ -39,7 +38,7 @@ const ArtistAlbums: React.FC<ArtistAlbumsProps> = ({ id, more, limit }) => {
       }}
     >
       {({ picUrl, id }) => (
-        <Link to="/albums/$id" params={{ id: id.toString() }}>
+        <Link to={`/albums/${id}`}>
           <Cover src={picUrl} />
         </Link>
       )}
