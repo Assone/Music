@@ -12,14 +12,13 @@
     "playwright.config.*",
     "postcss.config.*",
     "tailwind.config.*",
-    "ci.d.ts"
+    "ci.d.ts",
+    "api"
   ],
   "compilerOptions": {
     "composite": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "types": [
-      "node"
-    ]
+    "types": ["node"]
   }
 }

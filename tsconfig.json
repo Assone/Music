@@ -1,5 +1,9 @@
 {
   "files": [],
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  },
   "references": [
     {
       "path": "./tsconfig.node.json"

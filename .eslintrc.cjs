@@ -81,6 +81,7 @@ module.exports = {
           'playwright.config.ts',
           'vitest.config.ts',
           'tailwind.config.ts',
+          'api/**/*.ts',
         ],
       },
     ],
