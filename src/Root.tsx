@@ -4,7 +4,8 @@ import { Toaster } from 'react-hot-toast';
 import App from './App';
 
 const isDebug =
-  import.meta.env.DEV || global?.window?.location.search.includes('debug=true');
+  import.meta.env.DEV ||
+  globalThis?.window?.location.search.includes('debug=true');
 
 const ReactQueryDevtools = isDebug
   ? lazy(() =>
