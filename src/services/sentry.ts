@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/react';
+import { createRoutesFromChildren, matchRoutes } from 'react-router-dom';
 
 Sentry.init({
   environment: import.meta.env.MODE,
@@ -8,6 +9,13 @@ Sentry.init({
     new Sentry.BrowserTracing({
       // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
       tracePropagationTargets: ['localhost'],
+      routingInstrumentation: Sentry.reactRouterV6Instrumentation(
+        useEffect,
+        useLocation,
+        useNavigationType,
+        createRoutesFromChildren,
+        matchRoutes,
+      ),
     }),
   ],
   // Set profilesSampleRate to 1.0 to profile every transaction.

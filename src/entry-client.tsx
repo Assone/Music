@@ -1,3 +1,5 @@
+import '@/assets/main.css';
+import * as Sentry from '@sentry/react';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
@@ -6,11 +8,8 @@ import {
   matchRoutes,
 } from 'react-router-dom';
 import routes from './routes';
-
-import '@/assets/main.css';
-
-import('./services/sentry');
-import('./services/i18n');
+import './services/i18n';
+import './services/sentry';
 
 if (
   import.meta.env.DEV ||
@@ -38,7 +37,9 @@ async function hydrate() {
     );
   }
 
-  const router = createBrowserRouter(routes);
+  const sentryCreateBrowserRouter =
+    Sentry.wrapCreateBrowserRouter(createBrowserRouter);
+  const router = sentryCreateBrowserRouter(routes);
 
   ReactDOM.hydrateRoot(
     document.getElementById('root')!,
