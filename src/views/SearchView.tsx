@@ -17,7 +17,7 @@ const SearchView: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams(location.search);
   const keyword = searchParams.get('keyword') || '';
 
-  const { data: hotList } = useQuery({
+  const { data: hotList = [] } = useQuery({
     ...searchKeys.hot(),
     initialData: [],
   });

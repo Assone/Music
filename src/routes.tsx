@@ -73,10 +73,12 @@ const routes: RouteObject[] = [
       {
         path: '/search',
         element: <SearchView />,
-        loader: () => {
-          queryClient.prefetchQuery(queryKeys.search.hot());
+        loader: async () => {
+          const hotList = await queryClient.fetchQuery(queryKeys.search.hot());
 
-          return {};
+          return {
+            hotList,
+          };
         },
       },
     ],

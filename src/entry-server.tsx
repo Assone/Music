@@ -53,15 +53,23 @@ const resolveModule = (
       return [];
     }
 
-    case '.css':
+    case '.css': {
+      const code = module?.transformResult?.code.match(
+        /__vite__css\s+=\s+"(?<css>.+)"/,
+        // eslint-disable-next-line dot-notation
+      )?.groups?.['css'] as string;
+      const { css } = JSON.parse(`{"css":"${code}"}`) as {
+        css: string | undefined;
+      };
+
       return [
         {
           file,
-          // eslint-disable-next-line dot-notation
-          code: (module.ssrModule?.['default'] as string) || '',
+          code: css,
           isStyle: true,
         },
       ];
+    }
 
     case '.json':
     case '.svg':
