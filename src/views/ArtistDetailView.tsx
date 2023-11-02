@@ -26,8 +26,7 @@ const ArtistDetailView: React.FC = () => {
           {(mv) => <Image src={mv.cover} />}
         </SwiperContainer>
       </div>
-
-      <TrackList tracks={songs} cover />
+      <TrackList tracks={songs} cover />;
     </div>
   );
 };

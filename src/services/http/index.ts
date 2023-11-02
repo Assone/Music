@@ -6,8 +6,14 @@ import {
   preprocessByResponse,
 } from './interceptors';
 
+const baseURL = import.meta.env.DEV
+  ? `${import.meta.env.SSR ? `http://localhost:${__PORT__}` : ''}${
+      import.meta.env.VITE_APP_API_BASEURL
+    }`
+  : import.meta.env.VITE_APP_API_BASEURL;
+
 const http = axios.create({
-  baseURL: import.meta.env.VITE_APP_API_BASEURL,
+  baseURL,
   paramsSerializer: (params) => stringify(params, { arrayFormat: 'comma' }),
 });
 

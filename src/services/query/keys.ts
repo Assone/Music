@@ -93,4 +93,5 @@ export const queryKeys = mergeQueryKeys(
   similarKeys,
   albumKeys,
   artistKeys,
+  searchKeys,
 );

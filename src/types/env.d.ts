@@ -13,3 +13,4 @@ interface ImportMeta {
 }
 
 declare const __SENTRY_DSN__: string;
+declare const __PORT__: string | undefined;

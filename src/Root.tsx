@@ -1,7 +1,9 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { HydrationBoundary, QueryClientProvider } from '@tanstack/react-query';
 import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from 'react-hot-toast';
+import { useLoaderData } from 'react-router-dom';
 import App from './App';
+import queryClient from './services/query/client';
 
 const isDebug =
   import.meta.env.DEV ||
@@ -20,28 +22,19 @@ const ReactQueryDevtools = isDebug
 //   : PersistQueryClientProvider;
 
 const Root: React.FC = () => {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            // With SSR, we usually want to set some default staleTime
-            // above 0 to avoid refetching immediately on the client
-            staleTime: 60 * 1000,
-          },
-        },
-      }),
-  );
+  const data = useLoaderData() as { clientState: unknown };
 
   return (
     <QueryClientProvider client={queryClient}>
-      <App />
+      <HydrationBoundary state={data.clientState}>
+        <App />
 
-      <Toaster />
+        <Toaster />
 
-      <Analytics />
+        <Analytics />
 
-      <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
+        <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
+      </HydrationBoundary>
     </QueryClientProvider>
   );
 };

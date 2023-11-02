@@ -6,10 +6,12 @@ import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const port = process.env.PORT || 5174;
 
 async function createServer() {
   const app = express();
   const isProduction = process.env.NODE_ENV === 'production';
+  let vite;
 
   if (isProduction) {
     app.use(compression());
@@ -20,8 +22,13 @@ async function createServer() {
     // Create Vite server in middleware mode and configure the app type as
     // 'custom', disabling Vite's own HTML serving logic so parent server
     // can take control
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
+    vite = await createViteServer({
+      define: {
+        __PORT__: port,
+      },
+      server: {
+        middlewareMode: true,
+      },
       appType: 'custom',
     });
 
@@ -30,7 +37,7 @@ async function createServer() {
     app.use(vite.middlewares);
   }
 
-  app.use('*', async (req, res) => {
+  app.use('*', async (req, res, next) => {
     const url = req.originalUrl;
 
     try {
@@ -72,10 +79,12 @@ async function createServer() {
       // to your actual source code.
       vite.ssrFixStacktrace(e);
       console.trace(e);
+      next(e);
     }
   });
 
-  app.listen(5174);
+  app.listen(port);
+  console.log(`listening on http://localhost:${port}`);
 }
 
 createServer();
