@@ -45,7 +45,11 @@ const TrackList: React.FC<TrackListProps> = ({
 
   return (
     <div className={className}>
-      <m.ul variants={TrackListVariants} initial="hidden" animate="show">
+      <m.ul
+        variants={TrackListVariants}
+        initial={import.meta.env.SSR ? false : 'hidden'}
+        animate="show"
+      >
         {list.map((track) => (
           <TrackListItem
             track={track}

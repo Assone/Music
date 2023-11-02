@@ -59,7 +59,7 @@ const SearchView: React.FC = () => {
           <m.div
             className="flex flex-wrap gap-2"
             variants={SearchHotListContainerVariants}
-            initial="hidden"
+            initial={import.meta.env.SSR ? false : 'hidden'}
             animate="show"
           >
             {hotList.map(({ keyword }) => (

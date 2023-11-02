@@ -47,7 +47,7 @@ const AlbumDetailView: React.FC = () => {
               ({ url }) => `background-image: url(${url})`,
             ),
           )}
-          initial={{ opacity: 0 }}
+          initial={import.meta.env.SSR ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
         />
 
