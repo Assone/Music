@@ -9,7 +9,6 @@ import Icons from 'unplugin-icons/vite';
 import { UserConfig, defineConfig } from 'vite';
 import { compression } from 'vite-plugin-compression2';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
-import { VitePWA } from 'vite-plugin-pwa';
 import { qrcode } from 'vite-plugin-qrcode';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
@@ -57,44 +56,44 @@ export default defineConfig(() => {
       }),
       ViteImageOptimizer(),
 
-      VitePWA({
-        srcDir: 'src',
-        filename: 'sw.ts',
-        strategies: 'injectManifest',
-        registerType: 'autoUpdate',
-        workbox: {
-          runtimeCaching: [
-            {
-              urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-              handler: 'CacheFirst',
-              options: {
-                cacheName: 'google-fonts-cache',
-                expiration: {
-                  maxEntries: 10,
-                  maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
-                },
-                cacheableResponse: {
-                  statuses: [0, 200],
-                },
-              },
-            },
-            {
-              urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
-              handler: 'CacheFirst',
-              options: {
-                cacheName: 'gstatic-fonts-cache',
-                expiration: {
-                  maxEntries: 10,
-                  maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
-                },
-                cacheableResponse: {
-                  statuses: [0, 200],
-                },
-              },
-            },
-          ],
-        },
-      }),
+      // VitePWA({
+      //   srcDir: 'src',
+      //   filename: 'sw.ts',
+      //   strategies: 'injectManifest',
+      //   registerType: 'autoUpdate',
+      //   workbox: {
+      //     runtimeCaching: [
+      //       {
+      //         urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+      //         handler: 'CacheFirst',
+      //         options: {
+      //           cacheName: 'google-fonts-cache',
+      //           expiration: {
+      //             maxEntries: 10,
+      //             maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+      //           },
+      //           cacheableResponse: {
+      //             statuses: [0, 200],
+      //           },
+      //         },
+      //       },
+      //       {
+      //         urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+      //         handler: 'CacheFirst',
+      //         options: {
+      //           cacheName: 'gstatic-fonts-cache',
+      //           expiration: {
+      //             maxEntries: 10,
+      //             maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+      //           },
+      //           cacheableResponse: {
+      //             statuses: [0, 200],
+      //           },
+      //         },
+      //       },
+      //     ],
+      //   },
+      // }),
 
       CI &&
         sentryVitePlugin({
