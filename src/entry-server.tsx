@@ -1,4 +1,5 @@
 import type { Request as ExRequest, Response as ExResponse } from 'express';
+import isbot from 'isbot';
 import { extname } from 'node:path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -200,6 +201,7 @@ export const render = async (
   );
 
   let didError = false;
+  const isCrawler = isbot(request.headers['user-agent']);
   let abortTimer: NodeJS.Timer;
 
   const handler = createStaticHandler(routes);
@@ -222,12 +224,13 @@ export const render = async (
     </React.StrictMode>,
     {
       onShellReady() {
-        response.statusCode = didError ? 500 : 200;
-        response.setHeader('content-type', 'text/html');
-        response.write(startTemplate);
-
-        pipe(response);
-        response.write(endTemplate);
+        if (!isCrawler) {
+          response.statusCode = didError ? 500 : 200;
+          response.setHeader('content-type', 'text/html');
+          response.write(startTemplate);
+          pipe(response);
+          response.write(endTemplate);
+        }
       },
       onShellError() {
         response.statusCode = 500;
@@ -240,6 +243,14 @@ export const render = async (
       },
       onAllReady() {
         clearTimeout(abortTimer as unknown as number);
+
+        if (isCrawler) {
+          response.statusCode = didError ? 500 : 200;
+          response.setHeader('content-type', 'text/html');
+          response.write(startTemplate);
+          pipe(response);
+          response.write(endTemplate);
+        }
       },
     },
   );
