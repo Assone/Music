@@ -1,3 +1,4 @@
+import { TrackType } from '@/player.machine';
 import { albumKeys } from '@/services/query/keys';
 import { useQuery } from '@tanstack/react-query';
 import classnames from 'classnames';
@@ -30,6 +31,19 @@ const AlbumDetailView: React.FC = () => {
     damping: 30,
     restDelta: 0.01,
   });
+
+  const player = usePlayer();
+
+  const onPlay = useCallback(() => {
+    const tracks =
+      detail?.songs.map((song) => ({
+        id: song.id,
+        type: TrackType.song,
+        name: song.name,
+      })) || [];
+
+    player.onSetTrackAndPlay(tracks);
+  }, [detail?.songs, player]);
 
   return (
     <m.div className="flex flex-col gap-2">
@@ -65,8 +79,8 @@ const AlbumDetailView: React.FC = () => {
             {detail?.artist.name}
           </Link>
           <div className="flex gap-4 p-2">
-            <PlayButton />
-            <PlayButton />
+            <PlayButton onClick={onPlay}>播放</PlayButton>
+            <PlayButton>随机播放</PlayButton>
           </div>
         </div>
       </m.div>

@@ -1,5 +1,6 @@
 import '@/assets/main.css';
 import * as Sentry from '@sentry/react';
+import { inspect } from '@xstate/inspect';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
@@ -10,6 +11,13 @@ import {
 import routes from './routes';
 import './services/i18n';
 import './services/sentry';
+
+if (window !== undefined) {
+  inspect({
+    url: 'https://statecharts.io/inspect',
+    iframe: false,
+  });
+}
 
 if (
   import.meta.env.DEV ||
@@ -50,5 +58,5 @@ async function hydrate() {
 }
 
 hydrate().catch((err) => {
-  console.error(err);
+  console.error('[Hydration Error]', err);
 });

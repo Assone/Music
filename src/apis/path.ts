@@ -18,6 +18,8 @@ export const enum Playlist {
 export const enum Song {
   // 获取歌曲详情
   detail = '/song/detail',
+  // 获取歌曲播放地址
+  url = '/song/url/v1',
 }
 
 export const enum Artist {

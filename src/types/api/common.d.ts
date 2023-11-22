@@ -100,11 +100,18 @@ interface ChargeInfoList {
   chargeType: number;
 }
 
-interface FreeTrialPrivilege {
+export interface FreeTrialPrivilege {
   resConsumable: boolean;
   userConsumable: boolean;
   listenType?: any;
   cannotListenReason?: any;
+}
+
+export interface FreeTimeTrialPrivilege {
+  resConsumable: boolean;
+  userConsumable: boolean;
+  type: number;
+  remainTime: number;
 }
 
 export interface Privilege {

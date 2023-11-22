@@ -27,7 +27,9 @@ const Root: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <HydrationBoundary state={data.clientState}>
-        <App />
+        <PlayerProvider>
+          <App />
+        </PlayerProvider>
 
         <Toaster />
 

@@ -1,6 +1,6 @@
-import { withProfiler } from '@sentry/react';
 import { AnimatePresence, LazyMotion, m } from 'framer-motion';
 import { Suspense } from 'react';
+import Player from './containers/Player';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -24,6 +24,7 @@ const App: React.FC = () => {
           </Suspense>
         </AnimatePresence>
       </m.main>
+      <Player />
       <TabBar
         className="sticky bottom-0 bg-black/75 backdrop-blur z-10 drop-shadow shadow-inner"
         activeKey={location.pathname}
@@ -50,4 +51,5 @@ const App: React.FC = () => {
   );
 };
 
-export default withProfiler(App);
+// export default withProfiler(App);
+export default App;

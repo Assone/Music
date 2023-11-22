@@ -58,6 +58,13 @@
     "useTranslation": true,
     "IconFluentEmojiGear": true,
     "IconFluentEmojiHouse": true,
-    "IconFluentEmojiMagnifyingGlassTiltedLeft": true
+    "IconFluentEmojiMagnifyingGlassTiltedLeft": true,
+    "PlayerProvider": true,
+    "usePlayer": true,
+    "IconFluentEmojiFastReverseButton": true,
+    "IconFluentEmojiFastForwardButton": true,
+    "IconFluentEmojiPauseButton": true,
+    "IconFluentEmojiPlayButton": true,
+    "IconFluentEmojiStopButton": true
   }
 }
