@@ -33,17 +33,24 @@ const AlbumDetailView: React.FC = () => {
   });
 
   const player = usePlayer();
-
-  const onPlay = useCallback(() => {
-    const tracks =
+  const tracks = useMemo(
+    () =>
       detail?.songs.map((song) => ({
         id: song.id,
         type: TrackType.song,
         name: song.name,
-      })) || [];
+      })) || [],
+    [detail?.songs],
+  );
 
+  const onPlay = useCallback(() => {
     player.onSetTrackAndPlay(tracks);
-  }, [detail?.songs, player]);
+  }, [player, tracks]);
+
+  const onShufflePlay = useCallback(() => {
+    player.onSetMode('shuffle');
+    player.onSetTrackAndPlay(tracks);
+  }, [player, tracks]);
 
   return (
     <m.div className="flex flex-col gap-2">
@@ -80,7 +87,7 @@ const AlbumDetailView: React.FC = () => {
           </Link>
           <div className="flex gap-4 p-2">
             <PlayButton onClick={onPlay}>播放</PlayButton>
-            <PlayButton>随机播放</PlayButton>
+            <PlayButton onClick={onShufflePlay}>随机播放</PlayButton>
           </div>
         </div>
       </m.div>

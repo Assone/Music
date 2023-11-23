@@ -1,6 +1,8 @@
 import player, {
   PlayerMachineContext,
+  PlayerModeState,
   PlayerTrackData,
+  PlayerTrackState,
 } from '@/player.machine';
 import { useMachine } from '@xstate/react';
 import { PropsWithChildren, createContext } from 'react';
@@ -8,7 +10,8 @@ import { PropsWithChildren, createContext } from 'react';
 interface PlayerContextType {
   audio: HTMLAudioElement;
 
-  data: PlayerMachineContext;
+  context: PlayerMachineContext;
+  mode: PlayerModeState;
 
   isPlaying: boolean;
   isPaused: boolean;
@@ -21,7 +24,10 @@ interface PlayerContextType {
   onStop: () => void;
   onPrev: () => void;
   onNext: () => void;
+
   onSwitchMode: () => void;
+  onSetMode: (mode: PlayerModeState) => void;
+
   onSetTrackAndPlay: (tracks: PlayerTrackData[]) => void;
 }
 
@@ -40,9 +46,6 @@ export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
         state.context.currentTrackSourceInfo
       ) {
         audio.current.src = state.context.currentTrackSourceInfo.url;
-        audio.current
-          .play()
-          .catch((err) => console.error('[Player Audio Play Error]', err));
       }
     });
 
@@ -52,8 +55,37 @@ export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
   }, [service]);
 
   useEffect(() => {
+    const { track } = state.value as { track: PlayerTrackState };
+
+    switch (track) {
+      case 'paused':
+      case 'stopped': {
+        audio.current.pause();
+        break;
+      }
+
+      case 'playing': {
+        if (audio.current.paused && audio.current.src) {
+          audio.current
+            .play()
+            .catch((err) => console.error('[Player Audio Play Error]', err));
+        }
+
+        break;
+      }
+      // no default
+    }
+  }, [state.value]);
+
+  useEffect(() => {
+    const { mode } = state.value as { mode: PlayerModeState };
+
     const onEnded = () => {
-      send({ type: 'NEXT_TRACK' });
+      if (mode === 'single') {
+        audio.current.currentTime = 0;
+      } else {
+        send({ type: 'NEXT_TRACK' });
+      }
     };
 
     audio.current.addEventListener('ended', onEnded);
@@ -61,7 +93,12 @@ export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
     return () => {
       audio.current.removeEventListener('ended', onEnded);
     };
-  });
+  }, [send, state.value]);
+
+  const mode = useMemo(
+    () => (state.value as { mode: PlayerModeState }).mode,
+    [state.value],
+  );
 
   const isPlaying = state.matches('track.playing');
   const isPaused = state.matches('track.paused');
@@ -99,6 +136,13 @@ export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
     send({ type: 'NEXT_MODE' });
   }, [send]);
 
+  const onSetMode = useCallback(
+    (mode: PlayerModeState) => {
+      send({ type: 'SET_MODE', mode });
+    },
+    [send],
+  );
+
   const onSetTrackAndPlay = useCallback(
     (tracks: PlayerTrackData[]) => {
       send({ type: 'SET_TRACKS', tracks });
@@ -111,7 +155,9 @@ export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
     () => ({
       audio: audio.current,
 
-      data: state.context,
+      context: state.context,
+
+      mode,
 
       isPlaying,
       isPaused,
@@ -124,17 +170,22 @@ export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
       onStop,
       onPrev,
       onNext,
+
       onSwitchMode,
+      onSetMode,
+
       onSetTrackAndPlay,
     }),
     [
       canPlay,
       isPaused,
       isPlaying,
+      mode,
       onNext,
       onPause,
       onPlay,
       onPrev,
+      onSetMode,
       onSetTrackAndPlay,
       onStop,
       onSwitchMode,

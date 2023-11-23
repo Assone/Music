@@ -3,7 +3,7 @@ const Player: React.FC = () => {
   const {
     audio,
 
-    data,
+    context: data,
 
     isPlaying,
 

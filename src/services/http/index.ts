@@ -5,6 +5,7 @@ import {
   logByResponse,
   preprocessByResponse,
 } from './interceptors';
+import { errorByResponse } from './interceptors/error';
 
 const baseURL = import.meta.env.DEV
   ? `${import.meta.env.SSR ? `http://localhost:${__PORT__}` : ''}${
@@ -31,6 +32,7 @@ const interceptors = [
 
     return Promise.reject(response);
   }),
+  errorByResponse,
 ];
 
 interceptors.forEach((interceptor) => interceptor(http));

@@ -28,7 +28,19 @@ export interface PlayerMachineContext {
   currentTrackSourceInfo?: SourceInfo;
 }
 
-type PlayerModeEvent = { type: 'SET_MODE' } | { type: 'NEXT_MODE' };
+export type PlayerTrackState =
+  | 'idle'
+  | 'loading'
+  | 'error'
+  | 'playing'
+  | 'paused'
+  | 'stopped';
+
+export type PlayerModeState = 'normal' | 'single' | 'shuffle' | 'loop';
+
+type PlayerModeEvent =
+  | { type: 'SET_MODE'; mode: PlayerModeState }
+  | { type: 'NEXT_MODE' };
 
 type PlayerWindowEvent = { type: 'TOGGLE_FULLSCREEN' };
 
@@ -72,7 +84,7 @@ type PlayerEvent =
 
 const player = createMachine<PlayerMachineContext, PlayerEvent>(
   {
-    /** @xstate-layout N4IgpgJg5mDOIC5QAcA2BDAnmATgOgBcd0BjAazwEsJUwBiAZQFEAVAfRYCUBBAYQGkGAbQAMAXUQoA9rEoFKUgHaSQAD0QB2AIwAmPADYALAA5DGgKwbDATnPmt5gDQhMic-ut4dN68ZH3LLWMNAF8Q5zQsXEJicjxUKXQISkUoOgglMCpFADcpMizI7HwiUgoEpJSoBBS8knR5JVExZpVkGTkFZSQ1TV0DEzNLGzsHZ1cEQ3MRPB9ffQ1jIMMzMIiMYpiy+MTk1LpcHCl8SIIAM2OAWzwi6NK4ir3q2ql6xsVm1p722XeVdQQWi0Ik8+i0Gh0AGYNEYtNYgpDxohghovLYHDpdMZIYYjGsQLcSrEKIdjnROKxOABNL7SX5df6IIH6fR4SwiSG+Cz+czWJEIYw6VkadHGcx+awQ7z4wlbOJFKp0AAK3AAqsxaQSOn8egDIfo9JjgvpzCZfCIRMZ+cCNJCDOYhRoRFpIZCdDDjDKNndiTcNoqGCwAPJKzU-TpKRkIfWGoIw03Gc2W63ePQBfTGUwgsw6HReqJE7YK-bBgDipYAMkw2EqK9wqTW1RrxG1tQzdYgY144yazX5ky4mbpDHgMfp9VM4c785t7hRi2kAHJMAAa7C4fH4YbbkY70YN3eNCaTVsHCG0eklRiWQKsnMhM59Rf9+yVFIAahweAJt-Td6A9QPI14z7C1TwmCVZh0SVLVtR1H0LeUXzSZh12-QRfwjboAM7ICe2PftwMQax-DwTMdFMSxsWWUJwgJb1EPndAAFdYEgZU6xpFtvh3bDekmYxhWBGDrB0EEuX0a1wRHE0hREd0nQdcwELlJjWPYstK2rWt60bdUmEwnUcP3WMj1AgcJmBeS8FdXlBWxfVrGsfQVLnG4WLYiA6GXNcv03Qz22Mi8BlMCwrFsAJrREGwDGzLRDEhS0VmlOjZTc5APPYt8mE-Dcf24uksKjYLryGcLRicM8gVxPARANUZIXFWxaPWAtVLwWACCkZBkCyziAv-fiSsGMKRkiqrUzZBwMyzawczzVKGLwS4pAgLJFCudBUG81d2AAWSDAARAyCq1P8+IBIItG7bMEt5SEliIwF3FReMmqsqFFhUla1o6qpaB23yDuOgaLsQBK7XMSFdFsXEFlzOxrRevA3sTD7oU9Ra2p+rJYAAC2Ys4zgBnz9qOk6JB486ow8O1-FxJzRPBJzESq5HUfhC1Psx1rNhxnZusBsmQdO8MjP42natNDwnMxEVrFZyyVlRZ13H8OaQR0cUVIAdxSDIdbwDacEuLa6E0qs2AAMVVCsKwYXgKSYRdQajK6brmu6Fce-lvHMPBGclQSxQWewXKxzY9cUA28DOZjUFQWASBwMAwEUc2g3LS2bbth2nZd0XeLdpYPZWRrvaCa1bFmRnEwhcUIS0MI6I2tb4G+BjW2pvcAFpvH5Pu7UD4fh4fCOn3ILuir3fuz2h4wa6chYjFNRYtdc31qFoKfxYBA1PHi0wlhIxLD-5Xk9AhE1TXcG0pg37ZHiqHfAv4+E9DBbRBQo9x7v5JZUSYmWIYYEUI7Dh15hPEkOAjg4BfoNS67oF5awtLTB68UKL-0ajZRYJhXQgK1isB+SEsDPyptPIKOh+QmD0OCa+WsITYnsGPSBjF3LqQgPAsGCBeSeGiuCeSIgrCpkMFFEUbJ5Ljn8JyLWLD6JtTcp1bqvVOHkN3m4XwbIxTOVsG6MUKYEq1WmpmQw2YpTfVWmALhUZZ6WWhv7VWvZGEgggfIvmlijabVQNYvcEJrRTDpr4E+OYphfXHvgfmshUjbzUa-PU+par1TEmCa+LokYZi8NfNGXMMYWN+vjQmxMrGxIQW4TMNl7I2EtO6F0VC2YZKFHYbJ8lcnhOWh4hI3UfHGVCgHOqsioYaEWL4fxdg2RBNdCyOqzllJtKjgbbp-FbGIHHIvXwcIrLojkbKeZUhDbG1Nt4kp3C-FnjEtdcUroXTwyBNBHmbjoi7MNnHBOScU5p0WQCUxngKIkRgroWSFhfbRVqg5a5jcYaYzCEAA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QAcA2BDAnmATgOgBcd0BjAazwEsJUwBiAZQFEAVAfRYCUBBAYQGkGAbQAMAXUQoA9rEoFKUgHaSQAD0QA2AOwAWPACYAjCICchgMwiAHBp36RhgDQhMmkVoMBWET60mdtoY6VgC+Ic5oWLiExOR4qFLoEJSKUHQQSmBUigBuUmRZkdj4RKQUCUkpUAgpeSTo8kqiYs0qyDJyCspIapq6BsZmljZ2Ds6uCDreeN4+Ihr65ib6ViYa5mERGMUxZfGJyal0uDhS+JEEAGZnALZ4RdGlcRWH1bVS9Y2Kza097bJfFTqBDGLSGPCGPwaDRmfw6cxWLTjRBmTwGEyeQyeXQiKb6OybEAPEqxCgnM50TisTgATV+0gBXSBiEMhhWEPM+j8izZViMnmRCBGeD8nnsgUMVlxWkJxN2cSKVToAAVuABVZj0okdQE9YHmOwDREGtaLHSsjSC1meEx4c0mBFWbxGHQO2XbR6k+7bJUMFgAeWVWv+nSUzIQBv0Rq0JoWBotVpWIhmWKs8ZE+k8BPCRI9JL2iqOADkmAANdhcPj8YM6pl6xCR6Oxs0JlyILTTExaDTY6xslaed1RfMKn1HZVUgBqHB4AhrjLD9YjhqMxtdcfNhktbaFOg8djWayzOgzrqHOyeFELaWYFdngnnoe6oH1K8lMfXLa3gv85jwVj5ACrGMPkTw0c9PQLdAAFdYEgFUABluDpcQ2lrRcX0QE9kymcx+1sdxzW3CZWWsPBYXMMFtBhY8IJHK8YLgiA6BLcsZyrR9dUwhBtD0IxTAsaxbHsJwdxAjwNFMKZTF0UjwJzOVL3uRj4InJhp0rOdUL+dDn16Hj+n4oYhNGUSSMlPR5n0YTPARTkNEMOj5QoWACCkZBkFUpCUIkHSFz04FeIGAThmEsYxKTFNPDTc0MyzfQnJuKQICyRRbnQVAWLLdgAFl-QAESYTi624yVwSMnQplZeFJKsK1JLRbtoskoJ+2AxLkqyWRUloLK2Lywriow-T4T-Wy2W7GN7H0LskTEhqRR7GwHHNfQVkchS8zwJKUrwWAAAtoMuS5etY3KCqK7SGSfcMYT-EQsw7ExgIep0THqh7Fuala2o2rZh22zr9ncvrzsGq7tX826HTwB69xtF7optK1gjRBwkchFZ1lxJyAHcUgyXG8DSnAbgyugAwAcUphCmDYAAxNUEIQhheCpJgiyGgKWWA4K4UxIJzFqwV8TRExxeemwLBEkQNk2gH8cUQm8EuaDUFQWASBwMAwEUCn-Wp2mGaZlm2aYDmufDMq+cqgWausK0MRmOZpVxfEETCHM0pS+A-jzNCoaXABafFBRDyyXcjuYEvli9SQDm6l1Dnc8KsZ25izOy1i3JylOoWgE64kauzwTkXo7WXKLw8xBVqu0mo0KUe1twdY8g54DiqQuSv0xE9EhNYbCFyjlnencnTRIxJW8ZvMzdNv6LwckcG74bgTZJZ-zZeE+T7bsdEFY1S60J08OxLRM1CBfnO9LAu78xPuIvwVXTRWyTHmAC8Twv7cwBpTkAqQgKvbmCBxrkVXJ4TwCxVgOitKyDwzotDuGApVGwMpr5KVcu5TywCH5F2BGKNOMY+QLAdIsLQc0SLrVhqmCW5hvCQnkv9HYO0wAgPDMnEiDD7qpm8MsShlFf5yjYcTdKqAOFLmfmJV04JTDLDwh2NBDgOq7W6lAAu+Ce76iFrDBYmIkYnmrgKea8wDA9j8PCawHZ8SqK6odY6mjroEMQNFNOCIVgX27JKWWxEWSSQ0OY7Ev5rFih0HY4GyBJHcSsHuciVkP6+AAksFGMMbRmERDYBy6w8YEykLjaJ+kuGaDGi7JYldvBC1yUrfJYjSYZUKcCaREwRIzDTOYHhUCYzQmYX-HYitlaq3VprbWutGlYVMAYVYD1oSWJniYlpuJYbtM6diIW0JPYhCAA */
     id: 'player',
     type: 'parallel',
     context: {
@@ -86,6 +98,7 @@ const player = createMachine<PlayerMachineContext, PlayerEvent>(
         initial: 'idle',
         states: {
           idle: {
+            description: 'Player track idle state',
             on: {
               SET_TRACKS: {
                 target: 'loading',
@@ -95,9 +108,11 @@ const player = createMachine<PlayerMachineContext, PlayerEvent>(
           },
           loading: {
             invoke: {
+              description: 'Load track',
               src: 'loadTrack',
               onDone: {
                 target: 'playing',
+                description: 'Track loaded',
                 actions: assign({
                   currentTrackSourceInfo: (context, event) => {
                     const { currentTrack } = context;
@@ -119,11 +134,13 @@ const player = createMachine<PlayerMachineContext, PlayerEvent>(
             },
           },
           error: {
+            description: 'Player track error state',
             on: {
               RETRY: 'loading',
             },
           },
           playing: {
+            description: 'Player track playing state',
             entry: ['ADD_HISTORY'],
             on: {
               PAUSE: 'paused',

@@ -11,6 +11,7 @@ const ArtistDetailView = lazy(() => import('./views/ArtistDetailView'));
 const HomeView = lazy(() => import('./views/HomeView'));
 const PlaylistDetailView = lazy(() => import('./views/PlaylistDetailView'));
 const SearchView = lazy(() => import('./views/SearchView'));
+const NotFundView = lazy(() => import('./views/NotFoundView'));
 
 const routes: RouteObject[] = [
   {
@@ -80,6 +81,14 @@ const routes: RouteObject[] = [
             hotList,
           };
         },
+      },
+      {
+        path: '*',
+        element: <Navigate to="/404" />,
+      },
+      {
+        path: '/404',
+        element: <NotFundView />,
       },
     ],
   },
