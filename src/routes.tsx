@@ -12,6 +12,7 @@ const HomeView = lazy(() => import('./views/HomeView'));
 const PlaylistDetailView = lazy(() => import('./views/PlaylistDetailView'));
 const SearchView = lazy(() => import('./views/SearchView'));
 const NotFundView = lazy(() => import('./views/NotFoundView'));
+const SettingsView = lazy(() => import('./views/SettingsView'));
 
 const routes: RouteObject[] = [
   {
@@ -81,6 +82,10 @@ const routes: RouteObject[] = [
             hotList,
           };
         },
+      },
+      {
+        path: '/settings',
+        element: <SettingsView />,
       },
       {
         path: '*',
