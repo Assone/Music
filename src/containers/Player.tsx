@@ -36,6 +36,20 @@ const Player: React.FC = () => {
     };
   }, [audio]);
 
+  useEffect(() => {
+    const onBeforeUnload = () => {
+      if (isPlaying) {
+        audio.pause();
+      }
+    };
+
+    window.addEventListener('beforeunload', onBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', onBeforeUnload);
+    };
+  }, [audio, isPlaying]);
+
   return (
     <AnimatePresence>
       <IF condition={context.currentTrack !== undefined}>
