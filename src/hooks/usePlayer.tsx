@@ -38,6 +38,10 @@ export const usePlayer = () => useContext(PlayerContext);
 
 export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const snapshot = useMemo(() => {
+    if (import.meta.env.SSR) {
+      return undefined;
+    }
+
     const stateStr = localStorage.getItem('player');
 
     return stateStr ? (JSON.parse(stateStr) as Snapshot<unknown>) : undefined;
