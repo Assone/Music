@@ -65,6 +65,7 @@
     "IconFluentEmojiFastForwardButton": true,
     "IconFluentEmojiPauseButton": true,
     "IconFluentEmojiPlayButton": true,
-    "IconFluentEmojiStopButton": true
+    "IconFluentEmojiStopButton": true,
+    "IF": true
   }
 }

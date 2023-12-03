@@ -1,5 +1,5 @@
 import { lastValueFrom, map } from 'rxjs';
-import { assign, createMachine } from 'xstate';
+import { assign, createMachine, fromPromise } from 'xstate';
 import { getSongUrl } from './apis';
 
 export enum TrackType {
@@ -19,10 +19,13 @@ export interface PlayerTrackData {
   name: string;
 }
 
+export type PlayerModeState = 'normal' | 'single' | 'shuffle' | 'loop';
+
 export interface PlayerMachineContext {
   volume: number;
   history: PlayerTrackData[];
   tracks: PlayerTrackData[];
+  mode: PlayerModeState;
   currentTrack?: PlayerTrackData;
   currentTrackIndex?: number;
   currentTrackSourceInfo?: SourceInfo;
@@ -35,8 +38,6 @@ export type PlayerTrackState =
   | 'playing'
   | 'paused'
   | 'stopped';
-
-export type PlayerModeState = 'normal' | 'single' | 'shuffle' | 'loop';
 
 type PlayerModeEvent =
   | { type: 'SET_MODE'; mode: PlayerModeState }
@@ -82,7 +83,26 @@ type PlayerEvent =
   | PlayerHistoryEvent
   | PlayerVolumeEvent;
 
-const player = createMachine<PlayerMachineContext, PlayerEvent>(
+const loadTrack = fromPromise<SourceInfo[], { currentTrack: PlayerTrackData }>(
+  ({ input }) => {
+    const { currentTrack: track } = input;
+
+    if (!track) return Promise.reject(new Error('Track is undefined'));
+
+    switch (track.type) {
+      case TrackType.song:
+        return lastValueFrom(
+          getSongUrl(track.id).pipe(
+            map((data) => data.map((item) => ({ ...item, type: track.type }))),
+          ),
+        );
+      default:
+        return Promise.reject(new Error('Unknown track type'));
+    }
+  },
+);
+
+const player = createMachine(
   {
     /** @xstate-layout N4IgpgJg5mDOIC5QAcA2BDAnmATgOgBcd0BjAazwEsJUwBiAZQFEAVAfRYCUBBAYQGkGAbQAMAXUQoA9rEoFKUgHaSQAD0QA2AOwAWPACYAjCICchgMwiAHBp36RhgDQhMmkVoMBWET60mdtoY6VgC+Ic5oWLiExOR4qFLoEJSKUHQQSmBUigBuUmRZkdj4RKQUCUkpUAgpeSTo8kqiYs0qyDJyCspIapq6BsZmljZ2Ds6uCDreeN4+Ihr65ib6ViYa5mERGMUxZfGJyal0uDhS+JEEAGZnALZ4RdGlcRWH1bVS9Y2Kza097bJfFTqBDGLSGPCGPwaDRmfw6cxWLTjRBmTwGEyeQyeXQiKb6OybEAPEqxCgnM50TisTgATV+0gBXSBiEMhhWEPM+j8izZViMnmRCBGeD8nnsgUMVlxWkJxN2cSKVToAAVuABVZj0okdQE9YHmOwDREGtaLHSsjSC1meEx4c0mBFWbxGHQO2XbR6k+7bJUMFgAeWVWv+nSUzIQBv0Rq0JoWBotVpWIhmWKs8ZE+k8BPCRI9JL2iqOADkmAANdhcPj8YM6pl6xCR6Oxs0JlyILTTExaDTY6xslaed1RfMKn1HZVUgBqHB4AhrjLD9YjhqMxtdcfNhktbaFOg8djWayzOgzrqHOyeFELaWYFdngnnoe6oH1K8lMfXLa3gv85jwVj5ACrGMPkTw0c9PQLdAAFdYEgFUABluDpcQ2lrRcX0QE9kymcx+1sdxzW3CZWWsPBYXMMFtBhY8IJHK8YLgiA6BLcsZyrR9dUwhBtD0IxTAsaxbHsJwdxAjwNFMKZTF0UjwJzOVL3uRj4InJhp0rOdUL+dDn16Hj+n4oYhNGUSSMlPR5n0YTPARTkNEMOj5QoWACCkZBkFUpCUIkHSFz04FeIGAThmEsYxKTFNPDTc0MyzfQnJuKQICyRRbnQVAWLLdgAFl-QAESYTi624yVwSMnQplZeFJKsK1JLRbtoskoJ+2AxLkqyWRUloLK2Lywriow-T4T-Wy2W7GN7H0LskTEhqRR7GwHHNfQVkchS8zwJKUrwWAAAtoMuS5etY3KCqK7SGSfcMYT-EQsw7ExgIep0THqh7Fuala2o2rZh22zr9ncvrzsGq7tX826HTwB69xtF7optK1gjRBwkchFZ1lxJyAHcUgyXG8DSnAbgyugAwAcUphCmDYAAxNUEIQhheCpJgiyGgKWWA4K4UxIJzFqwV8TRExxeemwLBEkQNk2gH8cUQm8EuaDUFQWASBwMAwEUCn-Wp2mGaZlm2aYDmufDMq+cqgWausK0MRmOZpVxfEETCHM0pS+A-jzNCoaXABafFBRDyyXcjuYEvli9SQDm6l1Dnc8KsZ25izOy1i3JylOoWgE64kauzwTkXo7WXKLw8xBVqu0mo0KUe1twdY8g54DiqQuSv0xE9EhNYbCFyjlnencnTRIxJW8ZvMzdNv6LwckcG74bgTZJZ-zZeE+T7bsdEFY1S60J08OxLRM1CBfnO9LAu78xPuIvwVXTRWyTHmAC8Twv7cwBpTkAqQgKvbmCBxrkVXJ4TwCxVgOitKyDwzotDuGApVGwMpr5KVcu5TywCH5F2BGKNOMY+QLAdIsLQc0SLrVhqmCW5hvCQnkv9HYO0wAgPDMnEiDD7qpm8MsShlFf5yjYcTdKqAOFLmfmJV04JTDLDwh2NBDgOq7W6lAAu+Ce76iFrDBYmIkYnmrgKea8wDA9j8PCawHZ8SqK6odY6mjroEMQNFNOCIVgX27JKWWxEWSSQ0OY7Ev5rFih0HY4GyBJHcSsHuciVkP6+AAksFGMMbRmERDYBy6w8YEykLjaJ+kuGaDGi7JYldvBC1yUrfJYjSYZUKcCaREwRIzDTOYHhUCYzQmYX-HYitlaq3VprbWutGlYVMAYVYD1oSWJniYlpuJYbtM6diIW0JPYhCAA */
     id: 'player',
@@ -91,7 +111,9 @@ const player = createMachine<PlayerMachineContext, PlayerEvent>(
       volume: 0,
       history: [],
       tracks: [],
+      mode: 'normal',
     },
+    types: {} as { events: PlayerEvent; context: PlayerMachineContext },
     states: {
       track: {
         description: 'Player track state',
@@ -107,19 +129,22 @@ const player = createMachine<PlayerMachineContext, PlayerEvent>(
             },
           },
           loading: {
+            description: 'Player track loading state',
             invoke: {
-              description: 'Load track',
               src: 'loadTrack',
+              input: ({ context }) => ({
+                currentTrack: context.currentTrack,
+              }),
               onDone: {
                 target: 'playing',
                 description: 'Track loaded',
                 actions: assign({
-                  currentTrackSourceInfo: (context, event) => {
+                  currentTrackSourceInfo: ({ context, event }) => {
                     const { currentTrack } = context;
 
                     if (currentTrack === undefined) return undefined;
 
-                    const [source] = event.data as SourceInfo[];
+                    const [source] = event.output as SourceInfo[];
 
                     if (!source) return undefined;
 
@@ -180,30 +205,12 @@ const player = createMachine<PlayerMachineContext, PlayerEvent>(
             },
           },
         },
-      },
-      mode: {
-        description: 'Player mode: normal, single, shuffle, loop',
-        initial: 'normal',
-        states: {
-          normal: {
-            on: {
-              NEXT_MODE: 'single',
-            },
+        on: {
+          SET_MODE: {
+            actions: ['SET_MODE'],
           },
-          single: {
-            on: {
-              NEXT_MODE: 'shuffle',
-            },
-          },
-          shuffle: {
-            on: {
-              NEXT_MODE: 'loop',
-            },
-          },
-          loop: {
-            on: {
-              NEXT_MODE: 'normal',
-            },
+          NEXT_MODE: {
+            actions: ['NEXT_MODE'],
           },
         },
       },
@@ -226,50 +233,61 @@ const player = createMachine<PlayerMachineContext, PlayerEvent>(
     },
   },
   {
-    services: {
-      loadTrack: async (context) => {
-        const { currentTrack: track } = context;
-
-        if (!track) return Promise.reject(new Error('Track is undefined'));
-
-        switch (track.type) {
-          case TrackType.song:
-            return lastValueFrom(
-              getSongUrl(track.id).pipe(
-                map((data) =>
-                  data.map((item) => ({ ...item, type: track.type })),
-                ),
-              ),
-            );
-          default:
-            return Promise.reject(new Error('Unknown track type'));
-        }
-      },
+    actors: {
+      loadTrack,
     },
 
     actions: {
-      ADD_HISTORY: (context, event) => {
+      ADD_HISTORY: ({ context, event }) => {
         if (event.type !== 'ADD_HISTORY') return;
 
         context.history.push(event.track);
       },
 
-      SET_TRACKS: (context, event) => {
+      NEXT_MODE: assign({
+        mode: ({ context, event }) => {
+          if (event.type !== 'NEXT_MODE') return context.mode;
+
+          switch (context.mode) {
+            case 'normal':
+              return 'single';
+            case 'single':
+              return 'shuffle';
+            case 'shuffle':
+              return 'loop';
+            case 'loop':
+              return 'normal';
+            default:
+              return 'normal';
+          }
+        },
+      }),
+      SET_MODE: assign({
+        mode: ({ context, event }) => {
+          if (event.type !== 'SET_MODE') return context.mode;
+
+          return event.mode;
+        },
+      }),
+      SET_TRACKS: ({ context, event }) => {
         if (event.type !== 'SET_TRACKS') return;
 
+        const { mode } = context;
         const { tracks } = event;
-        const [firstTrack] = tracks;
+
+        const index =
+          mode === 'shuffle' ? Math.floor(Math.random() * tracks.length) : 0;
+        const track = tracks[index];
 
         context.tracks = tracks;
-        context.currentTrackIndex = 0;
-        context.currentTrack = firstTrack;
+        context.currentTrackIndex = index;
+        context.currentTrack = track;
       },
-      NEXT_TRACK: (context, event, meta) => {
+      NEXT_TRACK: ({ context }) => {
         if (context.currentTrackIndex === undefined) {
           context.currentTrackIndex = 0;
         } else {
-          const snapshot = meta.state;
-          const { mode } = snapshot.value as { mode: string };
+          const { mode } = context;
 
           switch (mode) {
             case 'normal': {
@@ -304,12 +322,11 @@ const player = createMachine<PlayerMachineContext, PlayerEvent>(
 
         context.currentTrack = context.tracks[context.currentTrackIndex];
       },
-      PREV_TRACK: (context, event, meta) => {
+      PREV_TRACK: ({ context }) => {
         if (context.currentTrackIndex === undefined) {
           context.currentTrackIndex = 0;
         } else {
-          const snapshot = meta.state;
-          const { mode } = snapshot.value as { mode: string };
+          const { mode } = context;
 
           switch (mode) {
             case 'normal': {

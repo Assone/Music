@@ -3,7 +3,7 @@ const Player: React.FC = () => {
   const {
     audio,
 
-    context: data,
+    context,
 
     isPlaying,
 
@@ -12,7 +12,6 @@ const Player: React.FC = () => {
     onNext,
     onPrev,
     onStop,
-    onSwitchMode,
   } = usePlayer();
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -35,31 +34,34 @@ const Player: React.FC = () => {
   }, [audio]);
 
   return (
-    <div className="sticky bottom-16 flex gap-2 bg-slate-500">
-      <div className="flex-1 flex-col">
-        <div className="truncate">{data?.currentTrack?.name}</div>
-        <input
-          type="range"
-          min={0}
-          max={duration}
-          value={currentTime}
-          onChange={(e) => {
-            audio.currentTime = Number(e.target.value);
-          }}
-        />
-      </div>
+    <div className="flex h-full flex-col gap-2">
+      <input
+        type="range"
+        min={0}
+        max={duration}
+        value={currentTime}
+        onChange={(e) => {
+          audio.currentTime = Number(e.target.value);
+        }}
+      />
 
-      {isPlaying ? (
-        <IconFluentEmojiPauseButton onClick={onPause} />
-      ) : (
-        <IconFluentEmojiPlayButton onClick={onPlay} />
-      )}
-      <IconFluentEmojiStopButton onClick={onStop} />
-      <IconFluentEmojiFastReverseButton onClick={onPrev} />
-      <IconFluentEmojiFastForwardButton onClick={onNext} />
-      <button type="button" onClick={onSwitchMode}>
-        Mode
-      </button>
+      <div className="flex items-center">
+        <div className="flex-1 flex-col">
+          <div className="truncate">{context?.currentTrack?.name}</div>
+        </div>
+
+        <div className="flex gap-2 items-center">
+          <IF
+            condition={isPlaying}
+            fallback={<IconFluentEmojiPlayButton onClick={onPlay} />}
+          >
+            <IconFluentEmojiPauseButton onClick={onPause} />
+          </IF>
+          <IconFluentEmojiStopButton onClick={onStop} />
+          <IconFluentEmojiFastReverseButton onClick={onPrev} />
+          <IconFluentEmojiFastForwardButton onClick={onNext} />
+        </div>
+      </div>
     </div>
   );
 };

@@ -24,29 +24,30 @@ const App: React.FC = () => {
           </Suspense>
         </AnimatePresence>
       </m.main>
-      <Player />
-      <TabBar
-        className="sticky bottom-0 bg-black/75 backdrop-blur z-10 drop-shadow shadow-inner"
-        activeKey={location.pathname}
-        items={[
-          {
-            key: '/',
-            title: 'Home',
-            icon: <IconFluentEmojiHouse />,
-          },
-          {
-            key: '/search',
-            title: 'Search',
-            icon: <IconFluentEmojiMagnifyingGlassTiltedLeft />,
-          },
-          {
-            key: '/settings',
-            title: 'Settings',
-            icon: <IconFluentEmojiGear />,
-          },
-        ]}
-        onChange={onRouteChange}
-      />
+      <div className="sticky bottom-0 bg-black/75 backdrop-blur z-10 drop-shadow shadow-inner">
+        <Player />
+        <TabBar
+          activeKey={location.pathname}
+          items={[
+            {
+              key: '/',
+              title: 'Home',
+              icon: <IconFluentEmojiHouse />,
+            },
+            {
+              key: '/search',
+              title: 'Search',
+              icon: <IconFluentEmojiMagnifyingGlassTiltedLeft />,
+            },
+            {
+              key: '/settings',
+              title: 'Settings',
+              icon: <IconFluentEmojiGear />,
+            },
+          ]}
+          onChange={onRouteChange}
+        />
+      </div>
     </LazyMotion>
   );
 };

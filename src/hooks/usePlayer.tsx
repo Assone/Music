@@ -6,6 +6,7 @@ import player, {
 } from '@/player.machine';
 import { useMachine } from '@xstate/react';
 import { PropsWithChildren, createContext } from 'react';
+import { Snapshot } from 'xstate';
 
 interface PlayerContextType {
   audio: HTMLAudioElement;
@@ -36,8 +37,26 @@ const PlayerContext = createContext<PlayerContextType>(null!);
 export const usePlayer = () => useContext(PlayerContext);
 
 export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [state, send, service] = useMachine(player, { devTools: true });
+  const snapshot = useMemo(() => {
+    const stateStr = localStorage.getItem('player');
+
+    return stateStr ? (JSON.parse(stateStr) as Snapshot<unknown>) : undefined;
+  }, []);
+  const [state, send, service] = useMachine(player, {
+    snapshot,
+    devTools: true,
+  });
   const audio = useRef(new Audio());
+
+  useEffect(() => {
+    const subscription = service.subscribe((state) => {
+      localStorage.setItem('player', JSON.stringify(state));
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [service]);
 
   useEffect(() => {
     const subscription = service.subscribe((state) => {
@@ -95,10 +114,7 @@ export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
     };
   }, [send, state.value]);
 
-  const mode = useMemo(
-    () => (state.value as { mode: PlayerModeState }).mode,
-    [state.value],
-  );
+  const mode = useMemo(() => state.context.mode, [state.context.mode]);
 
   const isPlaying = state.matches('track.playing');
   const isPaused = state.matches('track.paused');
@@ -139,6 +155,7 @@ export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const onSetMode = useCallback(
     (mode: PlayerModeState) => {
       send({ type: 'SET_MODE', mode });
+      console.log(mode);
     },
     [send],
   );
