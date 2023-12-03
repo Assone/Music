@@ -50,7 +50,9 @@ export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
     snapshot,
     devTools: true,
   });
-  const audio = useRef(new Audio());
+  const audio = useRef<HTMLAudioElement>(
+    import.meta.env.SSR ? null! : new Audio(),
+  );
 
   useEffect(() => {
     const subscription = service.subscribe((state) => {
