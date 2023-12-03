@@ -29,3 +29,8 @@ export const SearchHotListItemVariants: Variants = {
   hidden: { opacity: 0 },
   show: { opacity: 1 },
 };
+
+export const PlayerVariants: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  show: { opacity: 1, y: 0 },
+};

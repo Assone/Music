@@ -1,3 +1,6 @@
+import { PlayerVariants } from '@/utils/variants';
+import { AnimatePresence, m } from 'framer-motion';
+
 // million-ignore
 const Player: React.FC = () => {
   const {
@@ -34,35 +37,46 @@ const Player: React.FC = () => {
   }, [audio]);
 
   return (
-    <div className="flex h-full flex-col gap-2">
-      <input
-        type="range"
-        min={0}
-        max={duration}
-        value={currentTime}
-        onChange={(e) => {
-          audio.currentTime = Number(e.target.value);
-        }}
-      />
+    <AnimatePresence>
+      <IF condition={context.currentTrack !== undefined}>
+        <m.div
+          key="player"
+          className="flex h-full flex-col gap-2 z-10"
+          variants={PlayerVariants}
+          initial="hidden"
+          animate="show"
+          transition={{ ease: 'linear', duration: 0.5 }}
+        >
+          <input
+            type="range"
+            min={0}
+            max={duration}
+            value={currentTime}
+            onChange={(e) => {
+              audio.currentTime = Number(e.target.value);
+            }}
+          />
 
-      <div className="flex items-center">
-        <div className="flex-1 flex-col">
-          <div className="truncate">{context?.currentTrack?.name}</div>
-        </div>
+          <div className="flex items-center">
+            <div className="flex-1 flex-col">
+              <div className="truncate">{context?.currentTrack?.name}</div>
+            </div>
 
-        <div className="flex gap-2 items-center">
-          <IF
-            condition={isPlaying}
-            fallback={<IconFluentEmojiPlayButton onClick={onPlay} />}
-          >
-            <IconFluentEmojiPauseButton onClick={onPause} />
-          </IF>
-          <IconFluentEmojiStopButton onClick={onStop} />
-          <IconFluentEmojiFastReverseButton onClick={onPrev} />
-          <IconFluentEmojiFastForwardButton onClick={onNext} />
-        </div>
-      </div>
-    </div>
+            <div className="flex gap-2 items-center">
+              <IF
+                condition={isPlaying}
+                fallback={<IconFluentEmojiPlayButton onClick={onPlay} />}
+              >
+                <IconFluentEmojiPauseButton onClick={onPause} />
+              </IF>
+              <IconFluentEmojiStopButton onClick={onStop} />
+              <IconFluentEmojiFastReverseButton onClick={onPrev} />
+              <IconFluentEmojiFastForwardButton onClick={onNext} />
+            </div>
+          </div>
+        </m.div>
+      </IF>
+    </AnimatePresence>
   );
 };
 

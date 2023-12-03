@@ -1,4 +1,4 @@
-import { AnimatePresence, LazyMotion, m } from 'framer-motion';
+import { LazyMotion } from 'framer-motion';
 import { Suspense } from 'react';
 import Player from './containers/Player';
 
@@ -17,13 +17,11 @@ const App: React.FC = () => {
     <LazyMotion
       features={() => import('framer-motion').then((res) => res.domMax)}
     >
-      <m.main className="min-h-[calc(100vh-4rem)]">
-        <AnimatePresence>
-          <Suspense>
-            <Outlet />
-          </Suspense>
-        </AnimatePresence>
-      </m.main>
+      <main className="min-h-[calc(100vh-4rem)]">
+        <Suspense>
+          <Outlet />
+        </Suspense>
+      </main>
       <div className="sticky bottom-0 bg-black/75 backdrop-blur z-10 drop-shadow shadow-inner">
         <Player />
         <TabBar

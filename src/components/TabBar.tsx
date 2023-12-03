@@ -46,7 +46,9 @@ const TabBar: React.FC<TabBarProps> = ({
   return (
     <div className={className}>
       <m.ul
-        className={classnames('flex justify-center h-full items-center py-2')}
+        className={classnames(
+          'flex justify-center h-full items-center py-2 z-50',
+        )}
       >
         {items.map(({ key, ...options }) => {
           const isActive = active === key;
