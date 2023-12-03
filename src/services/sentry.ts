@@ -4,20 +4,7 @@ import { createRoutesFromChildren, matchRoutes } from 'react-router-dom';
 Sentry.init({
   environment: import.meta.env.MODE,
   dsn: __SENTRY_DSN__,
-  integrations: [
-    new Sentry.BrowserProfilingIntegration(),
-    new Sentry.BrowserTracing({
-      // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
-      tracePropagationTargets: ['localhost'],
-      routingInstrumentation: Sentry.reactRouterV6Instrumentation(
-        useEffect,
-        useLocation,
-        useNavigationType,
-        createRoutesFromChildren,
-        matchRoutes,
-      ),
-    }),
-  ],
+  integrations: [new Sentry.BrowserProfilingIntegration()],
   // Set profilesSampleRate to 1.0 to profile every transaction.
   // Since profilesSampleRate is relative to tracesSampleRate,
   // the final profiling rate can be computed as tracesSampleRate * profilesSampleRate
@@ -32,9 +19,22 @@ Sentry.init({
 });
 
 Sentry.onLoad(() => {
-  Sentry.getCurrentHub()
-    .getClient()
-    ?.addIntegration?.(
-      new Sentry.Replay({ maskAllText: true, blockAllMedia: true }),
-    );
+  const client = Sentry.getCurrentHub().getClient();
+
+  client?.addIntegration?.(
+    new Sentry.Replay({ maskAllText: true, blockAllMedia: true }),
+  );
+  client?.addIntegration?.(
+    new Sentry.BrowserTracing({
+      // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
+      tracePropagationTargets: ['localhost'],
+      routingInstrumentation: Sentry.reactRouterV6Instrumentation(
+        useEffect,
+        useLocation,
+        useNavigationType,
+        createRoutesFromChildren,
+        matchRoutes,
+      ),
+    }),
+  );
 });
