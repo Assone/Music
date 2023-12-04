@@ -2,5 +2,11 @@
   "unit": {
     "hours": "小时",
     "minutes": "分钟"
+  },
+  "tabbar": {
+    "home": "首页",
+    "search": "搜索",
+    "history": "历史",
+    "settings": "设置"
   }
 }

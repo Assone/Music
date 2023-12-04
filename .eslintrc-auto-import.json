@@ -66,6 +66,10 @@
     "IconFluentEmojiPauseButton": true,
     "IconFluentEmojiPlayButton": true,
     "IconFluentEmojiStopButton": true,
-    "IF": true
+    "IF": true,
+    "Select": true,
+    "SelectProvider": true,
+    "useSelect": true,
+    "SwitchLanguage": true
   }
 }

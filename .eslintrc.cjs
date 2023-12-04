@@ -54,6 +54,7 @@ module.exports = {
     ],
     'react/prop-types': 'off',
     'react/jsx-no-undef': ['error', { allowGlobals: true }],
+    'react/require-default-props': 'off',
 
     '@tanstack/query/exhaustive-deps': 'error',
     '@tanstack/query/prefer-query-object-syntax': 'off',

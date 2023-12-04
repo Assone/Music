@@ -2,5 +2,11 @@
   "unit": {
     "hours": "hours",
     "minutes": "minutes"
+  },
+  "tabbar": {
+    "home": "Home",
+    "search": "Search",
+    "history": "History",
+    "settings": "Settings"
   }
 }

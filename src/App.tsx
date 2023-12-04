@@ -5,6 +5,7 @@ import Player from './containers/Player';
 const App: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const onRouteChange = useCallback(
     (path: string) => {
@@ -29,17 +30,17 @@ const App: React.FC = () => {
           items={[
             {
               key: '/',
-              title: 'Home',
+              title: t('tabbar.home'),
               icon: <IconFluentEmojiHouse />,
             },
             {
               key: '/search',
-              title: 'Search',
+              title: t('tabbar.search'),
               icon: <IconFluentEmojiMagnifyingGlassTiltedLeft />,
             },
             {
               key: '/settings',
-              title: 'Settings',
+              title: t('tabbar.settings'),
               icon: <IconFluentEmojiGear />,
             },
           ]}

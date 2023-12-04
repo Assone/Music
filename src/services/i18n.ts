@@ -7,6 +7,8 @@ const resources = {
   en,
   zh,
 } as const;
+export type SupportedLanguage = keyof typeof resources;
+const supportedLngs = Object.keys(resources) as SupportedLanguage[];
 
 declare module 'i18next' {
   // Extend CustomTypeOptions
@@ -34,7 +36,7 @@ i18n
     },
     lng: 'zh', // if you're using a language detector, do not define the lng option
     fallbackLng: 'en',
-
+    supportedLngs,
     interpolation: {
       escapeValue: false, // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
     },
@@ -42,3 +44,5 @@ i18n
   .catch((e) => {
     console.error(e);
   });
+
+export default i18n;
