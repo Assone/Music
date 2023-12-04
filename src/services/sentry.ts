@@ -1,10 +1,10 @@
-import { BrowserProfilingIntegration, init, onLoad } from '@sentry/react';
+import { init, onLoad } from '@sentry/react';
 import { createRoutesFromChildren, matchRoutes } from 'react-router-dom';
 
 init({
   environment: import.meta.env.MODE,
   dsn: __SENTRY_DSN__,
-  integrations: [new BrowserProfilingIntegration()],
+  integrations: [],
   // Set profilesSampleRate to 1.0 to profile every transaction.
   // Since profilesSampleRate is relative to tracesSampleRate,
   // the final profiling rate can be computed as tracesSampleRate * profilesSampleRate
@@ -22,13 +22,15 @@ init({
 onLoad(async () => {
   const {
     getCurrentHub,
-    BrowserTracing,
     reactRouterV6Instrumentation,
+    BrowserTracing,
     Replay,
+    BrowserProfilingIntegration,
   } = await import('@sentry/react');
 
   const client = getCurrentHub().getClient();
 
+  client?.addIntegration?.(new BrowserProfilingIntegration());
   client?.addIntegration?.(
     new Replay({ maskAllText: true, blockAllMedia: true }),
   );
