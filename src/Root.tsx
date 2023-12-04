@@ -1,5 +1,4 @@
 import { HydrationBoundary, QueryClientProvider } from '@tanstack/react-query';
-import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from 'react-hot-toast';
 import { I18nextProvider } from 'react-i18next';
 import { useLoaderData } from 'react-router-dom';
@@ -18,6 +17,10 @@ const ReactQueryDevtools = isDebug
       })),
     )
   : () => null;
+
+const Analytics = lazy(() =>
+  import('@vercel/analytics/react').then((d) => ({ default: d.Analytics })),
+);
 
 // const QueryProvider = import.meta.env.DEV
 //   ? QueryClientProvider
