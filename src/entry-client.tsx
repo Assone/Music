@@ -8,7 +8,6 @@ import {
   matchRoutes,
 } from 'react-router-dom';
 import routes from './routes';
-import './services/i18n';
 import './services/sentry';
 
 // if (window !== undefined) {
