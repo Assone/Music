@@ -1,11 +1,3 @@
-import { searchKeys } from '@/services/query/keys';
-import {
-  SearchHotListContainerVariants,
-  SearchHotListItemVariants,
-} from '@/utils/variants';
-import { useQuery } from '@tanstack/react-query';
-
-import { m } from 'framer-motion';
 import { Suspense } from 'react';
 
 const SearchSongsTrackList = lazy(
@@ -16,11 +8,6 @@ const SearchView: React.FC = () => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams(location.search);
   const keyword = searchParams.get('keyword') || '';
-
-  const { data: hotList = [] } = useQuery({
-    ...searchKeys.hot(),
-    initialData: [],
-  });
 
   const onKeywordChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,28 +43,12 @@ const SearchView: React.FC = () => {
       {isEmpty && (
         <div className="flex flex-col gap-2">
           <Typography.Title level={2}>热门搜索</Typography.Title>
-          <m.div
-            className="flex flex-wrap gap-2"
-            variants={SearchHotListContainerVariants}
-            initial={import.meta.env.SSR ? false : 'hidden'}
-            animate="show"
-          >
-            {hotList.map(({ keyword }) => (
-              <m.div
-                key={keyword}
-                className="p-2 rounded dark:bg-gray-800 cursor-pointer"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                variants={SearchHotListItemVariants}
-                onClick={() => {
-                  searchParams.set('keyword', keyword);
-                  setSearchParams(searchParams);
-                }}
-              >
-                <Typography.Text>{keyword}</Typography.Text>
-              </m.div>
-            ))}
-          </m.div>
+          <HotSearchList
+            onSelected={(keyword) => {
+              searchParams.set('keyword', keyword);
+              setSearchParams(searchParams);
+            }}
+          />
         </div>
       )}
     </div>

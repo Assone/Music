@@ -7,6 +7,8 @@ export {}
 declare global {
   const ArtistAlbums: typeof import('./src/components/ArtistAlbums')['default']
   const Cover: typeof import('./src/components/Cover')['default']
+  const HotSearch: typeof import('./src/components/HotSearch')['default']
+  const HotSearchList: typeof import('./src/components/HotSearchList')['default']
   const IF: typeof import('./src/components/IF')['default']
   const IconFluentEmojiFastForwardButton: typeof import('~icons/fluent-emoji/fast-forward-button.jsx')['default']
   const IconFluentEmojiFastReverseButton: typeof import('~icons/fluent-emoji/fast-reverse-button.jsx')['default']
