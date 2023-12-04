@@ -1,10 +1,10 @@
-import * as Sentry from '@sentry/react';
+import { BrowserProfilingIntegration, init, onLoad } from '@sentry/react';
 import { createRoutesFromChildren, matchRoutes } from 'react-router-dom';
 
-Sentry.init({
+init({
   environment: import.meta.env.MODE,
   dsn: __SENTRY_DSN__,
-  integrations: [new Sentry.BrowserProfilingIntegration()],
+  integrations: [new BrowserProfilingIntegration()],
   // Set profilesSampleRate to 1.0 to profile every transaction.
   // Since profilesSampleRate is relative to tracesSampleRate,
   // the final profiling rate can be computed as tracesSampleRate * profilesSampleRate
@@ -18,17 +18,25 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
 });
 
-Sentry.onLoad(() => {
-  const client = Sentry.getCurrentHub().getClient();
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+onLoad(async () => {
+  const {
+    getCurrentHub,
+    BrowserTracing,
+    reactRouterV6Instrumentation,
+    Replay,
+  } = await import('@sentry/react');
+
+  const client = getCurrentHub().getClient();
 
   client?.addIntegration?.(
-    new Sentry.Replay({ maskAllText: true, blockAllMedia: true }),
+    new Replay({ maskAllText: true, blockAllMedia: true }),
   );
   client?.addIntegration?.(
-    new Sentry.BrowserTracing({
+    new BrowserTracing({
       // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
       tracePropagationTargets: ['localhost'],
-      routingInstrumentation: Sentry.reactRouterV6Instrumentation(
+      routingInstrumentation: reactRouterV6Instrumentation(
         useEffect,
         useLocation,
         useNavigationType,
