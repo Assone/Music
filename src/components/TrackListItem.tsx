@@ -34,7 +34,6 @@ const TrackListItem: React.FC<TrackListItemProps> = ({
         className,
       )}
       variants={TrackListItemVariants}
-      whileTap={{ scale: 1.05, opacity: 0.8 }}
       onClick={onClick}
     >
       {index && (

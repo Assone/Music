@@ -1,6 +1,8 @@
 import { PlayerVariants } from '@/utils/variants';
 import { AnimatePresence, m } from 'framer-motion';
 
+const Image = lazy(() => import('@/components/Image'));
+
 // million-ignore
 const Player: React.FC = () => {
   const {
@@ -71,12 +73,23 @@ const Player: React.FC = () => {
             }}
           />
 
-          <div className="flex items-center">
-            <div className="flex-1 flex-col">
-              <div className="truncate">{context?.currentTrack?.name}</div>
+          <div className="flex items-center px-2 py-1 w-full">
+            <div className="flex-1 flex">
+              <Image
+                src={context.currentTrack?.cover}
+                className="w-10 h-10 rounded shrink-0"
+              />
+              <div className="flex flex-col">
+                <Typography.Text className="font-bold">
+                  {context?.currentTrack?.name}
+                </Typography.Text>
+                <Typography.Text className="text-sm dark:text-neutral-400">
+                  {context?.currentTrack?.artist}
+                </Typography.Text>
+              </div>
             </div>
 
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center flex-shrink-0">
               <IF
                 condition={isPlaying}
                 fallback={<IconFluentEmojiPlayButton onClick={onPlay} />}

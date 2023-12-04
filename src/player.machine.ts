@@ -17,6 +17,9 @@ export interface PlayerTrackData {
   id: number;
   type: TrackType;
   name: string;
+  artist: string;
+  artistId: number;
+  cover: string;
 }
 
 export type PlayerModeState = 'normal' | 'single' | 'shuffle' | 'loop';

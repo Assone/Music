@@ -23,7 +23,7 @@ const App: React.FC = () => {
           <Outlet />
         </Suspense>
       </main>
-      <div className="sticky bottom-0 bg-black/75 backdrop-blur z-10 drop-shadow shadow-inner">
+      <div className="sticky bottom-0 bg-black/75 backdrop-blur z-10 drop-shadow shadow-inner w-full">
         <Player />
         <TabBar
           activeKey={location.pathname}
