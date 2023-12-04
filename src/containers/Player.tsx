@@ -74,7 +74,7 @@ const Player: React.FC = () => {
           />
 
           <div className="flex items-center px-2 py-1 w-full">
-            <div className="flex-1 flex">
+            <div className="flex-1 flex gap-2 items-center">
               <Image
                 src={context.currentTrack?.cover}
                 className="w-10 h-10 rounded shrink-0"
