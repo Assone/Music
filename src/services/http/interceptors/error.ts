@@ -19,17 +19,21 @@ import { toast } from 'react-hot-toast';
 //     return Promise.reject(error);
 //   },
 // });
+//
+interface ErrorResponse {
+  message: string;
+}
 
 // eslint-disable-next-line import/prefer-default-export
 export const errorByResponse = createResponseInterceptor({
   reject: (error: AxiosError<ErrorResponse>) => {
+    const { data, statusText } = error.response || {};
+    const message = data?.message || statusText || 'Erro desconhecido';
+    console.debug('[Request Error]:', error, 'message:', message);
+
     if (isCancel(error)) {
       return Promise.reject(error);
     }
-
-    const { data, statusText } = error.response || {};
-    const message = data?.message || statusText || 'Erro desconhecido';
-    console.log(error);
 
     toast.error(message);
 
