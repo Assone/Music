@@ -9,7 +9,6 @@ export enum TrackType {
 
 interface PlayerTrackData {
   id: number;
-  type: TrackType;
   url: string;
   name: string;
   artist: string;
@@ -107,8 +106,7 @@ const loadTrack = fromPromise<PlayerTrackData, { currentTrack: PlayerTrack }>(
             } = detail!;
 
             return {
-              ...urlDetail,
-              ...track,
+              id: track.id,
               url: urlDetail!.url,
               cover,
               name: detail!.name,
