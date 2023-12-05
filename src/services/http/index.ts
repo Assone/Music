@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { stringify } from 'qs';
 import {
+  cancelByRequest,
+  cancelByResponse,
+  errorByResponse,
   logByRequest,
   logByResponse,
   preprocessByResponse,
 } from './interceptors';
-import { errorByResponse } from './interceptors/error';
 
 const baseURL = import.meta.env.DEV
   ? `${import.meta.env.SSR ? `http://localhost:${__PORT__}` : ''}${
@@ -25,6 +27,8 @@ interface ResponseData {
 const interceptors = [
   logByRequest,
   logByResponse,
+  cancelByRequest,
+  cancelByResponse,
   preprocessByResponse<ResponseData>((data, response) => {
     if (data.code === 200) {
       return Promise.resolve(data);
