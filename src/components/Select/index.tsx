@@ -1,11 +1,16 @@
 import { noop } from '@/utils';
 import classNames from 'classnames';
 
+export interface SelectOptions<T> {
+  name: string;
+  value: T;
+}
+
 export interface SelectProps<T> {
   className?: string;
   onChange?: (value: T | T[]) => void;
   value?: T | T[];
-  options: { name: string; value: T }[];
+  options: SelectOptions<T>[];
 }
 
 const Select = <T extends string>({

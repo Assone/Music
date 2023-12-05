@@ -72,6 +72,8 @@
     "useSelect": true,
     "SwitchLanguage": true,
     "HotSearch": true,
-    "HotSearchList": true
+    "HotSearchList": true,
+    "SwitchTheme": true,
+    "Segmented": true
   }
 }
