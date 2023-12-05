@@ -61,6 +61,7 @@ declare global {
   const useLayoutEffect: typeof import('react')['useLayoutEffect']
   const useLinkClickHandler: typeof import('react-router-dom')['useLinkClickHandler']
   const useLocation: typeof import('react-router-dom')['useLocation']
+  const useMediaQuery: typeof import('./src/hooks/useMediaQuery')['useMediaQuery']
   const useMemo: typeof import('react')['useMemo']
   const useNavigate: typeof import('react-router-dom')['useNavigate']
   const useNavigationType: typeof import('react-router-dom')['useNavigationType']

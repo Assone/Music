@@ -8,7 +8,6 @@ export const SwitchLanguage: React.FC = () => {
   ];
 
   const onChange = (value: SupportedLanguage) => {
-    console.log(value);
     i18n
       .changeLanguage(value)
       .catch((e) => console.debug('[i18n] Failed to change language', e));

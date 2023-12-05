@@ -7,6 +7,7 @@ enum Theme {
 }
 
 const SwitchTheme: React.FC = () => {
+  const matches = useMediaQuery({ query: '(prefers-color-scheme: dark)' });
   const options: SegmentedOption<Theme>[] = [
     {
       label: 'Auto',
@@ -22,22 +23,36 @@ const SwitchTheme: React.FC = () => {
     },
   ];
 
-  const onChangeTheme = (theme: Theme) => {
-    switch (theme) {
-      case Theme.Auto:
-        // document.documentElement.classList.remove('light', 'dark');
-        break;
-      case Theme.Light:
-        document.documentElement.classList.remove('dark');
+  const onChangeTheme = useCallback(
+    (theme: Theme) => {
+      switch (theme) {
+        case Theme.Auto:
+          if (matches) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
 
-        break;
-      case Theme.Dark:
-        document.documentElement.classList.add('dark');
-        break;
-      default:
-        break;
+          break;
+        case Theme.Light:
+          document.documentElement.classList.remove('dark');
+
+          break;
+        case Theme.Dark:
+          document.documentElement.classList.add('dark');
+          break;
+        default:
+          break;
+      }
+    },
+    [matches],
+  );
+
+  useEffect(() => {
+    if (matches) {
+      onChangeTheme(Theme.Auto);
     }
-  };
+  }, [matches, onChangeTheme]);
 
   return (
     <Segmented classname="text-sm" options={options} onChange={onChangeTheme} />

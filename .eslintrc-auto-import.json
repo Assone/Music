@@ -74,6 +74,7 @@
     "HotSearch": true,
     "HotSearchList": true,
     "SwitchTheme": true,
-    "Segmented": true
+    "Segmented": true,
+    "useMediaQuery": true
   }
 }
