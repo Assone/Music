@@ -33,9 +33,11 @@ const Root: React.FC = () => {
     <I18nextProvider i18n={i18n}>
       <QueryClientProvider client={queryClient}>
         <HydrationBoundary state={data.clientState}>
-          <PlayerProvider>
-            <App />
-          </PlayerProvider>
+          <ThemeProvider>
+            <PlayerProvider>
+              <App />
+            </PlayerProvider>
+          </ThemeProvider>
 
           <Toaster />
 
