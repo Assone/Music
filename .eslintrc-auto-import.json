@@ -78,6 +78,9 @@
     "useMediaQuery": true,
     "ThemeProvider": true,
     "useTheme": true,
-    "Theme": true
+    "Theme": true,
+    "useStorage": true,
+    "useLocalStorage": true,
+    "useMount": true
   }
 }

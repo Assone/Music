@@ -27,6 +27,8 @@ const kindOf = (value: unknown): string => {
   return kindCache[type] as string;
 };
 
+export const getValueType = (value: unknown): string => kindOf(value);
+
 export const { isArray } = Array;
 
 export const isString = typeOf<string>('string');
@@ -38,6 +40,8 @@ export const isBoolean = typeOf<boolean>('boolean');
 export const isSymbol = typeOf<symbol>('symbol');
 
 export const isUndefined = typeOf<undefined>('undefined');
+
+export const isNull = (value: unknown): value is null => value === null;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isObject = (value: unknown): value is Record<keyof any, any> =>
@@ -51,3 +55,5 @@ export const isRef = <T>(value: unknown): value is RefObject<T> =>
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const isFunction = typeOf<Function>('function');
+
+export const isClient = typeof window !== 'undefined';

@@ -17,14 +17,14 @@ export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const matches = useMediaQuery({ query: '(prefers-color-scheme: dark)' });
-  const [theme, setTheme] = useState<Theme>(Theme.Auto);
+  const [theme, setTheme] = useLocalStorage<Theme>('theme', Theme.Auto);
 
   const value = useMemo(
     () => ({
       theme,
       setTheme,
     }),
-    [theme],
+    [setTheme, theme],
   );
 
   useEffect(() => {

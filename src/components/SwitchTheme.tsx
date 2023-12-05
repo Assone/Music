@@ -2,7 +2,7 @@ import { Theme } from '@/hooks/useTheme';
 import { SegmentedOption } from './Segmented';
 
 const SwitchTheme: React.FC = () => {
-  const { setTheme } = useTheme();
+  const { setTheme, theme } = useTheme();
   const options: SegmentedOption<Theme>[] = [
     {
       label: 'Auto',
@@ -19,7 +19,12 @@ const SwitchTheme: React.FC = () => {
   ];
 
   return (
-    <Segmented classname="text-sm" options={options} onChange={setTheme} />
+    <Segmented
+      classname="text-sm"
+      value={theme}
+      options={options}
+      onChange={setTheme}
+    />
   );
 };
 
