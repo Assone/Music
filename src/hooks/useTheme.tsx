@@ -16,7 +16,7 @@ const ThemeContext = createContext<ThemeContextType>(null!);
 export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const matches = useMediaQuery({ query: '(prefers-color-scheme: dark)' });
+  const isDark = useMediaQuery({ query: '(prefers-color-scheme: dark)' });
   const [theme, setTheme] = useLocalStorage<Theme>('theme', Theme.Auto);
 
   const value = useMemo(
@@ -30,7 +30,7 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     switch (theme) {
       case Theme.Auto:
-        if (matches) {
+        if (isDark) {
           document.documentElement.classList.add('dark');
         } else {
           document.documentElement.classList.remove('dark');
@@ -47,7 +47,7 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
       default:
         break;
     }
-  }, [matches, theme]);
+  }, [isDark, theme]);
 
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
