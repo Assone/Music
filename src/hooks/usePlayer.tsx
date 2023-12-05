@@ -1,7 +1,7 @@
 import player, {
   PlayerMachineContext,
   PlayerModeState,
-  PlayerTrackData,
+  PlayerTrack,
   PlayerTrackState,
 } from '@/player.machine';
 import { useMachine } from '@xstate/react';
@@ -29,7 +29,7 @@ interface PlayerContextType {
   onSwitchMode: () => void;
   onSetMode: (mode: PlayerModeState) => void;
 
-  onSetTrackAndPlay: (tracks: PlayerTrackData[]) => void;
+  onSetTrackAndPlay: (tracks: PlayerTrack[]) => void;
 }
 
 const PlayerContext = createContext<PlayerContextType>(null!);
@@ -66,11 +66,8 @@ export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     const subscription = service.subscribe((state) => {
-      if (
-        state.matches('track.playing') &&
-        state.context.currentTrackSourceInfo
-      ) {
-        audio.current.src = state.context.currentTrackSourceInfo.url;
+      if (state.matches('track.playing') && state.context.currentTrackData) {
+        audio.current.src = state.context.currentTrackData.url;
       }
     });
 
@@ -124,7 +121,7 @@ export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   const isPlaying = state.matches('track.playing');
   const isPaused = state.matches('track.paused');
-  const canPlay = state.context.currentTrackSourceInfo !== null;
+  const canPlay = state.context.currentTrackData !== null;
 
   const onPlay = useCallback(() => {
     send({ type: 'PLAY' });
@@ -161,13 +158,12 @@ export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const onSetMode = useCallback(
     (mode: PlayerModeState) => {
       send({ type: 'SET_MODE', mode });
-      console.log(mode);
     },
     [send],
   );
 
   const onSetTrackAndPlay = useCallback(
-    (tracks: PlayerTrackData[]) => {
+    (tracks: PlayerTrack[]) => {
       send({ type: 'SET_TRACKS', tracks });
       send({ type: 'PLAY' });
     },

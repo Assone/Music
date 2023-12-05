@@ -1,4 +1,4 @@
-import { PlayerTrackData, TrackType } from '@/player.machine';
+import { PlayerTrack, TrackType } from '@/player.machine';
 import { albumKeys } from '@/services/query/keys';
 import { useQuery } from '@tanstack/react-query';
 import classnames from 'classnames';
@@ -33,17 +33,13 @@ const AlbumDetailView: React.FC = () => {
   });
 
   const player = usePlayer();
-  const tracks = useMemo<PlayerTrackData[]>(
+  const tracks = useMemo<PlayerTrack[]>(
     () =>
       detail?.songs.map((song) => ({
         id: song.id,
         type: TrackType.song,
-        name: song.name,
-        artist: detail.artist.name,
-        artistId: detail.artist.id,
-        cover: detail.cover,
       })) || [],
-    [detail?.artist.id, detail?.artist.name, detail?.cover, detail?.songs],
+    [detail?.songs],
   );
 
   const onPlay = useCallback(() => {

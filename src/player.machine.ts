@@ -1,37 +1,37 @@
-import { lastValueFrom, map } from 'rxjs';
-import { assign, createMachine, fromPromise } from 'xstate';
-import { getSongUrl } from './apis';
+import { forkJoin, lastValueFrom, map } from 'rxjs';
+import { assign, createMachine, fromPromise, log } from 'xstate';
+import { getSongDetail, getSongUrl } from './apis';
 
 export enum TrackType {
   song,
   video,
 }
 
-interface SourceInfo {
+interface PlayerTrackData {
   id: number;
   type: TrackType;
   url: string;
-}
-
-export interface PlayerTrackData {
-  id: number;
-  type: TrackType;
   name: string;
   artist: string;
   artistId: number;
   cover: string;
 }
 
+export interface PlayerTrack {
+  id: number;
+  type: TrackType;
+}
+
 export type PlayerModeState = 'normal' | 'single' | 'shuffle' | 'loop';
 
 export interface PlayerMachineContext {
   volume: number;
-  history: PlayerTrackData[];
-  tracks: PlayerTrackData[];
+  history: PlayerTrack[];
+  tracks: PlayerTrack[];
   mode: PlayerModeState;
-  currentTrack?: PlayerTrackData;
+  currentTrack?: PlayerTrack;
   currentTrackIndex?: number;
-  currentTrackSourceInfo?: SourceInfo;
+  currentTrackData?: PlayerTrackData;
 }
 
 export type PlayerTrackState =
@@ -64,14 +64,14 @@ type PlayerPlaybackRateEvent = {
 type PlayerTrackEvent =
   | { type: 'NEXT_TRACK' }
   | { type: 'PREV_TRACK' }
-  | { type: 'ADD_TRACK'; track: PlayerTrackData }
-  | { type: 'REMOVE_TRACK'; track: PlayerTrackData }
+  | { type: 'ADD_TRACK'; track: PlayerTrack }
+  | { type: 'REMOVE_TRACK'; track: PlayerTrack }
   | { type: 'CLEAR_TRACKS' }
-  | { type: 'SET_TRACKS'; tracks: PlayerTrackData[] };
+  | { type: 'SET_TRACKS'; tracks: PlayerTrack[] };
 
 type PlayerHistoryEvent =
-  | { type: 'ADD_HISTORY'; track: PlayerTrackData }
-  | { type: 'REMOVE_HISTORY'; track: PlayerTrackData }
+  | { type: 'ADD_HISTORY'; track: PlayerTrack }
+  | { type: 'REMOVE_HISTORY'; track: PlayerTrack }
   | { type: 'CLEAR_HISTORY' };
 
 type PlayerVolumeEvent = { type: 'SET_VOLUME'; volume: number };
@@ -86,19 +86,41 @@ type PlayerEvent =
   | PlayerHistoryEvent
   | PlayerVolumeEvent;
 
-const loadTrack = fromPromise<SourceInfo[], { currentTrack: PlayerTrackData }>(
+const loadTrack = fromPromise<PlayerTrackData, { currentTrack: PlayerTrack }>(
   ({ input }) => {
     const { currentTrack: track } = input;
 
     if (!track) return Promise.reject(new Error('Track is undefined'));
 
     switch (track.type) {
-      case TrackType.song:
-        return lastValueFrom(
-          getSongUrl(track.id).pipe(
-            map((data) => data.map((item) => ({ ...item, type: track.type }))),
-          ),
+      case TrackType.song: {
+        const result = forkJoin([
+          getSongUrl(track.id),
+          getSongDetail(track.id),
+        ]).pipe(
+          map(([songUrl, songDetail]) => {
+            const [urlDetail] = songUrl;
+            const [detail] = songDetail;
+            const { cover } = detail!.album;
+            const {
+              artists: [artist],
+            } = detail!;
+
+            return {
+              ...urlDetail,
+              ...track,
+              url: urlDetail!.url,
+              cover,
+              name: detail!.name,
+              artist: artist!.name,
+              artistId: artist!.id,
+            } as PlayerTrackData;
+          }),
         );
+
+        return lastValueFrom(result);
+      }
+
       default:
         return Promise.reject(new Error('Unknown track type'));
     }
@@ -127,7 +149,7 @@ const player = createMachine(
             on: {
               SET_TRACKS: {
                 target: 'loading',
-                actions: ['SET_TRACKS'],
+                actions: ['SET_TRACKS', log('Set tracks')],
               },
             },
           },
@@ -141,22 +163,25 @@ const player = createMachine(
               onDone: {
                 target: 'playing',
                 description: 'Track loaded',
-                actions: assign({
-                  currentTrackSourceInfo: ({ context, event }) => {
-                    const { currentTrack } = context;
+                actions: [
+                  assign({
+                    currentTrackData: ({ context, event }) => {
+                      const { currentTrack } = context;
 
-                    if (currentTrack === undefined) return undefined;
+                      if (currentTrack === undefined) return undefined;
 
-                    const [source] = event.output as SourceInfo[];
+                      const source = event.output as PlayerTrackData;
 
-                    if (!source) return undefined;
+                      if (!source) return undefined;
 
-                    return {
-                      ...currentTrack,
-                      url: source.url,
-                    };
-                  },
-                }),
+                      return {
+                        ...currentTrack,
+                        ...source,
+                      };
+                    },
+                  }),
+                  log('Track loaded'),
+                ],
               },
               onError: 'error',
             },

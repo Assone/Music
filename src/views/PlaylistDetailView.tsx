@@ -1,3 +1,4 @@
+import { PlayerTrack, TrackType } from '@/player.machine';
 import { queryKeys } from '@/services/query/keys';
 import { useQuery } from '@tanstack/react-query';
 
@@ -5,6 +6,26 @@ const PlaylistDetailView: React.FC = () => {
   const { id } = useParams<'id'>();
   const { data, isFetched } = useQuery(queryKeys.playlist.detail(+id!));
   const trackIds = useMemo(() => data?.trackIds || [], [data?.trackIds]);
+
+  const player = usePlayer();
+
+  const tracks = useMemo<PlayerTrack[]>(
+    () =>
+      trackIds.map((id) => ({
+        id,
+        type: TrackType.song,
+      })),
+    [trackIds],
+  );
+
+  const onPlay = useCallback(() => {
+    player.onSetTrackAndPlay(tracks);
+  }, [player, tracks]);
+
+  const onShufflePlay = useCallback(() => {
+    player.onSetMode('shuffle');
+    player.onSetTrackAndPlay(tracks);
+  }, [player, tracks]);
 
   return (
     <div>
@@ -17,8 +38,8 @@ const PlaylistDetailView: React.FC = () => {
             </h2>
           </div>
           <div className="flex gap-4 p-2">
-            <PlayButton />
-            <PlayButton />
+            <PlayButton onClick={onPlay}>播放</PlayButton>
+            <PlayButton onClick={onShufflePlay}>随机播放</PlayButton>
           </div>
         </div>
       )}

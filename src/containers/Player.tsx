@@ -1,7 +1,6 @@
+import Image from '@/components/Image';
 import { PlayerVariants } from '@/utils/variants';
 import { AnimatePresence, m } from 'framer-motion';
-
-const Image = lazy(() => import('@/components/Image'));
 
 // million-ignore
 const Player: React.FC = () => {
@@ -76,15 +75,15 @@ const Player: React.FC = () => {
           <div className="flex items-center px-2 py-1 w-full">
             <div className="flex-1 flex gap-2 items-center">
               <Image
-                src={context.currentTrack?.cover}
+                src={context.currentTrackData?.cover}
                 className="w-10 h-10 rounded shrink-0"
               />
               <div className="flex flex-col">
                 <Typography.Text className="font-bold">
-                  {context?.currentTrack?.name}
+                  {context?.currentTrackData?.name}
                 </Typography.Text>
                 <Typography.Text className="text-sm dark:text-neutral-400">
-                  {context?.currentTrack?.artist}
+                  {context?.currentTrackData?.artist}
                 </Typography.Text>
               </div>
             </div>
