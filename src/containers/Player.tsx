@@ -96,8 +96,14 @@ const Player: React.FC = () => {
               >
                 <IconFluentEmojiPauseButton onClick={onPause} />
               </IF>
-              <IconFluentEmojiStopButton onClick={onStop} />
-              <IconFluentEmojiFastReverseButton onClick={onPrev} />
+              <IconFluentEmojiStopButton
+                className="hidden md:block"
+                onClick={onStop}
+              />
+              <IconFluentEmojiFastReverseButton
+                className="hidden md:block"
+                onClick={onPrev}
+              />
               <IconFluentEmojiFastForwardButton onClick={onNext} />
             </div>
           </div>

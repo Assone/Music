@@ -5,7 +5,16 @@ export default {
   darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        portrait: {
+          raw: '(orientation: portrait)',
+        },
+        landscape: {
+          raw: '(orientation: landscape)',
+        },
+      },
+    },
   },
   plugins: [containerQueriesPlugin],
 } satisfies Config;
