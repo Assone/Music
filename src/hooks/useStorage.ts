@@ -100,7 +100,7 @@ export function useStorage(
 ): UseStorageReturn<boolean>;
 export function useStorage<T>(
   key: string,
-  initialValue: null,
+  initialValue: T,
   storage?: Storage,
   options?: UseStorageOptions<T>,
 ): UseStorageReturn<T>;

@@ -37,15 +37,17 @@ const PlayerContext = createContext<PlayerContextType>(null!);
 export const usePlayer = () => useContext(PlayerContext);
 
 export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const snapshot = useMemo(() => {
-    if (import.meta.env.SSR) {
-      return undefined;
-    }
+  const [snapshot, setSnapshot] = useLocalStorage<Snapshot<unknown>>(
+    'player',
+    undefined,
+    {
+      serializer: {
+        serialize: (value) => JSON.stringify(value),
+        deserialize: (value) => JSON.parse(value) as Snapshot<unknown>,
+      },
+    },
+  );
 
-    const stateStr = localStorage.getItem('player');
-
-    return stateStr ? (JSON.parse(stateStr) as Snapshot<unknown>) : undefined;
-  }, []);
   const [state, send, service] = useMachine(player, {
     snapshot,
     devTools: true,
@@ -56,13 +58,14 @@ export const PlayerProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     const subscription = service.subscribe((state) => {
-      localStorage.setItem('player', JSON.stringify(state));
+      // localStorage.setItem('player', JSON.stringify(state));
+      setSnapshot(state);
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [service]);
+  }, [service, setSnapshot]);
 
   useEffect(() => {
     const subscription = service.subscribe((state) => {
