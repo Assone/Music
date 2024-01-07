@@ -45,7 +45,8 @@ const aboutRoute = new Route({
 const routeTree = rootRoute.addChildren([indexRoute, aboutRoute]);
 
 // eslint-disable-next-line import/prefer-default-export
-export const createRouter = () => new Router({ routeTree });
+export const createRouter = () =>
+  new Router({ routeTree, defaultPreload: "intent" });
 
 declare module "@tanstack/react-router" {
   interface Register {
