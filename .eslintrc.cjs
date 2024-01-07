@@ -44,7 +44,15 @@ module.exports = {
     "import/no-absolute-path": "off",
     "import/no-extraneous-dependencies": [
       "error",
-      { devDependencies: ["**/*.test.ts", "**/*.spec.ts", "vite.config.ts"] },
+      {
+        devDependencies: [
+          "**/*.test.ts",
+          "**/*.spec.ts",
+          "vite.config.ts",
+          "server.js",
+        ],
+      },
     ],
+    "import/extensions": ["error", "never", { svg: "always" }],
   },
 };
