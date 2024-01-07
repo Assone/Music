@@ -1,4 +1,6 @@
+import { dehydrate } from "@tanstack/react-query";
 import { createMemoryHistory } from "@tanstack/react-router";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   StartServer,
   transformStreamWithRouter,
@@ -8,6 +10,7 @@ import { StrictMode } from "react";
 import { PipeableStream, renderToPipeableStream } from "react-dom/server";
 import { Transform } from "stream";
 import { createRouter } from "./router";
+import queryClient from "./services/query-client";
 
 interface RenderOptions {
   request: Request;
@@ -26,15 +29,20 @@ const getRouter = async (url: string) => {
 
   router.update({
     history: memoryHistory,
+    context: {
+      queryClient,
+    },
   });
 
   await router.load();
+
+  console.log(dehydrate(queryClient));
 
   return router;
 };
 
 const createTransformByTemplate = (template: string, separator: string) => {
-  let [startTemplate, endTemplate] = template.split(separator);
+  const [startTemplate, endTemplate] = template.split(separator);
 
   const prepend = new Transform({
     transform(chunk, _encoding, callback) {
@@ -77,7 +85,7 @@ export const render = async (options: RenderOptions) => {
 
     // Pipe the stream through our transforms
     const transformedStream = transforms.reduce(
-      (stream, transform) => stream.pipe(transform as any),
+      (stream, transform) => stream.pipe(transform as never),
       pipeableStream,
     );
 
@@ -102,7 +110,7 @@ export const render = async (options: RenderOptions) => {
 
   const { abort } = stream;
 
-  const abortTimer = setTimeout(abort, 10000);
+  setTimeout(abort, 10000);
 
   request.on("close", () => {
     abort();

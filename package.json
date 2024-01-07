@@ -13,13 +13,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.17.8",
+    "@tanstack/react-query-devtools": "^5.17.8",
     "@tanstack/react-router": "^1.1.9",
+    "@tanstack/router-devtools": "^1.1.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.17.7",
     "@tanstack/react-router-server": "^1.1.9",
-    "@tanstack/router-devtools": "^1.1.9",
     "@tsconfig/node-lts": "^20.1.1",
     "@tsconfig/strictest": "^2.0.2",
     "@tsconfig/vite-react": "^3.0.0",

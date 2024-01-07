@@ -1,4 +1,5 @@
 import "@/assets/main.css";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { StartClient } from "@tanstack/react-router-server/client";
 import React from "react";
 import ReactDOM from "react-dom/client";

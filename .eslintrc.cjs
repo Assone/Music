@@ -9,6 +9,8 @@ module.exports = {
     "airbnb",
     "airbnb/hooks",
 
+    "plugin:@tanstack/eslint-plugin-query/recommended",
+
     "prettier",
   ],
   plugins: ["react-refresh"],
@@ -35,6 +37,9 @@ module.exports = {
       "warn",
       { allowConstantExport: true },
     ],
+
+    // eslint
+    "no-undef": "off",
 
     // react
     "react/jsx-filename-extension": ["error", { extensions: [".tsx"] }],
