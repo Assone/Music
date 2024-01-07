@@ -1,25 +1,9 @@
-import { Link, Outlet, RootRoute, Route, Router } from "@tanstack/react-router";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { DehydrateRouter } from "@tanstack/react-router-server/client";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { RootRoute, Route, Router } from "@tanstack/react-router";
+
+import Root from "./Root";
 
 const rootRoute = new RootRoute({
-  component: () => (
-    <>
-      <div className="p-2 flex gap-2">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
-        </Link>{" "}
-        <Link to="/about" className="[&.active]:font-bold">
-          About
-        </Link>
-      </div>
-      <hr />
-      <Outlet />
-      <DehydrateRouter />
-      <TanStackRouterDevtools />
-    </>
-  ),
+  component: () => <Root />,
 });
 
 const indexRoute = new Route({
