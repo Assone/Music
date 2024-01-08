@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 import { stringify } from "qs";
 import { preprocessByResponse } from "./interceptors";
 
@@ -28,5 +28,10 @@ const interceptors = [
 ];
 
 interceptors.forEach((interceptor) => interceptor(http));
+
+export type HttpRequestConfig = Omit<
+  AxiosRequestConfig,
+  "method" | "url" | "params"
+>;
 
 export default http;

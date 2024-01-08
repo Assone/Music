@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { DehydratedState, HydrationBoundary } from "@tanstack/react-query";
+import { HydrationBoundary, type DehydratedState } from "@tanstack/react-query";
 import { ScrollRestoration, useLoaderData } from "@tanstack/react-router";
 import { DehydrateRouter } from "@tanstack/react-router-server/client";
 import { LazyMotion } from "framer-motion";

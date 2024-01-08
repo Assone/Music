@@ -8,7 +8,7 @@ import type { Request, Response } from "express";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { isbot } from "isbot";
 import { StrictMode } from "react";
-import { PipeableStream, renderToPipeableStream } from "react-dom/server";
+import { renderToPipeableStream, type PipeableStream } from "react-dom/server";
 import Html from "./Html";
 import { createRouter } from "./router";
 import queryClient from "./services/query-client";

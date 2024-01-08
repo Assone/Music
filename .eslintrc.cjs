@@ -4,6 +4,7 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:react-hooks/recommended",
 
     "airbnb",
@@ -13,11 +14,15 @@ module.exports = {
 
     "prettier",
   ],
-  plugins: ["react-refresh"],
+  plugins: ["@typescript-eslint", "react-refresh"],
 
   ignorePatterns: ["dist", ".eslintrc.cjs"],
 
   parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: ["./tsconfig.json", "./tsconfig.*.json"],
+    tsconfigRootDir: __dirname,
+  },
 
   settings: {
     "import/resolver": {
@@ -37,7 +42,10 @@ module.exports = {
     // eslint
     "no-undef": "off",
     "no-shadow": "off", // Typescript Enum
-    "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+    "no-unused-vars": "off",
+
+    // typescript
+    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
 
     // react
     "react-refresh/only-export-components": [

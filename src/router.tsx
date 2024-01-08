@@ -1,6 +1,5 @@
 import { QueryClientProvider, dehydrate, hydrate } from "@tanstack/react-query";
 import { Router } from "@tanstack/react-router";
-import { ReactNode } from "react";
 import queryClient from "./services/query-client";
 import { routeTree } from "./services/routes";
 
@@ -26,7 +25,7 @@ export const createRouter = () =>
       hydrate(queryClient, dehydrated.queryClientState);
     },
     // Optionally, we can use `Wrap` to wrap our router in the loader client provider
-    Wrap: ({ children }: { children: ReactNode }) => (
+    Wrap: ({ children }: { children: React.ReactNode }) => (
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     ),
   });

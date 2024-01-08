@@ -1,8 +1,8 @@
-import http from '@/services/http';
-import { formatArtist, formatPlaylistInfo, formatSong } from '@/utils/format';
-import { mapArray } from '@/utils/rxjs';
-import { from, map } from 'rxjs';
-import { Search } from '../path';
+import http, { type HttpRequestConfig } from "@/services/http";
+import { formatArtist, formatPlaylistInfo, formatSong } from "@/utils/format";
+import { mapArray } from "@/utils/rxjs";
+import { from, map } from "rxjs";
+import { Search } from "../path";
 
 export enum SearchType {
   song = 1,
@@ -27,10 +27,15 @@ interface SearchOptions extends API.RequestArgs.PaginationOptions {
  * @param keywords 关键词
  * @param options 搜索选项
  */
-export const getSearchResource = (keywords: string, options?: SearchOptions) =>
+export const getSearchResource = (
+  keywords: string,
+  options?: SearchOptions,
+  config?: HttpRequestConfig,
+) =>
   from(
     http.get<API.Search.SearchResource>(Search.resource, {
       params: { keywords, ...options },
+      ...config,
     }),
   ).pipe(
     map((res) => res.result),

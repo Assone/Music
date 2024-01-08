@@ -6,7 +6,9 @@ import ReactDOM from "react-dom/client";
 import { createRouter } from "./router";
 
 const router = createRouter();
-router.hydrate();
+router.hydrate().catch((error) => {
+  console.error("[Router Hydrate Error]", error);
+});
 
 const container = import.meta.env.SSR
   ? document
