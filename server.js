@@ -41,6 +41,9 @@ async function createServer() {
   const injectAssetsMap = new Map();
 
   if (isProduction) {
+    app.use(
+      express.static(path.resolve(dirname, "dist/client"), { index: false }),
+    );
   } else {
     vite = await createViteServer({
       define: {
