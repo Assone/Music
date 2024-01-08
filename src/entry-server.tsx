@@ -126,7 +126,5 @@ export const render = async (options: RenderOptions) => {
 
   setTimeout(abort, 10000);
 
-  request.on("close", () => {
-    abort();
-  });
+  request.on("close", abort);
 };
