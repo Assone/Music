@@ -2,6 +2,7 @@
 import { DehydratedState, HydrationBoundary } from "@tanstack/react-query";
 import { ScrollRestoration, useLoaderData } from "@tanstack/react-router";
 import { DehydrateRouter } from "@tanstack/react-router-server/client";
+import { LazyMotion } from "framer-motion";
 import { Suspense, lazy } from "react";
 import App from "./App";
 import { RootRoute } from "./services/routes";
@@ -29,13 +30,18 @@ const TanStackReactQueryDevtools = import.meta.env.PROD
       })),
     );
 
+const loadMotionFeatures = () =>
+  import("@/services/motion").then((module) => module.default);
+
 const Root: React.FC = () => {
   const { dehydratedState }: { dehydratedState: DehydratedState } =
     useLoaderData({ from: RootRoute.id });
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <App />
+      <LazyMotion features={loadMotionFeatures} strict>
+        <App />
+      </LazyMotion>
 
       <ScrollRestoration />
       <DehydrateRouter />
