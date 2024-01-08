@@ -1,4 +1,3 @@
-import { dehydrate } from "@tanstack/react-query";
 import { createMemoryHistory } from "@tanstack/react-router";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
@@ -6,6 +5,8 @@ import {
   transformStreamWithRouter,
 } from "@tanstack/react-router-server/server";
 import type { Request, Response } from "express";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { isbot } from "isbot";
 import { StrictMode } from "react";
 import { PipeableStream, renderToPipeableStream } from "react-dom/server";
 import { Transform } from "stream";
@@ -20,7 +21,7 @@ interface RenderOptions {
   isProduction: boolean;
 }
 
-const getRouter = async (url: string) => {
+const initRouter = async (url: string) => {
   const router = createRouter();
 
   const memoryHistory = createMemoryHistory({
@@ -35,8 +36,6 @@ const getRouter = async (url: string) => {
   });
 
   await router.load();
-
-  console.log(dehydrate(queryClient));
 
   return router;
 };
@@ -68,9 +67,9 @@ const createTransformByTemplate = (template: string, separator: string) => {
 export const render = async (options: RenderOptions) => {
   const { request, response, url, template } = options;
 
-  const router = await getRouter(url);
-
   let didError = false;
+
+  const router = await initRouter(url);
 
   const startTransformPipe = (pipeableStream: PipeableStream) => {
     response.statusCode = didError ? 500 : 200;
@@ -93,17 +92,32 @@ export const render = async (options: RenderOptions) => {
     transformedStream.pipe(response);
   };
 
+  const UA = request.headers["user-agent"];
+  const isCrawler = isbot(UA);
+
   const stream = renderToPipeableStream(
     <StrictMode>
       <StartServer router={router} />
     </StrictMode>,
     {
       onShellReady() {
-        startTransformPipe(stream);
+        if (!isCrawler) {
+          startTransformPipe(stream);
+        }
       },
-      onError: (err) => {
+      onAllReady() {
+        if (isCrawler) {
+          startTransformPipe(stream);
+        }
+      },
+      onShellError(error) {
+        response.statusCode = 500;
+        response.setHeader("content-type", "text/html");
+        response.send("<h1>Something went wrong</h1>");
+      },
+      onError: (error) => {
         didError = true;
-        console.log(err);
+        console.log(error);
       },
     },
   );
