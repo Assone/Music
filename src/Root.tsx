@@ -2,7 +2,7 @@
 import { DehydratedState, HydrationBoundary } from "@tanstack/react-query";
 import { ScrollRestoration, useLoaderData } from "@tanstack/react-router";
 import { DehydrateRouter } from "@tanstack/react-router-server/client";
-import { lazy } from "react";
+import { Suspense, lazy } from "react";
 import App from "./App";
 import { RootRoute } from "./services/routes";
 
@@ -37,25 +37,27 @@ const Root: React.FC = () => {
     <HydrationBoundary state={dehydratedState}>
       <App />
 
-      <DehydrateRouter />
       <ScrollRestoration />
+      <DehydrateRouter />
 
-      <TanStackRouterDevtools
-        initialIsOpen={false}
-        toggleButtonProps={{
-          style: {
-            position: "fixed",
-            top: 16,
-            right: 70,
-            bottom: "atuo",
-            left: "auto",
-          },
-        }}
-      />
-      <TanStackReactQueryDevtools
-        initialIsOpen={false}
-        buttonPosition="top-right"
-      />
+      <Suspense>
+        <TanStackRouterDevtools
+          initialIsOpen={false}
+          toggleButtonProps={{
+            style: {
+              position: "fixed",
+              top: 16,
+              right: 70,
+              bottom: "atuo",
+              left: "auto",
+            },
+          }}
+        />
+        <TanStackReactQueryDevtools
+          initialIsOpen={false}
+          buttonPosition="top-right"
+        />
+      </Suspense>
     </HydrationBoundary>
   );
 };

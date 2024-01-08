@@ -21,6 +21,7 @@ module.exports = {
 
   settings: {
     "import/resolver": {
+      typescript: true,
       node: true,
       alias: {
         map: [
@@ -33,21 +34,23 @@ module.exports = {
   },
 
   rules: {
+    // eslint
+    "no-undef": "off",
+    "no-shadow": "off", // Typescript Enum
+    "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+
+    // react
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },
     ],
-
-    // eslint
-    "no-undef": "off",
-
-    // react
     "react/jsx-filename-extension": ["error", { extensions: [".tsx"] }],
     "react/react-in-jsx-scope": "off",
     "react/function-component-definition": [
       "error",
       { namedComponents: ["function-declaration", "arrow-function"] },
     ],
+    "react/prop-types": "off",
 
     // import
     "import/no-absolute-path": "off",

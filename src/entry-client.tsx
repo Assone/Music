@@ -8,8 +8,12 @@ import { createRouter } from "./router";
 const router = createRouter();
 router.hydrate();
 
+const container = import.meta.env.SSR
+  ? document
+  : document.getElementById("root")!;
+
 ReactDOM.hydrateRoot(
-  document.getElementById("root")!,
+  container,
   <React.StrictMode>
     <StartClient router={router} />
   </React.StrictMode>,

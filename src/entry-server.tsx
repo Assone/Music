@@ -9,7 +9,7 @@ import type { Request, Response } from "express";
 import { isbot } from "isbot";
 import { StrictMode } from "react";
 import { PipeableStream, renderToPipeableStream } from "react-dom/server";
-import { Transform } from "stream";
+import Html from "./Html";
 import { createRouter } from "./router";
 import queryClient from "./services/query-client";
 
@@ -40,28 +40,28 @@ const initRouter = async (url: string) => {
   return router;
 };
 
-const createTransformByTemplate = (template: string, separator: string) => {
-  const [startTemplate, endTemplate] = template.split(separator);
+// const createTransformByTemplate = (template: string, separator: string) => {
+//   const [startTemplate, endTemplate] = template.split(separator);
 
-  const prepend = new Transform({
-    transform(chunk, _encoding, callback) {
-      this.push(startTemplate + chunk);
-      callback();
-    },
-  });
+//   const prepend = new Transform({
+//     transform(chunk, _encoding, callback) {
+//       this.push(startTemplate + chunk);
+//       callback();
+//     },
+//   });
 
-  const append = new Transform({
-    transform(chunk, _encoding, callback) {
-      this.push(chunk + endTemplate);
-      callback();
-    },
-  });
+//   const append = new Transform({
+//     transform(chunk, _encoding, callback) {
+//       this.push(chunk + endTemplate);
+//       callback();
+//     },
+//   });
 
-  return {
-    prepend,
-    append,
-  };
-};
+//   return {
+//     prepend,
+//     append,
+//   };
+// };
 
 // eslint-disable-next-line import/prefer-default-export
 export const render = async (options: RenderOptions) => {
@@ -75,12 +75,12 @@ export const render = async (options: RenderOptions) => {
     response.statusCode = didError ? 500 : 200;
     response.setHeader("Content-Type", "text/html");
 
-    const { prepend, append } = createTransformByTemplate(
-      template,
-      "<!--ssr-outlet-->",
-    );
+    // const { prepend, append } = createTransformByTemplate(
+    //   template,
+    //   "<!--ssr-outlet-->",
+    // );
     // Add our Router transform to the stream
-    const transforms = [prepend, transformStreamWithRouter(router), append];
+    const transforms = [transformStreamWithRouter(router)];
 
     // Pipe the stream through our transforms
     const transformedStream = transforms.reduce(
@@ -95,9 +95,16 @@ export const render = async (options: RenderOptions) => {
   const UA = request.headers["user-agent"];
   const isCrawler = isbot(UA);
 
+  const head = template.substring(
+    template.indexOf("<head>") + 6,
+    template.indexOf("</head>"),
+  );
+
   const stream = renderToPipeableStream(
     <StrictMode>
-      <StartServer router={router} />
+      <Html head={head}>
+        <StartServer router={router} />
+      </Html>
     </StrictMode>,
     {
       onShellReady() {

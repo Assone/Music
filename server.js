@@ -22,6 +22,8 @@ const injectAssetsToTemplate = (template, map) => {
 
         newTemplate = newTemplate.replace("</head>", `${tag}</head>`);
       }
+
+      // no default
     }
   });
 
@@ -41,6 +43,9 @@ async function createServer() {
   if (isProduction) {
   } else {
     vite = await createViteServer({
+      define: {
+        __PORT__: port,
+      },
       server: {
         middlewareMode: true,
       },
