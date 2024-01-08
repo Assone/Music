@@ -44,6 +44,10 @@ module.exports = {
     // react
     "react/jsx-filename-extension": ["error", { extensions: [".tsx"] }],
     "react/react-in-jsx-scope": "off",
+    "react/function-component-definition": [
+      "error",
+      { namedComponents: ["function-declaration", "arrow-function"] },
+    ],
 
     // import
     "import/no-absolute-path": "off",

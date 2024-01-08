@@ -1,14 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import {
-  DehydratedState,
-  HydrationBoundary,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { DehydratedState, HydrationBoundary } from "@tanstack/react-query";
 import { ScrollRestoration, useLoaderData } from "@tanstack/react-router";
 import { DehydrateRouter } from "@tanstack/react-router-server/client";
 import { lazy } from "react";
 import App from "./App";
-import queryClient from "./services/query-client";
 import { RootRoute } from "./services/routes";
 
 const TanStackRouterDevtools = import.meta.env.PROD
@@ -34,37 +29,35 @@ const TanStackReactQueryDevtools = import.meta.env.PROD
       })),
     );
 
-function Root() {
+const Root: React.FC = () => {
   const { dehydratedState }: { dehydratedState: DehydratedState } =
     useLoaderData({ from: RootRoute.id });
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <HydrationBoundary state={dehydratedState}>
-        <App />
+    <HydrationBoundary state={dehydratedState}>
+      <App />
 
-        <DehydrateRouter />
-        <ScrollRestoration />
+      <DehydrateRouter />
+      <ScrollRestoration />
 
-        <TanStackRouterDevtools
-          initialIsOpen={false}
-          toggleButtonProps={{
-            style: {
-              position: "fixed",
-              top: 16,
-              right: 70,
-              bottom: "atuo",
-              left: "auto",
-            },
-          }}
-        />
-        <TanStackReactQueryDevtools
-          initialIsOpen={false}
-          buttonPosition="top-right"
-        />
-      </HydrationBoundary>
-    </QueryClientProvider>
+      <TanStackRouterDevtools
+        initialIsOpen={false}
+        toggleButtonProps={{
+          style: {
+            position: "fixed",
+            top: 16,
+            right: 70,
+            bottom: "atuo",
+            left: "auto",
+          },
+        }}
+      />
+      <TanStackReactQueryDevtools
+        initialIsOpen={false}
+        buttonPosition="top-right"
+      />
+    </HydrationBoundary>
   );
-}
+};
 
 export default Root;
