@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 import react from "@vitejs/plugin-react-swc";
 import million from "million/compiler";
 import { visualizer } from "rollup-plugin-visualizer";

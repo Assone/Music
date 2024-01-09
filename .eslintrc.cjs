@@ -68,8 +68,8 @@ module.exports = {
         devDependencies: [
           "**/*.test.ts",
           "**/*.spec.ts",
-          "vite.config.ts",
           "server.js",
+          "vite.config.ts",
         ],
       },
     ],
