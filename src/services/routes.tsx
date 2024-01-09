@@ -1,5 +1,5 @@
 import Root from '@/Root';
-import { hotListQueryOptions } from '@/hooks/useSearchResource';
+import { hotListQueryOptions } from '@/components/HotKeywords';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import {
   Route,
