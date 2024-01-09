@@ -14,6 +14,9 @@
     "lint:type": "tsc",
     "format": "prettier --write src/",
     "preview": "vite preview",
+    "commit": "cz",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "simple-git-hooks"
   },
@@ -33,6 +36,9 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.4.4",
+    "@commitlint/config-conventional": "^18.4.4",
+    "@commitlint/types": "^18.4.4",
     "@tanstack/eslint-plugin-query": "^5.17.7",
     "@tanstack/react-router-server": "^1.1.9",
     "@tsconfig/node-lts": "^20.1.1",
@@ -46,6 +52,9 @@
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.16",
+    "commitizen": "^4.3.0",
+    "conventional-changelog-cli": "^4.1.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.55.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-prettier": "^9.1.0",
@@ -70,7 +79,9 @@
     "vite-tsconfig-paths": "^4.2.3"
   },
   "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged"
+    "pre-commit": "pnpm exec lint-staged",
+    "commit-msg": "pnpm exec commitlint -e $1",
+    "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
   },
   "lint-staged": {
     "*.{js,json}": [
@@ -80,5 +91,10 @@
       "eslint --fix",
       "prettier --write"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
