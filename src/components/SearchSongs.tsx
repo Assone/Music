@@ -21,7 +21,7 @@ const SearchSongs: React.FC<SearchSongsProps> = ({ keyword }) => {
   return (
     <m.ul>
       {data.map((item) => (
-        <m.li>{item.name}</m.li>
+        <m.li key={item.id}>{item.name}</m.li>
       ))}
     </m.ul>
   );
