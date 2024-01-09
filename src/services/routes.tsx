@@ -25,14 +25,6 @@ export const HomeRoute = new Route({
   component: lazyRouteComponent(() => import("@/views/HomeView")),
 });
 
-export const AboutRoute = new Route({
-  getParentRoute: () => RootRoute,
-  path: "/about",
-  component: function About() {
-    return <div className="p-2">Hello from About!</div>;
-  },
-});
-
 const resourceSearchSchema = z.object({
   keyword: z.string().or(z.undefined()),
 });
@@ -53,8 +45,4 @@ export const SearchRoute = new Route({
   },
 });
 
-export const routeTree = RootRoute.addChildren([
-  HomeRoute,
-  AboutRoute,
-  SearchRoute,
-]);
+export const routeTree = RootRoute.addChildren([HomeRoute, SearchRoute]);
