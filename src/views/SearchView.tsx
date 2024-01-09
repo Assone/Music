@@ -3,9 +3,11 @@ import useSearchResource from "@/hooks/useSearchResource";
 import { SearchRoute } from "@/services/routes";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { m } from "framer-motion";
+import { useMemo } from "react";
 
 const SearchView: React.FC = () => {
-  const { keyword } = useSearch({ from: SearchRoute.id });
+  const { keyword = "" } = useSearch({ from: SearchRoute.id });
+  const isEmpty = useMemo(() => keyword === "", [keyword]);
   const navigate = useNavigate();
   const { hotListQuery } = useSearchResource({
     keyword,
@@ -26,7 +28,7 @@ const SearchView: React.FC = () => {
         value={keyword}
         onChange={(evt) => onChangeKeyword(evt.target.value)}
       />
-      <IF condition={keyword === undefined}>
+      <IF condition={isEmpty}>
         <div className="flex gap-2 flex-wrap">
           {hotListQuery.data.map((item) => (
             <m.span
