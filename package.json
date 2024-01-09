@@ -13,7 +13,9 @@
     "lint:code": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:type": "tsc",
     "format": "prettier --write src/",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "simple-git-hooks"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.17.8",
@@ -56,13 +58,27 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "express": "^4.18.2",
     "isbot": "^4.3.0",
+    "lint-staged": "^15.2.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.33",
     "prettier": "3.1.1",
     "rollup-plugin-visualizer": "^5.12.0",
+    "simple-git-hooks": "^2.9.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "vite-tsconfig-paths": "^4.2.3"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
