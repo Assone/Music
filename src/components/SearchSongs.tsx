@@ -1,5 +1,6 @@
 import { getSearchResource, SearchType } from '@/apis/resources/search';
 import { useQuery } from '@tanstack/react-query';
+import { Link } from '@tanstack/react-router';
 import { m } from 'framer-motion';
 import { lastValueFrom } from 'rxjs';
 
@@ -21,7 +22,20 @@ const SearchSongs: React.FC<SearchSongsProps> = ({ keyword }) => {
   return (
     <m.ul>
       {data.map((item) => (
-        <m.li key={item.id}>{item.name}</m.li>
+        <m.li key={item.id} className='flex gap-2'>
+          <m.img className='h-10 w-10' src={item.cover} />
+
+          <div className='flex flex-col'>
+            <m.span>{item.name}</m.span>
+            <div>
+              {item.artists.map((artist) => (
+                <Link to='/artists/$id' params={{ id: artist.id.toString() }}>
+                  {artist.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </m.li>
       ))}
     </m.ul>
   );

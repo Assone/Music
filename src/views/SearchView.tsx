@@ -1,5 +1,7 @@
 import HotKeywords from '@/components/HotKeywords';
+import SearchAlbums from '@/components/SearchAlbums';
 import SearchArtists from '@/components/SearchArtists';
+import SearchMvs from '@/components/SearchMvs';
 import SearchSongs from '@/components/SearchSongs';
 import IF from '@/components/common/IF';
 import { SearchRoute } from '@/services/routes';
@@ -21,18 +23,23 @@ const SearchView: React.FC = () => {
 
   return (
     <div className='flex flex-col gap-2'>
-      <h1>Search View</h1>
-      <input
-        className='border p-1'
-        value={keyword}
-        onChange={(evt) => onChangeKeyword(evt.target.value)}
-      />
+      <div className='p-1'>
+        <input
+          className='rounded border'
+          type='search'
+          value={keyword}
+          onChange={(evt) => onChangeKeyword(evt.target.value)}
+        />
+      </div>
+
       <IF condition={isEmpty}>
         <HotKeywords onClick={onChangeKeyword} />
       </IF>
       <IF condition={isEmpty === false}>
         <SearchArtists keyword={keyword} />
         <SearchSongs keyword={keyword} />
+        <SearchAlbums keyword={keyword} />
+        <SearchMvs keyword={keyword} />
       </IF>
     </div>
   );

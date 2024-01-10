@@ -24,6 +24,12 @@ export const HomeRoute = new Route({
   component: lazyRouteComponent(() => import('@/views/HomeView')),
 });
 
+export const ArtistDetailRoute = new Route({
+  getParentRoute: () => RootRoute,
+  path: '/artists/$id',
+  component: lazyRouteComponent(() => import('@/views/ArtistDetailView')),
+});
+
 const resourceSearchSchema = z.object({
   keyword: z.string().or(z.undefined()),
 });
@@ -40,4 +46,8 @@ export const SearchRoute = new Route({
   },
 });
 
-export const routeTree = RootRoute.addChildren([HomeRoute, SearchRoute]);
+export const routeTree = RootRoute.addChildren([
+  HomeRoute,
+  ArtistDetailRoute,
+  SearchRoute,
+]);
