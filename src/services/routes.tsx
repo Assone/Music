@@ -1,11 +1,23 @@
 import Root from '@/Root';
+import {
+  AlbumListArea,
+  getAlbumDetail,
+  getAlbumListByStyle,
+  getArtistDetail,
+  getArtistMvs,
+  getArtistSongs,
+  getPlaylistDetail,
+  getRecommendPlaylist,
+} from '@/apis';
 import { hotListQueryOptions } from '@/components/HotKeywords';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import {
   Route,
+  defer,
   lazyRouteComponent,
   rootRouteWithContext,
 } from '@tanstack/react-router';
+import { lastValueFrom } from 'rxjs';
 import { z } from 'zod';
 import queryClient from './query-client';
 
@@ -22,12 +34,80 @@ export const HomeRoute = new Route({
   getParentRoute: () => RootRoute,
   path: '/',
   component: lazyRouteComponent(() => import('@/views/HomeView')),
+  loader: ({ context }) => {
+    const playlist = context.queryClient.fetchQuery({
+      queryKey: ['home', 'playlist'],
+      queryFn: () => lastValueFrom(getRecommendPlaylist()),
+    });
+    const albums = context.queryClient.fetchQuery({
+      queryKey: ['home', 'album', AlbumListArea.ea],
+      queryFn: () =>
+        lastValueFrom(getAlbumListByStyle({ area: AlbumListArea.ea })),
+    });
+
+    return {
+      playlist: defer(playlist),
+      albums: defer(albums),
+    };
+  },
+});
+
+export const PlaylistDetailRoute = new Route({
+  getParentRoute: () => RootRoute,
+  path: '/playlists/$id',
+  component: lazyRouteComponent(() => import('@/views/PlaylistDetailView')),
+  loader: async ({ context, params }) => {
+    const detail = await context.queryClient.fetchQuery({
+      queryKey: ['playlist', params.id],
+      queryFn: () => lastValueFrom(getPlaylistDetail(Number(params.id))),
+    });
+
+    return {
+      detail,
+    };
+  },
+});
+
+export const AlbumDetailRoute = new Route({
+  getParentRoute: () => RootRoute,
+  path: '/albums/$id',
+  component: lazyRouteComponent(() => import('@/views/AlbumDetailView')),
+  loader: async ({ context, params }) => {
+    const detail = await context.queryClient.fetchQuery({
+      queryKey: ['albums', 'detail', params.id],
+      queryFn: () => lastValueFrom(getAlbumDetail(Number(params.id))),
+    });
+
+    return {
+      detail,
+    };
+  },
 });
 
 export const ArtistDetailRoute = new Route({
   getParentRoute: () => RootRoute,
   path: '/artists/$id',
   component: lazyRouteComponent(() => import('@/views/ArtistDetailView')),
+  loader: async ({ context, params }) => {
+    const detail = await context.queryClient.fetchQuery({
+      queryKey: ['artists', 'detail', params.id],
+      queryFn: () => lastValueFrom(getArtistDetail(Number(params.id))),
+    });
+    const mv = context.queryClient.fetchQuery({
+      queryKey: ['artists', 'mv', params.id],
+      queryFn: () => lastValueFrom(getArtistMvs(Number(params.id))),
+    });
+    const songs = context.queryClient.fetchQuery({
+      queryKey: ['artists', 'songs', params.id],
+      queryFn: () => lastValueFrom(getArtistSongs(Number(params.id))),
+    });
+
+    return {
+      detail,
+      mv: defer(mv),
+      songs: defer(songs),
+    };
+  },
 });
 
 const resourceSearchSchema = z.object({
@@ -48,6 +128,8 @@ export const SearchRoute = new Route({
 
 export const routeTree = RootRoute.addChildren([
   HomeRoute,
+  PlaylistDetailRoute,
+  AlbumDetailRoute,
   ArtistDetailRoute,
   SearchRoute,
 ]);

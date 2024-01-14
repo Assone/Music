@@ -1,17 +1,16 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { HydrationBoundary, type DehydratedState } from "@tanstack/react-query";
-import { ScrollRestoration, useLoaderData } from "@tanstack/react-router";
-import { DehydrateRouter } from "@tanstack/react-router-server/client";
-import { LazyMotion } from "framer-motion";
-import { Suspense, lazy } from "react";
-import App from "./App";
-import { RootRoute } from "./services/routes";
+import { HydrationBoundary, type DehydratedState } from '@tanstack/react-query';
+import { ScrollRestoration, useLoaderData } from '@tanstack/react-router';
+import { DehydrateRouter } from '@tanstack/react-router-server/client';
+import { Suspense, lazy } from 'react';
+import App from './App';
+import { RootRoute } from './services/routes';
 
 const TanStackRouterDevtools = import.meta.env.PROD
   ? () => null // Render nothing in production
   : lazy(() =>
       // Lazy load in development
-      import("@tanstack/router-devtools").then((module) => ({
+      import('@tanstack/router-devtools').then((module) => ({
         default: module.TanStackRouterDevtools,
         // For Embedded Mode
         // default: res.TanStackRouterDevtoolsPanel
@@ -20,18 +19,15 @@ const TanStackRouterDevtools = import.meta.env.PROD
 
 const TanStackReactQueryDevtools = import.meta.env.PROD
   ? lazy(() =>
-      import("@tanstack/react-query-devtools/production").then((module) => ({
+      import('@tanstack/react-query-devtools/production').then((module) => ({
         default: module.ReactQueryDevtools,
       })),
     )
   : lazy(() =>
-      import("@tanstack/react-query-devtools").then((module) => ({
+      import('@tanstack/react-query-devtools').then((module) => ({
         default: module.ReactQueryDevtools,
       })),
     );
-
-const loadMotionFeatures = () =>
-  import("@/services/motion").then((module) => module.default);
 
 const Root: React.FC = () => {
   const { dehydratedState }: { dehydratedState: DehydratedState } =
@@ -39,9 +35,7 @@ const Root: React.FC = () => {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <LazyMotion features={loadMotionFeatures} strict>
-        <App />
-      </LazyMotion>
+      <App />
 
       <ScrollRestoration />
       <DehydrateRouter />
@@ -51,17 +45,17 @@ const Root: React.FC = () => {
           initialIsOpen={false}
           toggleButtonProps={{
             style: {
-              position: "fixed",
+              position: 'fixed',
               top: 16,
               right: 70,
-              bottom: "atuo",
-              left: "auto",
+              bottom: 'atuo',
+              left: 'auto',
             },
           }}
         />
         <TanStackReactQueryDevtools
           initialIsOpen={false}
-          buttonPosition="top-right"
+          buttonPosition='top-right'
         />
       </Suspense>
     </HydrationBoundary>

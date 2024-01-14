@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 const SearchView: React.FC = () => {
   const { keyword = '' } = useSearch({ from: SearchRoute.id });
   const isEmpty = useMemo(() => keyword === '', [keyword]);
-  const navigate = useNavigate();
+  const navigate = useNavigate({ from: SearchRoute.id });
 
   const onChangeKeyword = (newKeyword: string) => {
     navigate({

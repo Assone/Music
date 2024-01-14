@@ -5,6 +5,8 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-type-checked',
+
+    'plugin:react/recommended',
     'plugin:react-hooks/recommended',
 
     'airbnb',
@@ -60,6 +62,7 @@ module.exports = {
       { namedComponents: ['function-declaration', 'arrow-function'] },
     ],
     'react/prop-types': 'off',
+    'react/jsx-key': 'warn',
 
     // import
     'import/no-absolute-path': 'off',
@@ -75,5 +78,18 @@ module.exports = {
       },
     ],
     'import/extensions': ['error', 'never', { svg: 'always' }],
+    'import/order': [
+      'error',
+      {
+        pathGroups: [
+          {
+            pattern: '@/**',
+            group: 'external',
+            position: 'before',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['builtin'],
+      },
+    ],
   },
 };

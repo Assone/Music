@@ -12,6 +12,8 @@
     // Anything that uses the type modifier is dropped entirely.
     "verbatimModuleSyntax": true,
 
+    "exactOptionalPropertyTypes": false,
+
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
