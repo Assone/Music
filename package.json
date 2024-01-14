@@ -89,8 +89,7 @@
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged",
-    "commit-msg": "pnpm exec commitlint -e $1",
-    "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
+    "commit-msg": "pnpm exec commitlint -e $1"
   },
   "lint-staged": {
     "*.{js,json}": [
