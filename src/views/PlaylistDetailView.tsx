@@ -1,5 +1,6 @@
 import { getSongDetail } from '@/apis';
 import Track from '@/components/Track';
+import Button from '@/components/common/Button';
 import { TrackType } from '@/services/machine/player';
 import { PlaylistDetailRoute } from '@/services/routes';
 import usePlayer from '@/store/usePlayer';
@@ -10,11 +11,21 @@ import { lastValueFrom } from 'rxjs';
 
 const PlaylistDetailView: React.FC = () => {
   const { detail } = useLoaderData({ from: PlaylistDetailRoute.id });
-  const play = usePlayer((state) => state.play);
   const tracks = useQuery({
     queryKey: ['playlist', 'tracks', detail.trackIds],
     queryFn: () => lastValueFrom(getSongDetail(detail.trackIds)),
   });
+
+  const play = usePlayer((state) => state.play);
+
+  const onPlay = () => {
+    play(
+      detail.trackIds.map((item) => ({
+        id: item,
+        type: TrackType.audio,
+      })),
+    );
+  };
 
   return (
     <m.div>
@@ -22,20 +33,12 @@ const PlaylistDetailView: React.FC = () => {
       <h1>{detail.name}</h1>
       <p>{detail.description}</p>
 
-      <button
-        type='button'
-        onClick={() => {
-          play(
-            detail.trackIds.map((item) => ({
-              id: item,
-              type: TrackType.audio,
-            })),
-          );
-        }}
+      <Button
+        onClick={onPlay}
         className='rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700'
       >
         Play
-      </button>
+      </Button>
 
       <ul className='flex flex-col gap-1'>
         {tracks.data?.map((item) => (
@@ -44,7 +47,7 @@ const PlaylistDetailView: React.FC = () => {
             id={item.id}
             name={item.name}
             cover={item.cover}
-            artist={item.artists[0]}
+            artists={item.artists}
           />
         ))}
       </ul>

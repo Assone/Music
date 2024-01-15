@@ -1,3 +1,4 @@
+import Button from '@/components/common/Button';
 import { TrackType } from '@/services/machine/player';
 import { AlbumDetailRoute } from '@/services/routes';
 import usePlayer from '@/store/usePlayer';
@@ -8,26 +9,28 @@ const AlbumDetailView: React.FC = () => {
   const { detail } = useLoaderData({ from: AlbumDetailRoute.id });
   const { play } = usePlayer();
 
+  const onPlay = () => {
+    play(
+      detail.songs.map((item) => ({
+        id: item.id,
+        type: TrackType.audio,
+      })),
+    );
+  };
+
   return (
     <m.div>
       <m.img src={detail.cover} />
       <div>{detail.name}</div>
 
       <div>
-        <button
+        <Button
           type='button'
-          className='rounded-md bg-blue-500 p-2 text-white'
-          onClick={() => {
-            play(
-              detail.songs.map((item) => ({
-                id: item.id,
-                type: TrackType.audio,
-              })),
-            );
-          }}
+          className='rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700'
+          onClick={onPlay}
         >
           播放全部
-        </button>
+        </Button>
       </div>
 
       <div>

@@ -18,7 +18,6 @@ const HomeView: React.FC = () => {
                   <Link to='/playlists/$id' params={{ id: item.id.toString() }}>
                     {item.name}
                   </Link>
-                  I
                 </div>
               </div>
             ))}
