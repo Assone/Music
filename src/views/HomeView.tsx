@@ -1,6 +1,6 @@
+import Image from '@/components/common/Image';
 import { HomeRoute } from '@/services/routes';
 import { Await, Link, useLoaderData } from '@tanstack/react-router';
-import { m } from 'framer-motion';
 
 const HomeView: React.FC = () => {
   const { playlist, albums } = useLoaderData({ from: HomeRoute.id });
@@ -13,11 +13,12 @@ const HomeView: React.FC = () => {
           <div className='grid grid-cols-4 gap-2'>
             {playlist.map((item) => (
               <div key={item.id} className='overflow-hidden'>
-                <m.img src={item.cover} />
+                <Image src={item.cover} />
                 <div className='truncate'>
                   <Link to='/playlists/$id' params={{ id: item.id.toString() }}>
                     {item.name}
                   </Link>
+                  I
                 </div>
               </div>
             ))}
@@ -31,7 +32,7 @@ const HomeView: React.FC = () => {
           <div className='grid grid-cols-2 gap-2'>
             {albums.map((item) => (
               <div key={item.id} className='overflow-hidden'>
-                <m.img src={item.cover} />
+                <Image src={item.cover} />
                 <div className='truncate'>
                   <Link to='/playlists/$id' params={{ id: item.id.toString() }}>
                     {item.name}
