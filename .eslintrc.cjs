@@ -15,6 +15,8 @@ module.exports = {
     'plugin:@tanstack/eslint-plugin-query/recommended',
 
     'prettier',
+
+    './.eslintrc-auto-import.json',
   ],
   plugins: ['@typescript-eslint', 'react-refresh'],
 
@@ -63,6 +65,7 @@ module.exports = {
     ],
     'react/prop-types': 'off',
     'react/jsx-key': 'warn',
+    'react/jsx-props-no-spreading': ['error', { exceptions: ['button'] }],
 
     // import
     'import/no-absolute-path': 'off',
@@ -91,5 +94,6 @@ module.exports = {
         pathGroupsExcludedImportTypes: ['builtin'],
       },
     ],
+    'import/no-unresolved': ['error', { ignore: ['^virtual:', '^~icons'] }],
   },
 };

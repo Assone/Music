@@ -1,24 +1,33 @@
-import { getFavoriteAlbums } from '@/apis/resources/favorite';
-import { useQuery } from '@tanstack/react-query';
 import { m } from 'framer-motion';
-import { lastValueFrom } from 'rxjs';
+import IconAlbumOutline from '~icons/material-symbols/album-outline';
+import IconArtistOutline from '~icons/material-symbols/artist-outline';
+import IconMusicNoteRounded from '~icons/material-symbols/music-note-rounded';
+import IconMusicVideoOutline from '~icons/material-symbols/music-video-outline';
+import IconQueueMusicRounded from '~icons/material-symbols/queue-music-rounded';
 
 const LibraryView: React.FC = () => {
-  const albumsQuery = useQuery({
-    queryKey: ['library', 'favorite', 'albums'],
-    queryFn: () => lastValueFrom(getFavoriteAlbums()),
-  });
-
-  console.log(albumsQuery.data);
+  const list: { title: string; icon: React.ReactNode }[] = [
+    { title: 'Playlist', icon: <IconQueueMusicRounded /> },
+    { title: 'Artists', icon: <IconArtistOutline /> },
+    { title: 'Albums', icon: <IconAlbumOutline /> },
+    { title: 'Songs', icon: <IconMusicNoteRounded /> },
+    { title: 'Mvs', icon: <IconMusicVideoOutline /> },
+  ];
 
   return (
     <m.div>
       <h1>Library</h1>
-      <h2>Playlist</h2>
-      <h2>Artists</h2>
-      <h2>Albums</h2>
-      <h2>Songs</h2>
-      <h2>Mvs</h2>
+
+      {list.map(({ title, icon }) => (
+        <button
+          key={title}
+          type='button'
+          className='flex items-center justify-start gap-1'
+        >
+          {icon}
+          {title}
+        </button>
+      ))}
     </m.div>
   );
 };

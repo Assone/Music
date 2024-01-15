@@ -1,8 +1,14 @@
+import Button from '@/components/common/Button';
 import IF from '@/components/common/IF';
 import usePlayer from '@/store/usePlayer';
 import type { ConfigurableStyle } from '@/types/props';
 import classNames from 'classnames';
 import { m } from 'framer-motion';
+import IconPause from '~icons/material-symbols/pause';
+import IconPlayArrow from '~icons/material-symbols/play-arrow';
+import IconSkipNext from '~icons/material-symbols/skip-next';
+import IconSkipPrevious from '~icons/material-symbols/skip-previous';
+import IconStop from '~icons/material-symbols/stop';
 
 interface PlayerTrackControlsProps
   extends Pick<ConfigurableStyle, 'classname'> {}
@@ -18,25 +24,27 @@ const PlayerTrackControls: React.FC<PlayerTrackControlsProps> = ({
       <IF
         condition={playing}
         fallback={
-          <button type='button' onClick={() => play()}>
-            Play
-          </button>
+          <Button onClick={() => play()}>
+            <IconPlayArrow />
+          </Button>
         }
       >
-        <button type='button' onClick={pause}>
-          Pause
-        </button>
+        <Button onClick={pause}>
+          <IconPause />
+        </Button>
       </IF>
 
-      <button type='button' onClick={stop}>
-        Stop
-      </button>
-      <button type='button' onClick={nextTrack}>
-        Next
-      </button>
-      <button type='button' onClick={prevTrack}>
-        Prev
-      </button>
+      <Button onClick={stop}>
+        <IconStop />
+      </Button>
+
+      <Button onClick={nextTrack}>
+        <IconSkipNext />
+      </Button>
+
+      <Button onClick={prevTrack}>
+        <IconSkipPrevious />
+      </Button>
     </m.div>
   );
 };

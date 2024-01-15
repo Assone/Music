@@ -14,10 +14,12 @@
 
     "exactOptionalPropertyTypes": false,
 
+    "types": ["unplugin-icons/types/react"],
+
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "auto-imports.d.ts"]
 }
