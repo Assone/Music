@@ -44,3 +44,15 @@ export const enum Search {
   // 热搜列表
   hot = '/search/hot/detail',
 }
+
+export const enum User {
+  // 用户账号信息
+  account = '/user/account',
+}
+
+export const enum Favorite {
+  // 收藏的歌手列表
+  artists = '/artist/sublist',
+  // 收藏的专辑列表
+  albums = '/album/sublist',
+}

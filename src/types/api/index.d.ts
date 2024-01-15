@@ -1,39 +1,44 @@
-import "./album";
-import "./artist";
-import "./common";
-import "./playlist";
-import "./recommend";
-import "./search";
-import "./song";
+import './album';
+import './artist';
+import './common';
+import './playlist';
+import './recommend';
+import './search';
+import './song';
+import './user';
 
 declare global {
   namespace API {
     namespace Recommend {
-      export * from "./recommend";
+      export * from './recommend';
     }
 
     namespace Album {
-      export * from "./album";
+      export * from './album';
     }
 
     namespace Playlist {
-      export * from "./playlist";
+      export * from './playlist';
     }
 
     namespace Song {
-      export * from "./song";
+      export * from './song';
     }
 
     namespace Artist {
-      export * from "./artist";
+      export * from './artist';
     }
 
     namespace Search {
-      export * from "./search";
+      export * from './search';
     }
 
     namespace Common {
-      export * from "./common";
+      export * from './common';
+    }
+
+    namespace User {
+      export * from './user';
     }
 
     namespace RequestArgs {

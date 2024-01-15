@@ -1,8 +1,9 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { HydrationBoundary, type DehydratedState } from '@tanstack/react-query';
 import { ScrollRestoration, useLoaderData } from '@tanstack/react-router';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { DehydrateRouter } from '@tanstack/react-router-server/client';
 import { Suspense, lazy } from 'react';
+import { Toaster } from 'react-hot-toast';
 import App from './App';
 import { RootRoute } from './services/routes';
 
@@ -39,6 +40,8 @@ const Root: React.FC = () => {
 
       <ScrollRestoration />
       <DehydrateRouter />
+
+      <Toaster />
 
       <Suspense>
         <TanStackRouterDevtools

@@ -126,10 +126,17 @@ export const SearchRoute = new Route({
   },
 });
 
+export const LibraryRoute = new Route({
+  getParentRoute: () => RootRoute,
+  path: '/library',
+  component: lazyRouteComponent(() => import('@/views/LibraryView')),
+});
+
 export const routeTree = RootRoute.addChildren([
   HomeRoute,
   PlaylistDetailRoute,
   AlbumDetailRoute,
   ArtistDetailRoute,
   SearchRoute,
+  LibraryRoute,
 ]);

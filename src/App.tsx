@@ -15,6 +15,9 @@ const App: React.FC = () => (
         <Link to='/search' className='[&.active]:font-bold'>
           Search
         </Link>
+        <Link to='/library' className='[&.active]:font-bold'>
+          Library
+        </Link>
       </div>
       <hr />
 

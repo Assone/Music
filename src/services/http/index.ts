@@ -1,6 +1,7 @@
-import axios, { type AxiosRequestConfig } from "axios";
-import { stringify } from "qs";
-import { preprocessByResponse } from "./interceptors";
+import axios, { type AxiosRequestConfig } from 'axios';
+import { stringify } from 'qs';
+import { preprocessByResponse } from './interceptors';
+import { errorByResponse } from './interceptors/error';
 
 let baseURL = import.meta.env.VITE_APP_API_BASEURL;
 
@@ -10,7 +11,7 @@ if (import.meta.env.SSR && import.meta.env.DEV) {
 
 const http = axios.create({
   baseURL,
-  paramsSerializer: (params) => stringify(params, { arrayFormat: "comma" }),
+  paramsSerializer: (params) => stringify(params, { arrayFormat: 'comma' }),
 });
 
 interface ResponseData {
@@ -25,13 +26,14 @@ const interceptors = [
 
     return Promise.reject(response);
   }),
+  errorByResponse,
 ];
 
 interceptors.forEach((interceptor) => interceptor(http));
 
 export type HttpRequestConfig = Omit<
   AxiosRequestConfig,
-  "method" | "url" | "params"
+  'method' | 'url' | 'params'
 >;
 
 export default http;
