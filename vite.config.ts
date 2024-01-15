@@ -29,7 +29,7 @@ export default defineConfig({
         enabled: true,
       },
       dts: true,
-      imports: ['react'],
+      imports: ['react', 'rxjs'],
       resolvers: [
         IconsResolver({
           prefix: 'Icons',
