@@ -33,7 +33,7 @@ const HomeView: React.FC = () => {
               <div key={item.id} className='overflow-hidden'>
                 <Image src={item.cover} />
                 <div className='truncate'>
-                  <Link to='/playlists/$id' params={{ id: item.id.toString() }}>
+                  <Link to='/albums/$id' params={{ id: item.id.toString() }}>
                     {item.name}
                   </Link>
                 </div>
