@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import type { PropsWithChildren } from 'react';
 
 export interface ButtonProps
@@ -5,11 +6,12 @@ export interface ButtonProps
 
 const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
   children,
+  className,
   type = 'button',
   ...props
 }) => (
   <button
-    className='flex items-center justify-start gap-1'
+    className={classNames('flex items-center justify-start gap-1', className)}
     // eslint-disable-next-line react/button-has-type
     type={type}
     {...props}
