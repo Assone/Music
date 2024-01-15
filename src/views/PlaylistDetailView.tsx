@@ -1,4 +1,5 @@
 import { getSongDetail } from '@/apis';
+import PageTransition from '@/components/PageTransition';
 import Track from '@/components/Track';
 import Button from '@/components/common/Button';
 import { TrackType } from '@/services/machine/player';
@@ -28,30 +29,32 @@ const PlaylistDetailView: React.FC = () => {
   };
 
   return (
-    <m.div>
-      <m.img src={detail.cover} />
-      <h1>{detail.name}</h1>
-      <p>{detail.description}</p>
+    <PageTransition>
+      <m.div className=' sm:bg-red-500'>
+        <m.img src={detail.cover} />
+        <h1>{detail.name}</h1>
+        <p>{detail.description}</p>
 
-      <Button
-        onClick={onPlay}
-        className='rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700'
-      >
-        Play
-      </Button>
+        <Button
+          onClick={onPlay}
+          className='rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700'
+        >
+          Play
+        </Button>
 
-      <ul className='flex flex-col gap-1'>
-        {tracks.data?.map((item) => (
-          <Track
-            key={item.id}
-            id={item.id}
-            name={item.name}
-            cover={item.cover}
-            artists={item.artists}
-          />
-        ))}
-      </ul>
-    </m.div>
+        <ul className='flex flex-col gap-1'>
+          {tracks.data?.map((item) => (
+            <Track
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              cover={item.cover}
+              artists={item.artists}
+            />
+          ))}
+        </ul>
+      </m.div>
+    </PageTransition>
   );
 };
 

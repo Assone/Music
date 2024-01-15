@@ -9,7 +9,7 @@ import {
   getPlaylistDetail,
   getRecommendPlaylist,
 } from '@/apis';
-import { hotListQueryOptions } from '@/components/HotKeywords';
+import { hotListQueryOptions } from '@/components/SearchHotKeywords';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import {
   Route,

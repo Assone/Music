@@ -1,5 +1,6 @@
 import Button from '@/components/common/Button';
 import IF from '@/components/common/IF';
+import { useMediaQuery } from '@/hooks/common/useMediaQuery';
 import usePlayer from '@/store/usePlayer';
 import type { ConfigurableStyle } from '@/types/props';
 import classNames from 'classnames';
@@ -18,6 +19,7 @@ const PlayerTrackControls: React.FC<PlayerTrackControlsProps> = ({
 }) => {
   const { play, pause, stop, nextTrack, prevTrack } = usePlayer();
   const playing = usePlayer((state) => state.playing);
+  const isMobile = useMediaQuery({ query: '(max-width: 639px)' });
 
   return (
     <m.div className={classNames('flex gap-2', classname)}>
@@ -34,16 +36,20 @@ const PlayerTrackControls: React.FC<PlayerTrackControlsProps> = ({
         </Button>
       </IF>
 
-      <Button onClick={stop}>
-        <IconStop />
-      </Button>
+      <IF condition={isMobile === false}>
+        <Button onClick={stop}>
+          <IconStop />
+        </Button>
+      </IF>
+
+      <IF condition={isMobile === false}>
+        <Button onClick={prevTrack}>
+          <IconSkipPrevious />
+        </Button>
+      </IF>
 
       <Button onClick={nextTrack}>
         <IconSkipNext />
-      </Button>
-
-      <Button onClick={prevTrack}>
-        <IconSkipPrevious />
       </Button>
     </m.div>
   );

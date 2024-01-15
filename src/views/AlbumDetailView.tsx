@@ -1,3 +1,4 @@
+import PageTransition from '@/components/PageTransition';
 import Button from '@/components/common/Button';
 import { TrackType } from '@/services/machine/player';
 import { AlbumDetailRoute } from '@/services/routes';
@@ -19,26 +20,28 @@ const AlbumDetailView: React.FC = () => {
   };
 
   return (
-    <m.div>
-      <m.img src={detail.cover} />
-      <div>{detail.name}</div>
+    <PageTransition>
+      <m.div>
+        <m.img src={detail.cover} />
+        <div>{detail.name}</div>
 
-      <div>
-        <Button
-          type='button'
-          className='rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700'
-          onClick={onPlay}
-        >
-          播放全部
-        </Button>
-      </div>
+        <div>
+          <Button
+            type='button'
+            className='rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700'
+            onClick={onPlay}
+          >
+            播放全部
+          </Button>
+        </div>
 
-      <div>
-        {detail.songs.map((item) => (
-          <div key={item.id}>{item.name}</div>
-        ))}
-      </div>
-    </m.div>
+        <div>
+          {detail.songs.map((item) => (
+            <div key={item.id}>{item.name}</div>
+          ))}
+        </div>
+      </m.div>
+    </PageTransition>
   );
 };
 

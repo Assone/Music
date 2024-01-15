@@ -1,3 +1,4 @@
+import PageTransition from '@/components/PageTransition';
 import { ArtistDetailRoute } from '@/services/routes';
 import { Await, useLoaderData } from '@tanstack/react-router';
 import { m } from 'framer-motion';
@@ -6,21 +7,23 @@ const ArtistDetailView: React.FC = () => {
   const { detail, mv } = useLoaderData({ from: ArtistDetailRoute.id });
 
   return (
-    <div>
-      <div>{detail.name}</div>
-      <Await promise={mv}>
-        {(mvs) => (
-          <m.ul>
-            {mvs.map((mv) => (
-              <m.li key={mv.id}>
-                <m.img src={mv.cover} />
-                <span>{mv.name}</span>
-              </m.li>
-            ))}
-          </m.ul>
-        )}
-      </Await>
-    </div>
+    <PageTransition>
+      <div>
+        <div>{detail.name}</div>
+        <Await promise={mv}>
+          {(mvs) => (
+            <m.ul>
+              {mvs.map((mv) => (
+                <m.li key={mv.id}>
+                  <m.img src={mv.cover} />
+                  <span>{mv.name}</span>
+                </m.li>
+              ))}
+            </m.ul>
+          )}
+        </Await>
+      </div>
+    </PageTransition>
   );
 };
 

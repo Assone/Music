@@ -1,5 +1,5 @@
 import { Link, Outlet } from '@tanstack/react-router';
-import { LazyMotion } from 'framer-motion';
+import { AnimatePresence, LazyMotion, m } from 'framer-motion';
 import Player from './containers/Player';
 
 const loadMotionFeatures = () =>
@@ -7,7 +7,7 @@ const loadMotionFeatures = () =>
 
 const App: React.FC = () => (
   <LazyMotion features={loadMotionFeatures} strict>
-    <main className='min-h-screen'>
+    <m.main className='min-h-screen'>
       <div className='flex gap-2 p-2'>
         <Link to='/' className='[&.active]:font-bold'>
           Home
@@ -21,8 +21,10 @@ const App: React.FC = () => (
       </div>
       <hr />
 
-      <Outlet />
-    </main>
+      <AnimatePresence>
+        <Outlet />
+      </AnimatePresence>
+    </m.main>
 
     <Player classname='sticky bottom-0 bg-neutral-800/75 backdrop-blur' />
   </LazyMotion>
