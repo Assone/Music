@@ -66,7 +66,10 @@ module.exports = {
     ],
     'react/prop-types': 'off',
     'react/jsx-key': 'warn',
-    'react/jsx-props-no-spreading': ['error', { exceptions: ['button'] }],
+    'react/jsx-props-no-spreading': [
+      'error',
+      { exceptions: ['button', 'SwiperContainer', 'SwiperSlide'] },
+    ],
 
     // import
     'import/no-absolute-path': 'off',

@@ -1,4 +1,5 @@
 import PageTransition from '@/components/PageTransition';
+import Swiper from '@/components/Swiper';
 import Image from '@/components/common/Image';
 import { HomeRoute } from '@/services/routes';
 import { Await, Link, useLoaderData } from '@tanstack/react-router';
@@ -11,41 +12,56 @@ const HomeView: React.FC = () => {
     <PageTransition animate={false}>
       <m.div>
         <h2>Playlist</h2>
+
+        <Swiper />
         <Await promise={playlist}>
           {(playlist) => (
-            <div className='grid grid-cols-4 gap-2'>
-              {playlist.map((item) => (
-                <div key={item.id} className='overflow-hidden'>
-                  <Image src={item.cover} />
+            <Swiper
+              source={playlist}
+              sourceKey='id'
+              container={{
+                slidesPerView: 3.5,
+                spaceBetween: 10,
+                slidesOffsetBefore: 10,
+              }}
+            >
+              {({ id, cover, name }) => (
+                <div key={id} className='overflow-hidden'>
+                  <Image src={cover} />
                   <div className='truncate'>
-                    <Link
-                      to='/playlists/$id'
-                      params={{ id: item.id.toString() }}
-                    >
-                      {item.name}
+                    <Link to='/playlists/$id' params={{ id: id.toString() }}>
+                      {name}
                     </Link>
                   </div>
                 </div>
-              ))}
-            </div>
+              )}
+            </Swiper>
           )}
         </Await>
 
         <h2>Albums</h2>
         <Await promise={albums}>
           {(albums) => (
-            <div className='grid grid-cols-2 gap-2'>
-              {albums.map((item) => (
-                <div key={item.id} className='overflow-hidden'>
-                  <Image src={item.cover} />
+            <Swiper
+              source={albums}
+              sourceKey='id'
+              container={{
+                slidesPerView: 3.5,
+                spaceBetween: 10,
+                slidesOffsetBefore: 10,
+              }}
+            >
+              {({ id, cover, name }) => (
+                <div key={id} className='overflow-hidden'>
+                  <Image src={cover} />
                   <div className='truncate'>
-                    <Link to='/albums/$id' params={{ id: item.id.toString() }}>
-                      {item.name}
+                    <Link to='/albums/$id' params={{ id: id.toString() }}>
+                      {name}
                     </Link>
                   </div>
                 </div>
-              ))}
-            </div>
+              )}
+            </Swiper>
           )}
         </Await>
       </m.div>
