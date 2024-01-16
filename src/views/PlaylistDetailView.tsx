@@ -26,6 +26,7 @@ const PlaylistDetailView: React.FC = () => {
         <m.img src={detail.cover} />
         <h1>{detail.name}</h1>
         <p
+          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
             __html: detail.description.replace(/\n/g, '<br />'),
           }}
@@ -37,6 +38,7 @@ const PlaylistDetailView: React.FC = () => {
         >
           Play
         </Button>
+
         <TrackList ids={detail.trackIds} />
       </m.div>
     </PageTransition>
