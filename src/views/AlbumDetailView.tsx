@@ -1,4 +1,5 @@
 import PageTransition from '@/components/PageTransition';
+import TrackList from '@/components/TrackList';
 import Button from '@/components/common/Button';
 import { TrackType } from '@/services/machine/player';
 import { AlbumDetailRoute } from '@/services/routes';
@@ -23,6 +24,7 @@ const AlbumDetailView: React.FC = () => {
     <PageTransition>
       <m.div>
         <m.img src={detail.cover} />
+
         <div>{detail.name}</div>
 
         <div>
@@ -35,11 +37,7 @@ const AlbumDetailView: React.FC = () => {
           </Button>
         </div>
 
-        <div>
-          {detail.songs.map((item) => (
-            <div key={item.id}>{item.name}</div>
-          ))}
-        </div>
+        <TrackList source={detail.songs} index />
       </m.div>
     </PageTransition>
   );
