@@ -1,50 +1,22 @@
-import useIntersectionObserver from '@/hooks/common/useIntersectionObserver';
-import useTracks from '@/hooks/useTracks';
+import useTrackListControl from '@/hooks/useTrackListControl';
 import type { Duration } from 'date-fns';
 import { m } from 'framer-motion';
 import type { TrackProps } from './Track';
 import Track from './Track';
 import IF from './common/IF';
 
-interface ComputeDurationOptions {
-  format: 'HH:mm:ss' | 'HH:mm' | 'mm:ss';
-}
-
-const computeDuration = (
-  milliseconds: number,
-  options: ComputeDurationOptions = { format: 'HH:mm' },
-) => {
-  const format: (keyof Duration)[] = [];
-
-  if (options.format.includes('HH')) {
-    format.push('hours');
-  }
-
-  if (options.format.includes('mm')) {
-    format.push('minutes');
-  }
-
-  if (options.format.includes('ss')) {
-    format.push('seconds');
-  }
-
-  const duration = intervalToDuration({ start: 0, end: milliseconds });
-  const text = formatDuration(duration, { format });
-
-  return {
-    ...duration,
-    text,
-  };
-};
-
 export interface TrackListProps {
   source?: TrackProps[];
   ids?: number[];
   index?: boolean;
   duration?: boolean;
-  renderDurationInfo?: (
-    values?: Duration & { text: string },
-  ) => React.ReactNode;
+
+  renderDurationInfo?: (values: {
+    duration: Duration & { text: string };
+    count: number;
+  }) => React.ReactNode;
+
+  onLoaded?: () => void;
 }
 
 const TrackList: React.FC<TrackListProps> = ({
@@ -52,43 +24,21 @@ const TrackList: React.FC<TrackListProps> = ({
   source,
   index: showIndex,
   duration: showDuration,
+
   renderDurationInfo,
+
+  onLoaded,
 }) => {
-  const tail = useRef<HTMLDivElement>(null);
-
-  const { query, tracks } = useTracks(ids);
-  const list = useMemo(() => source || tracks, [source, tracks]);
-  const durationInfo = useMemo(() => {
-    if (query.hasNextPage) {
-      return undefined;
-    }
-
-    return computeDuration(
-      list.reduce((acc, cur) => acc + (cur?.duration || 0), 0),
-    );
-  }, [list, query.hasNextPage]);
-
-  const onLoadMore = () => {
-    query.fetchNextPage().catch((error) => {
-      console.debug('[TrackList] fetchNextPage error:', error);
-    });
-  };
-
-  const { stop } = useIntersectionObserver(tail.current, (entries) => {
-    entries.forEach((entry) => {
-      if (
-        entry.isIntersecting &&
-        query.hasNextPage &&
-        query.isFetching === false
-      ) {
-        onLoadMore();
-      }
-
-      if (query.isPending === false && query.hasNextPage === false) {
-        stop();
-      }
-    });
+  const { tail, list, duration, isLoading, isLoaded } = useTrackListControl({
+    ids,
+    source,
   });
+
+  useEffect(() => {
+    if (isLoaded) {
+      onLoaded?.();
+    }
+  }, [isLoaded, onLoaded]);
 
   return (
     <m.ul className='flex flex-col gap-1'>
@@ -104,14 +54,14 @@ const TrackList: React.FC<TrackListProps> = ({
         />
       ))}
 
-      <IF condition={query.isFetching}>
+      <IF condition={isLoading}>
         <div>Loading...</div>
       </IF>
 
       <div ref={tail} />
 
-      <IF condition={query.hasNextPage === false}>
-        {renderDurationInfo?.(durationInfo)}
+      <IF condition={isLoaded}>
+        {renderDurationInfo?.({ duration: duration!, count: list.length })}
       </IF>
     </m.ul>
   );

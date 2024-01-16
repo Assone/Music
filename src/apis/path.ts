@@ -13,6 +13,8 @@ export const enum Album {
 export const enum Playlist {
   // 获取歌单详情
   detail = '/playlist/detail',
+  // 获取歌单所有歌曲
+  tracks = '/playlist/track/all',
 }
 
 export const enum Song {

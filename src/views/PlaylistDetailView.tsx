@@ -25,7 +25,11 @@ const PlaylistDetailView: React.FC = () => {
       <m.div>
         <m.img src={detail.cover} />
         <h1>{detail.name}</h1>
-        <p>{detail.description}</p>
+        <p
+          dangerouslySetInnerHTML={{
+            __html: detail.description.replace(/\n/g, '<br />'),
+          }}
+        />
 
         <Button
           onClick={onPlay}
@@ -33,7 +37,6 @@ const PlaylistDetailView: React.FC = () => {
         >
           Play
         </Button>
-
         <TrackList ids={detail.trackIds} />
       </m.div>
     </PageTransition>

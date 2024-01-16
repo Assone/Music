@@ -1,4 +1,6 @@
 import http from '@/services/http';
+import { formatSong } from '@/utils/format';
+import { mapArray } from '@/utils/rxjs';
 import { from, map } from 'rxjs';
 import { Playlist } from '../path';
 
@@ -33,4 +35,22 @@ export const getPlaylistDetail = (id: ID, collectorsCount?: number) =>
         trackIds,
       };
     }),
+  );
+
+/**
+ * 获取歌单所有歌曲
+ * @param id 歌单id
+ * @param options 分页参数
+ */
+export const getPlaylistAllTrack = (
+  id: ID,
+  options?: API.RequestArgs.PaginationOptions,
+) =>
+  from(
+    http.get<API.Song.Detail>(Playlist.tracks, {
+      params: { id, ...options },
+    }),
+  ).pipe(
+    map(({ songs }) => songs),
+    mapArray(formatSong),
   );

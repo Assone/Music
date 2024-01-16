@@ -16,11 +16,13 @@ const formatDuration = (duration?: number) => {
   return `${minutes}:${String(seconds).padStart(2, '0')}`;
 };
 
+export interface TrackArtistData extends Pick<Artist, 'name' | 'id'> {}
+
 export interface TrackProps {
   name: string;
   id: number;
   cover?: string;
-  artists?: Pick<Artist, 'name' | 'id'>[];
+  artists?: TrackArtistData[];
   index?: number;
   duration?: number;
 }
