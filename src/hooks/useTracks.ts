@@ -34,6 +34,7 @@ export default function useTracks(
     [query.data?.pages],
   );
 
+  useDebugValue(ids, (ids) => `Ids Length: ${ids.length}`);
   useDebugValue(tracks, (tracks) => `Tracks Length: ${tracks.length}`);
 
   return {

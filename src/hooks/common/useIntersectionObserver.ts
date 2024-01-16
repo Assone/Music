@@ -24,12 +24,15 @@ export default function useIntersectionObserver(
   const isSupported = useSupported(
     () => window && 'IntersectionObserver' in window,
   );
+
   const clean = useRef(noop);
   const targets = useMemo<HTMLElement[]>(() => {
     const list = isArray(target) ? target : [target];
 
     return list.filter(notNullish);
   }, [target]);
+
+  useDebugValue(isActive, (isActive) => `isActive: ${isActive}`);
 
   useEffect(() => {
     if (!isSupported) return noop;

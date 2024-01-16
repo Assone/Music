@@ -29,7 +29,7 @@ export default defineConfig({
         enabled: true,
       },
       dts: true,
-      imports: ['react', 'rxjs'],
+      imports: ['react', 'rxjs', 'date-fns'],
       resolvers: [
         IconsResolver({
           prefix: 'Icons',

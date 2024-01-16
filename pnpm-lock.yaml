@@ -26,6 +26,9 @@ dependencies:
   classnames:
     specifier: ^2.5.1
     version: 2.5.1
+  date-fns:
+    specifier: ^3.2.0
+    version: 3.2.0
   framer-motion:
     specifier: ^10.17.9
     version: 10.17.9(react-dom@18.2.0)(react@18.2.0)
@@ -2773,6 +2776,10 @@ packages:
     engines: {node: '>=0.11'}
     dependencies:
       '@babel/runtime': 7.23.7
+    dev: false
+
+  /date-fns@3.2.0:
+    resolution: {integrity: sha512-E4KWKavANzeuusPi0jUjpuI22SURAznGkx7eZV+4i6x2A+IZxAMcajgkvuDAU1bg40+xuhW1zRdVIIM/4khuIg==}
     dev: false
 
   /debug@2.6.9:

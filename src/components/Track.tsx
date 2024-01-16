@@ -6,12 +6,23 @@ import IF from './common/IF';
 const normalizeTrackNo = (trackNo?: number) =>
   trackNo ? String(trackNo).padStart(2, '0') : undefined;
 
+const formatDuration = (duration?: number) => {
+  if (duration === undefined) {
+    return undefined;
+  }
+
+  const minutes = Math.floor(duration / 1000 / 60);
+  const seconds = Math.floor((duration / 1000) % 60);
+  return `${minutes}:${String(seconds).padStart(2, '0')}`;
+};
+
 export interface TrackProps {
   name: string;
   id: number;
   cover?: string;
   artists?: Pick<Artist, 'name' | 'id'>[];
   index?: number;
+  duration?: number;
 }
 
 const Track: React.FC<TrackProps> = ({
@@ -20,6 +31,7 @@ const Track: React.FC<TrackProps> = ({
   cover,
   artists = [],
   index,
+  duration,
 }) => {
   const trackNo = useMemo(() => normalizeTrackNo(index), [index]);
 
@@ -50,6 +62,10 @@ const Track: React.FC<TrackProps> = ({
           </div>
         </IF>
       </div>
+
+      <IF condition={duration !== undefined}>
+        <span className='ml-auto'>{formatDuration(duration)}</span>
+      </IF>
     </m.li>
   );
 };
