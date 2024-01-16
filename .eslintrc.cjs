@@ -48,6 +48,7 @@ module.exports = {
     'no-shadow': 'off', // Typescript Enum
     'no-unused-vars': 'off',
     'no-redeclare': 'off',
+    'no-console': ['error', { allow: ['error', 'debug'] }],
 
     // typescript
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],

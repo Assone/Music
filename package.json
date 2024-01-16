@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "vite",
     "dev:ssr": "node server.js",
-    "build": "npm-run-all lint:type --parallel build:*",
+    "build": "npm-run-all lint --parallel build:*",
     "build:client": "vite build --outDir dist/client --ssrManifest",
     "build:server": "vite build --outDir dist/server --ssr src/entry-server.tsx",
-    "lint": "run-p lint:*",
+    "lint": "npm-run-all --parallel lint:type lint:quick --serial lint:code",
+    "lint:quick": "oxlint --import-plugin --jsx-a11y-plugin",
     "lint:code": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:type": "tsc",
     "format": "prettier --write src/",
@@ -80,6 +81,7 @@
     "isbot": "^4.3.0",
     "lint-staged": "^15.2.0",
     "npm-run-all": "^4.1.5",
+    "oxlint": "^0.2.0",
     "postcss": "^8.4.33",
     "prettier": "3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.11",
@@ -105,10 +107,5 @@
       "eslint --fix",
       "prettier --write"
     ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
   }
 }

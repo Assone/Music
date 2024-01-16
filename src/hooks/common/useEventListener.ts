@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/order
 import type { Arrayable, Fn } from '@/types/utils';
 import { arraify, noop } from '@/utils/helpers';
 import { unRef, type MaybeRef } from '@/utils/react';

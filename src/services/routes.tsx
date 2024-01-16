@@ -132,6 +132,7 @@ export const LibraryRoute = new Route({
   component: lazyRouteComponent(() => import('@/views/LibraryView')),
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const routeTree = RootRoute.addChildren([
   HomeRoute,
   PlaylistDetailRoute,

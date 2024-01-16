@@ -423,6 +423,7 @@ const playerMachine = createMachine(
 
             navigator.mediaSession.metadata = new MediaMetadata(metadata);
 
+            // eslint-disable-next-line no-console
             console.log(
               '[Player updateCurrentTrackResourceMediaMetadata]',
               metadata,

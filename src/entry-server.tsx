@@ -1,17 +1,18 @@
-import { createMemoryHistory } from "@tanstack/react-router";
+/* eslint-disable no-console */
+import { createMemoryHistory } from '@tanstack/react-router';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
   StartServer,
   transformStreamWithRouter,
-} from "@tanstack/react-router-server/server";
-import type { Request, Response } from "express";
+} from '@tanstack/react-router-server/server';
+import type { Request, Response } from 'express';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { isbot } from "isbot";
-import { StrictMode } from "react";
-import { renderToPipeableStream, type PipeableStream } from "react-dom/server";
-import Html from "./Html";
-import { createRouter } from "./router";
-import queryClient from "./services/query-client";
+import { isbot } from 'isbot';
+import { StrictMode } from 'react';
+import { renderToPipeableStream, type PipeableStream } from 'react-dom/server';
+import Html from './Html';
+import { createRouter } from './router';
+import queryClient from './services/query-client';
 
 interface RenderOptions {
   request: Request;
@@ -73,7 +74,7 @@ export const render = async (options: RenderOptions) => {
 
   const startTransformPipe = (pipeableStream: PipeableStream) => {
     response.statusCode = didError ? 500 : 200;
-    response.setHeader("Content-Type", "text/html");
+    response.setHeader('Content-Type', 'text/html');
 
     // const { prepend, append } = createTransformByTemplate(
     //   template,
@@ -92,12 +93,12 @@ export const render = async (options: RenderOptions) => {
     transformedStream.pipe(response);
   };
 
-  const UA = request.headers["user-agent"];
+  const UA = request.headers['user-agent'];
   const isCrawler = isbot(UA);
 
   const head = template.substring(
-    template.indexOf("<head>") + 6,
-    template.indexOf("</head>"),
+    template.indexOf('<head>') + 6,
+    template.indexOf('</head>'),
   );
 
   const stream = renderToPipeableStream(
@@ -117,10 +118,10 @@ export const render = async (options: RenderOptions) => {
           startTransformPipe(stream);
         }
       },
-      onShellError(error) {
+      onShellError() {
         response.statusCode = 500;
-        response.setHeader("content-type", "text/html");
-        response.send("<h1>Something went wrong</h1>");
+        response.setHeader('content-type', 'text/html');
+        response.send('<h1>Something went wrong</h1>');
       },
       onError: (error) => {
         didError = true;
@@ -133,5 +134,5 @@ export const render = async (options: RenderOptions) => {
 
   setTimeout(abort, 10000);
 
-  request.on("close", abort);
+  request.on('close', abort);
 };
