@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:ssr": "node server.js",
-    "build": "npm-run-all lint --parallel build:*",
+    "build": "npm-run-all lint:type --parallel build:*",
     "build:client": "vite build --outDir dist/client --ssrManifest",
     "build:server": "vite build --outDir dist/server --ssr src/entry-server.tsx",
     "lint": "npm-run-all --parallel lint:type lint:quick --serial lint:code",
