@@ -10,7 +10,7 @@ const PageTransition: React.FC<PropsWithChildren<PageTransitionProps>> = ({
   animate = true,
   children,
 }) => (
-  <MotionConfig transition={{ ease: [0.17, 0.67, 0.83, 0.67] }}>
+  <MotionConfig transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] }}>
     <m.div
       initial={animate ? 'hidden' : 'visible'}
       animate='visible'

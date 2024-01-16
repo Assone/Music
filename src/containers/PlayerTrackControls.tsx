@@ -22,7 +22,7 @@ const PlayerTrackControls: React.FC<PlayerTrackControlsProps> = ({
   const isMobile = useMediaQuery({ query: '(max-width: 639px)' });
 
   return (
-    <m.div className={classNames('flex gap-2', classname)}>
+    <m.div className={classNames('flex gap-2 text-2xl', classname)}>
       <IF
         condition={playing}
         fallback={
