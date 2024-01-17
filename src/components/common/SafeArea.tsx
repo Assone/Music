@@ -1,30 +1,45 @@
-interface SafeAreaProps {
-  position: "top" | "bottom" | "left" | "right";
+import classNames from 'classnames';
+import type { PropsWithChildren } from 'react';
+
+type SafeAreaPosition = 'top' | 'bottom' | 'left' | 'right';
+
+interface SafeAreaProps
+  extends React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  > {
+  position: SafeAreaPosition[];
   multiple?: number;
 }
 
-const SafeArea: React.FC<SafeAreaProps> = ({ position, multiple = 1 }) => (
+const SafeArea: React.FC<PropsWithChildren<SafeAreaProps>> = ({
+  position,
+  multiple = 1,
+  children,
+
+  style,
+  className,
+
+  ...props
+}) => (
   <div
-    className="w-full"
-    style={{
-      paddingTop:
-        position === "top"
-          ? `calc(env(safe-area-inset-top) * ${multiple})`
-          : undefined,
-      paddingBottom:
-        position === "bottom"
-          ? `calc(env(safe-area-inset-bottom) * ${multiple})`
-          : undefined,
-      paddingLeft:
-        position === "left"
-          ? `calc(env(safe-area-inset-left) * ${multiple})`
-          : undefined,
-      paddingRight:
-        position === "right"
-          ? `calc(env(safe-area-inset-right) * ${multiple})`
-          : undefined,
-    }}
-  />
+    style={
+      { '--safe-area-multiple': multiple, ...style } as React.CSSProperties
+    }
+    className={classNames(
+      'w-full',
+      {
+        'safe-area-top': position.includes('top'),
+        'safe-area-bottom': position.includes('bottom'),
+        'safe-area-left': position.includes('left'),
+        'safe-area-right': position.includes('right'),
+      },
+      className,
+    )}
+    {...props}
+  >
+    {children}
+  </div>
 );
 
 export default SafeArea;

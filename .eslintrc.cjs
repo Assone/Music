@@ -68,7 +68,7 @@ module.exports = {
     'react/jsx-key': 'warn',
     'react/jsx-props-no-spreading': [
       'error',
-      { exceptions: ['button', 'SwiperContainer', 'SwiperSlide'] },
+      { exceptions: ['button', 'div', 'SwiperContainer', 'SwiperSlide'] },
     ],
 
     // import

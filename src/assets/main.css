@@ -4,6 +4,46 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .safe-area-top {
+    padding-top: calc(
+      constant(safe-area-inset-top),
+      var(--safe-area-multiple, 1)
+    );
+    padding-top: calc(env(safe-area-inset-top), var(--safe-area-multiple, 1));
+  }
+
+  .safe-area-bottom {
+    padding-bottom: calc(
+      constant(safe-area-inset-bottom),
+      var(--safe-area-multiple, 1)
+    );
+    padding-bottom: calc(
+      env(safe-area-inset-bottom),
+      var(--safe-area-multiple, 1)
+    );
+  }
+
+  .safe-area-left {
+    padding-left: calc(
+      constant(safe-area-inset-left),
+      var(--safe-area-multiple, 1)
+    );
+    padding-left: calc(env(safe-area-inset-left), var(--safe-area-multiple, 1));
+  }
+
+  .safe-area-right {
+    padding-right: calc(
+      constant(safe-area-inset-right),
+      var(--safe-area-multiple, 1)
+    );
+    padding-right: calc(
+      env(safe-area-inset-right),
+      var(--safe-area-multiple, 1)
+    );
+  }
+}
+
 html {
   font-family:
     'Noto Sans SC',
