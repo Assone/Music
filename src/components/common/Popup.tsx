@@ -1,4 +1,3 @@
-import { getGlobalIndex } from '@/hooks/common/useGlobalZIndex';
 import classNames from 'classnames';
 import {
   animate,
@@ -36,7 +35,7 @@ const Popup: React.FC<PropsWithChildren<PopupProps>> = ({
   closeOnOverlayClick = true,
   duration = 0.4,
 
-  zIndex = getGlobalIndex(),
+  zIndex = 1000,
 
   children,
 
