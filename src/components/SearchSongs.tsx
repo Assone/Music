@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import { m } from 'framer-motion';
 import { lastValueFrom } from 'rxjs';
+import Image from './common/Image';
 
 export interface SearchSongsProps {
   keyword?: string;
@@ -23,7 +24,7 @@ const SearchSongs: React.FC<SearchSongsProps> = ({ keyword }) => {
     <m.ul>
       {data.map((item) => (
         <m.li key={item.id} className='flex gap-2'>
-          <m.img className='h-10 w-10' src={item.cover} />
+          <Image className='h-10 w-10' src={item.cover} />
 
           <div className='flex flex-col overflow-hidden'>
             <m.span className='truncate'>{item.name}</m.span>

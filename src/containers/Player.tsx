@@ -6,9 +6,9 @@ import PlayerTrackControls from './PlayerTrackControls';
 import PlayerTrackCover from './PlayerTrackCover';
 import PlayerTrackInfo from './PlayerTrackInfo';
 
-interface PlayerProps extends Pick<ConfigurableStyle, 'classname'> {}
+interface PlayerProps extends Pick<ConfigurableStyle, 'className'> {}
 
-const Player: React.FC<PlayerProps> = ({ classname }) => {
+const Player: React.FC<PlayerProps> = ({ className }) => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -16,14 +16,14 @@ const Player: React.FC<PlayerProps> = ({ classname }) => {
       <m.div
         className={classNames(
           'flex justify-between gap-2 rounded-tl rounded-tr p-1',
-          classname,
+          className,
         )}
         onClick={() => {
           setVisible(true);
         }}
       >
         <PlayerTrackInfo />
-        <PlayerTrackControls classname='flex-shrink-0' />
+        <PlayerTrackControls className='flex-shrink-0' />
       </m.div>
       <Popup
         visible={visible}

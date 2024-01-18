@@ -2,6 +2,7 @@ import type { Artist } from '@/types/api/common';
 import { Link } from '@tanstack/react-router';
 import { m } from 'framer-motion';
 import IF from './common/IF';
+import Image from './common/Image';
 
 const normalizeTrackNo = (trackNo?: number) =>
   trackNo ? String(trackNo).padStart(2, '0') : undefined;
@@ -43,7 +44,7 @@ const Track: React.FC<TrackProps> = ({
         <span>{trackNo}</span>
       </IF>
       <IF condition={cover !== undefined}>
-        <m.img className='h-10 w-10' src={cover} loading='lazy' />
+        <Image className='h-10 w-10' src={cover} />
       </IF>
       <div className='flex flex-col gap-1 overflow-hidden'>
         <span className='truncate' title={name}>

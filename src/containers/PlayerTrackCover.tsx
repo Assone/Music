@@ -3,7 +3,7 @@ import usePlayer from '@/store/usePlayer';
 import type { ConfigurableStyle } from '@/types/props';
 
 interface PlayerTrackCoverProps
-  extends Pick<ConfigurableStyle, 'classname' | 'style'> {}
+  extends Pick<ConfigurableStyle, 'className' | 'style'> {}
 
 const PlayerTrackCover: React.FC<PlayerTrackCoverProps> = () => {
   const cover = usePlayer(

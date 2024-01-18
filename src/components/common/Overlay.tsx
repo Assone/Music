@@ -5,7 +5,7 @@ import { m, useAnimation } from 'framer-motion';
 import type { PropsWithChildren } from 'react';
 
 export interface OverlayProps
-  extends Pick<ConfigurableStyle, 'classname' | 'style'> {
+  extends Pick<ConfigurableStyle, 'className' | 'style'> {
   visible?: boolean;
   duration?: number;
   zIndex?: number;
@@ -18,7 +18,7 @@ const Overlay: React.FC<PropsWithChildren<OverlayProps>> = ({
   duration,
   zIndex,
 
-  classname,
+  className,
   style,
 
   children,
@@ -40,7 +40,7 @@ const Overlay: React.FC<PropsWithChildren<OverlayProps>> = ({
     <m.div
       className={classNames(
         'fixed left-0 top-0 h-full w-full bg-black/75',
-        classname,
+        className,
       )}
       style={{
         display: active ? undefined : 'none',

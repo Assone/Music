@@ -12,17 +12,17 @@ import IconSkipPrevious from '~icons/material-symbols/skip-previous';
 import IconStop from '~icons/material-symbols/stop';
 
 interface PlayerTrackControlsProps
-  extends Pick<ConfigurableStyle, 'classname'> {}
+  extends Pick<ConfigurableStyle, 'className'> {}
 
 const PlayerTrackControls: React.FC<PlayerTrackControlsProps> = ({
-  classname,
+  className,
 }) => {
   const { play, pause, stop, nextTrack, prevTrack } = usePlayer();
   const playing = usePlayer((state) => state.playing);
   const isMobile = useMediaQuery({ query: '(max-width: 639px)' });
 
   return (
-    <m.div className={classNames('flex gap-2 text-2xl', classname)}>
+    <m.div className={classNames('flex gap-2 text-2xl', className)}>
       <IF
         condition={playing}
         fallback={

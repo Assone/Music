@@ -9,7 +9,6 @@ import { Playlist } from '../path';
  * @param id 歌单id
  * @param collectorsCount 收藏者数量
  */
-// eslint-disable-next-line import/prefer-default-export
 export const getPlaylistDetail = (id: ID, collectorsCount?: number) =>
   from(
     http.get<API.Playlist.Detail>(Playlist.detail, {

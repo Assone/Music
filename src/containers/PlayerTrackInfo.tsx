@@ -1,12 +1,13 @@
+import Image from '@/components/common/Image';
 import usePlayer from '@/store/usePlayer';
 import type { ConfigurableStyle } from '@/types/props';
 import { Link } from '@tanstack/react-router';
 import classNames from 'classnames';
 import { m } from 'framer-motion';
 
-interface PlayerTrackInfoProps extends Pick<ConfigurableStyle, 'classname'> {}
+interface PlayerTrackInfoProps extends Pick<ConfigurableStyle, 'className'> {}
 
-const PlayerTrackInfo: React.FC<PlayerTrackInfoProps> = ({ classname }) => {
+const PlayerTrackInfo: React.FC<PlayerTrackInfoProps> = ({ className }) => {
   const data = usePlayer(
     (state) => state.context.currentTrackResourceInformation,
   );
@@ -17,14 +18,18 @@ const PlayerTrackInfo: React.FC<PlayerTrackInfoProps> = ({ classname }) => {
     <m.div
       className={classNames(
         'flex items-center justify-center gap-1',
-        classname,
+        className,
       )}
     >
-      <m.img className='h-10 w-10' src={data?.cover} />
+      <Image className='h-10 w-10' src={data?.cover} />
       <div className='flex flex-col gap-1 overflow-hidden'>
         <div className='truncate'>{data?.name}</div>
         {data.artist ? (
-          <Link to='/artists/$id' params={{ id: data.artist.id.toString() }}>
+          <Link
+            className='inline-block'
+            to='/artists/$id'
+            params={{ id: data.artist.id.toString() }}
+          >
             {data.artist.name}
           </Link>
         ) : null}

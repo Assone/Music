@@ -18,43 +18,43 @@ interface InferEventTarget<E> {
   removeEventListener(event: E, fn?: Fn, options?: EventListenerOptions): void;
 }
 
-export function useEventListener<N extends WindowEventName>(
+export default function useEventListener<N extends WindowEventName>(
   event: Arrayable<N>,
   listener: Arrayable<(this: Window, evt: WindowEventMap[N]) => unknown>,
   options?: EventListenerOptions,
 ): Fn;
-export function useEventListener<N extends WindowEventName>(
+export default function useEventListener<N extends WindowEventName>(
   target: Window,
   event: Arrayable<N>,
   listener: Arrayable<(this: Window, evt: WindowEventMap[N]) => unknown>,
   options?: EventListenerOptions,
 ): Fn;
-export function useEventListener<N extends DocumentEventName>(
+export default function useEventListener<N extends DocumentEventName>(
   target: DocumentOrShadowRoot,
   event: Arrayable<N>,
   listener: Arrayable<(this: Document, evt: DocumentEventMap[N]) => unknown>,
   options?: EventListenerOptions,
 ): Fn;
-export function useEventListener<N extends HTMLElementEventName>(
+export default function useEventListener<N extends HTMLElementEventName>(
   target: MaybeRef<HTMLElement | undefined>,
   event: Arrayable<N>,
   listener: (this: HTMLElement, evt: HTMLElementEventMap[N]) => unknown,
   options?: EventListenerOptions,
 ): Fn;
-export function useEventListener<N extends string, EventType = Event>(
+export default function useEventListener<N extends string, EventType = Event>(
   target: InferEventTarget<N>,
   event: Arrayable<N>,
   listener: Arrayable<GeneralEventListener<EventType>>,
   options?: EventListenerOptions,
 ): Fn;
-export function useEventListener<EventType = Event>(
+export default function useEventListener<EventType = Event>(
   target: MaybeRef<EventTarget | undefined>,
   event: Arrayable<string>,
   listener: Arrayable<GeneralEventListener<EventType>>,
   options?: EventListenerOptions,
 ): Fn;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function useEventListener(...args: any[]) {
+export default function useEventListener(...args: any[]) {
   const [shouldListener, setShouldListener] = useState(true);
   const cleanups = useRef<Fn[]>([]);
 

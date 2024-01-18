@@ -99,5 +99,6 @@ module.exports = {
       },
     ],
     'import/no-unresolved': ['error', { ignore: ['^virtual:', '^~icons'] }],
+    'import/export': 'off',
   },
 };

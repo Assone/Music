@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import { m } from 'framer-motion';
 import { lastValueFrom } from 'rxjs';
+import Image from './common/Image';
 
 export interface SearchArtistsProps {
   keyword?: string;
@@ -26,7 +27,7 @@ const SearchArtists: React.FC<SearchArtistsProps> = ({ keyword }) => {
           key={item.id}
           className='flex flex-col items-center justify-center'
         >
-          <m.img className='h-14 w-14 rounded-full' src={item.avatar} />
+          <Image className='h-14 w-14 rounded-full' src={item.avatar} />
           <Link to='/artists/$id' params={{ id: item.id.toString() }}>
             {item.name}
           </Link>

@@ -1,6 +1,7 @@
 import PageTransition from '@/components/PageTransition';
 import TrackList from '@/components/TrackList';
 import Button from '@/components/common/Button';
+import Image from '@/components/common/Image';
 import { TrackType } from '@/services/machine/player';
 import { PlaylistDetailRoute } from '@/services/routes';
 import usePlayer from '@/store/usePlayer';
@@ -23,7 +24,7 @@ const PlaylistDetailView: React.FC = () => {
   return (
     <PageTransition>
       <m.div>
-        <m.img src={detail.cover} />
+        <Image src={detail.cover} />
         <h1>{detail.name}</h1>
         <p
           // eslint-disable-next-line react/no-danger

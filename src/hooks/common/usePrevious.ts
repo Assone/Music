@@ -1,17 +1,19 @@
-import { useRef } from "react";
+import { useRef } from 'react';
 
-type DetermineUpdateFn<T> = (prev: T | undefined, next: T) => boolean;
+type DetermineUpdateFn<T> = (prev: T | undefined, current: T) => boolean;
 
 export default function usePrevious<T>(
   state: T,
   determineUpdateFn: DetermineUpdateFn<T> = (prev, next) =>
     !Object.is(prev, next),
 ) {
-  const ref = useRef<T>();
+  const currentRef = useRef<T>(state);
+  const previousRef = useRef<T>(state);
 
-  if (determineUpdateFn(ref.current, state)) {
-    ref.current = state;
+  if (determineUpdateFn(currentRef.current, state)) {
+    previousRef.current = currentRef.current;
+    currentRef.current = state;
   }
 
-  return ref.current;
+  return previousRef.current;
 }

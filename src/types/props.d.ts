@@ -1,4 +1,4 @@
 export interface ConfigurableStyle {
-  classname?: string;
+  className?: string;
   style?: React.CSSProperties;
 }
