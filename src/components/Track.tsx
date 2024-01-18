@@ -1,3 +1,4 @@
+import useResponsiveImage from '@/hooks/common/useResponsiveImage';
 import type { Artist } from '@/types/api/common';
 import { Link } from '@tanstack/react-router';
 import { m } from 'framer-motion';
@@ -37,6 +38,7 @@ const Track: React.FC<TrackProps> = ({
   duration,
 }) => {
   const trackNo = useMemo(() => normalizeTrackNo(index), [index]);
+  const { srcSet, sizes } = useResponsiveImage(cover);
 
   return (
     <m.li key={id} className='flex items-center gap-1'>
@@ -44,7 +46,12 @@ const Track: React.FC<TrackProps> = ({
         <span>{trackNo}</span>
       </IF>
       <IF condition={cover !== undefined}>
-        <Image className='h-10 w-10' src={cover} />
+        <Image
+          className='h-10 w-10'
+          src={cover}
+          srcSet={srcSet}
+          sizes={sizes}
+        />
       </IF>
       <div className='flex flex-col gap-1 overflow-hidden'>
         <span className='truncate' title={name}>
