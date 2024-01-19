@@ -10,7 +10,8 @@ import { devtools } from 'zustand/middleware';
 
 interface State {
   context: PlayerContext;
-  playing: boolean;
+  isPlaying: boolean;
+  isLoading: boolean;
 }
 
 interface Action {
@@ -159,7 +160,7 @@ const usePlayer = create<State & Action>()(
         howler.volume(volume);
       }
 
-      set({ playing: media === 'playing' });
+      set({ isPlaying: media === 'playing', isLoading: media === 'loading' });
     });
 
     actor.start();
@@ -169,7 +170,8 @@ const usePlayer = create<State & Action>()(
     return {
       ...actions,
       context,
-      playing: false,
+      isPlaying: false,
+      isLoading: false,
     };
   }),
 );

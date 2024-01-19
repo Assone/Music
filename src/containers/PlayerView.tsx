@@ -10,17 +10,18 @@ import IconSkipNext from '~icons/material-symbols/skip-next';
 import IconSkipPrevious from '~icons/material-symbols/skip-previous';
 
 const PlayerView: React.FC = () => {
-  const playing = usePlayer((state) => state.playing);
+  const isPlaying = usePlayer((state) => state.isPlaying);
+  const isLoading = usePlayer((state) => state.isLoading);
   const data = usePlayer(
     (state) => state.context.currentTrackResourceInformation,
   );
-  const { play, pause } = usePlayer();
+  const { play, pause, nextTrack, prevTrack } = usePlayer();
 
   return (
-    <m.div className='flex flex-col gap-4 p-8'>
+    <m.div className='flex flex-col gap-6 p-8'>
       <m.div
         className='flex justify-center px-5 py-10'
-        animate={{ scale: playing ? 1.4 : undefined }}
+        animate={{ scale: isPlaying || isLoading ? 1.4 : undefined }}
         transition={{ type: 'spring' }}
       >
         <PlayerTrackCover className=' h-64 w-64 overflow-hidden rounded' />
@@ -43,11 +44,11 @@ const PlayerView: React.FC = () => {
         )}
 
         <div className='flex justify-center gap-2 text-4xl'>
-          <Button>
+          <Button onClick={prevTrack}>
             <IconSkipPrevious />
           </Button>
           <IF
-            condition={playing}
+            condition={isPlaying}
             fallback={
               <Button onClick={() => play()}>
                 <IconPlayArrow />
@@ -58,7 +59,7 @@ const PlayerView: React.FC = () => {
               <IconPause />
             </Button>
           </IF>
-          <Button>
+          <Button onClick={nextTrack}>
             <IconSkipNext />
           </Button>
         </div>
