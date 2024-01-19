@@ -25,13 +25,15 @@ const PlaylistDetailView: React.FC = () => {
     <PageTransition>
       <m.div>
         <Image src={detail.cover} />
-        <h1>{detail.name}</h1>
-        <p
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{
-            __html: detail.description.replace(/\n/g, '<br />'),
-          }}
-        />
+        <div>
+          <h1 className='text-center text-xl font-bold'>{detail.name}</h1>
+          <p
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: detail.description.replace(/\n/g, '<br />'),
+            }}
+          />
+        </div>
 
         <Button
           onClick={onPlay}
