@@ -26,29 +26,39 @@ const PlayerTrackControls: React.FC<PlayerTrackControlsProps> = ({
       <IF
         condition={playing}
         fallback={
-          <Button onClick={() => play()}>
+          <Button
+            stopPropagation={['onClick']}
+            onClick={() => {
+              play();
+            }}
+          >
             <IconPlayArrow />
           </Button>
         }
       >
-        <Button onClick={pause}>
+        <Button
+          stopPropagation={['onClick']}
+          onClick={() => {
+            pause();
+          }}
+        >
           <IconPause />
         </Button>
       </IF>
 
       <IF condition={isMobile === false}>
-        <Button onClick={stop}>
+        <Button stopPropagation={['onClick']} onClick={stop}>
           <IconStop />
         </Button>
       </IF>
 
       <IF condition={isMobile === false}>
-        <Button onClick={prevTrack}>
+        <Button stopPropagation={['onClick']} onClick={prevTrack}>
           <IconSkipPrevious />
         </Button>
       </IF>
 
-      <Button onClick={nextTrack}>
+      <Button stopPropagation={['onClick']} onClick={nextTrack}>
         <IconSkipNext />
       </Button>
     </m.div>

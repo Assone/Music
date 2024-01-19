@@ -10,6 +10,9 @@ export default function usePrevious<T>(
   const currentRef = useRef<T>(state);
   const previousRef = useRef<T>(state);
 
+  useDebugValue(currentRef.current, (value) => `Current: ${String(value)}`);
+  useDebugValue(previousRef.current, (value) => `Previous: ${String(value)}`);
+
   if (determineUpdateFn(currentRef.current, state)) {
     previousRef.current = currentRef.current;
     currentRef.current = state;

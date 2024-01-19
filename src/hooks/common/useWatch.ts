@@ -40,6 +40,9 @@ export default function useWatch<T>(
   });
   const effect = useLatest(callback);
 
+  useDebugValue(active.current, (value) => `Active: ${String(value)}`);
+  useDebugValue(source, (value) => `Source: ${String(value)}`);
+
   const stop = () => {
     active.current = false;
   };

@@ -1,3 +1,4 @@
+import type { ConfigurableStyle } from '@/types/props';
 import classNames from 'classnames';
 import {
   animate,
@@ -13,7 +14,7 @@ import SafeArea from './SafeArea';
 
 type PopupPosition = 'top' | 'bottom' | 'left' | 'right';
 
-export interface PopupProps {
+export interface PopupProps extends Pick<ConfigurableStyle, 'className'> {
   visible?: boolean;
   protal?: string;
   overlay?: boolean;
@@ -38,6 +39,8 @@ const Popup: React.FC<PropsWithChildren<PopupProps>> = ({
   zIndex = 1000,
 
   children,
+
+  className,
 
   ...props
 }) => {
@@ -116,14 +119,18 @@ const Popup: React.FC<PropsWithChildren<PopupProps>> = ({
         zIndex: zIndex + 10,
         transform,
       }}
-      className={classNames('fixed bg-white shadow-2xl', {
-        'h-full': position === 'left' || position === 'right',
-        'w-full': position === 'top' || position === 'bottom',
-        'left-0 top-0': position === 'top',
-        'bottom-0 left-0': position === 'bottom',
-        'right-0 top-0': position === 'right',
-        'bottom-0 right-0': position === 'left',
-      })}
+      className={classNames(
+        'fixed bg-white shadow-2xl',
+        {
+          'h-full': position === 'left' || position === 'right',
+          'w-full': position === 'top' || position === 'bottom',
+          'left-0 top-0': position === 'top',
+          'bottom-0 left-0': position === 'bottom',
+          'right-0 top-0': position === 'right',
+          'bottom-0 right-0': position === 'left',
+        },
+        className,
+      )}
       onAnimationComplete={() => {
         setActive(visible);
       }}

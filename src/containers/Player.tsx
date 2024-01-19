@@ -3,8 +3,9 @@ import type { ConfigurableStyle } from '@/types/props';
 import classNames from 'classnames';
 import { m } from 'framer-motion';
 import PlayerTrackControls from './PlayerTrackControls';
-import PlayerTrackCover from './PlayerTrackCover';
 import PlayerTrackInfo from './PlayerTrackInfo';
+
+const PlayerView = lazy(() => import('@/containers/PlayerView'));
 
 interface PlayerProps extends Pick<ConfigurableStyle, 'className'> {}
 
@@ -26,12 +27,13 @@ const Player: React.FC<PlayerProps> = ({ className }) => {
         <PlayerTrackControls className='flex-shrink-0' />
       </m.div>
       <Popup
+        className='bg-white/75 backdrop-blur'
         visible={visible}
         onClose={() => {
           setVisible(false);
         }}
       >
-        <PlayerTrackCover />
+        <PlayerView />
       </Popup>
     </>
   );

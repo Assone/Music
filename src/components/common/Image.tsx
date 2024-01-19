@@ -12,7 +12,7 @@ export interface ImageProps
       React.ImgHTMLAttributes<HTMLImageElement>,
       'src' | 'srcSet' | 'sizes'
     >,
-    Pick<ConfigurableStyle, 'className'> {
+    Pick<ConfigurableStyle, 'className' | 'style'> {
   lazy?: boolean;
 
   placeholder?: ReactNode;
@@ -28,6 +28,7 @@ const Image: React.FC<ImageProps> = ({
   placeholder,
 
   className,
+  style,
 }) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -63,13 +64,13 @@ const Image: React.FC<ImageProps> = ({
   });
 
   useMounted(() => {
-    if (ref.current?.complete) {
+    if (src !== undefined && ref.current?.complete) {
       onLoad();
     }
   });
 
   return (
-    <div className={classNames('relative', className)}>
+    <div className={classNames('relative', className)} style={style}>
       <m.img
         ref={ref}
         src={src}
