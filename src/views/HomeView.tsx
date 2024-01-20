@@ -1,6 +1,7 @@
 import PageTransition from '@/components/PageTransition';
 import Swiper from '@/components/Swiper';
 import Image from '@/components/common/Image';
+import Typography from '@/components/common/Typography';
 import { HomeRoute } from '@/services/routes';
 import { Await, Link, useLoaderData } from '@tanstack/react-router';
 import { m } from 'framer-motion';
@@ -11,7 +12,7 @@ const HomeView: React.FC = () => {
   return (
     <PageTransition animate={false}>
       <m.div>
-        <h2>Playlist</h2>
+        <Typography.Title level={2}>Playlist</Typography.Title>
 
         <Swiper />
         <Await promise={playlist}>
@@ -39,7 +40,7 @@ const HomeView: React.FC = () => {
           )}
         </Await>
 
-        <h2>Albums</h2>
+        <Typography.Title level={2}>Albums</Typography.Title>
         <Await promise={albums}>
           {(albums) => (
             <Swiper

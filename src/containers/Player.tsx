@@ -2,6 +2,7 @@ import Popup from '@/components/common/Popup';
 import type { ConfigurableStyle } from '@/types/props';
 import classNames from 'classnames';
 import { m } from 'framer-motion';
+import { Suspense } from 'react';
 import PlayerTrackControls from './PlayerTrackControls';
 import PlayerTrackInfo from './PlayerTrackInfo';
 
@@ -33,7 +34,9 @@ const Player: React.FC<PlayerProps> = ({ className }) => {
           setVisible(false);
         }}
       >
-        <PlayerView />
+        <Suspense>
+          <PlayerView />
+        </Suspense>
       </Popup>
     </>
   );
