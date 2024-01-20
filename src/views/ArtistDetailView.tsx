@@ -1,28 +1,38 @@
+import ArtistAlbum from '@/components/ArtistAlbum';
+import ArtistMvs from '@/components/ArtistMvs';
+import ArtistSongs from '@/components/ArtistSongs';
 import PageTransition from '@/components/PageTransition';
 import Image from '@/components/common/Image';
+import Typography from '@/components/common/Typography';
 import { ArtistDetailRoute } from '@/services/routes';
-import { Await, useLoaderData } from '@tanstack/react-router';
-import { m } from 'framer-motion';
+import { useLoaderData } from '@tanstack/react-router';
 
 const ArtistDetailView: React.FC = () => {
-  const { detail, mv } = useLoaderData({ from: ArtistDetailRoute.id });
+  const { detail } = useLoaderData({ from: ArtistDetailRoute.id });
 
   return (
     <PageTransition>
-      <div>
-        <div>{detail.name}</div>
-        <Await promise={mv}>
-          {(mvs) => (
-            <m.ul>
-              {mvs.map((mv) => (
-                <m.li key={mv.id}>
-                  <Image src={mv.cover} />
-                  <span>{mv.name}</span>
-                </m.li>
-              ))}
-            </m.ul>
-          )}
-        </Await>
+      <div className='flex flex-col gap-2'>
+        <Image className='sticky top-0' src={detail.cover} />
+
+        <Typography.Title level={2}>{detail.name}</Typography.Title>
+
+        <ArtistSongs id={detail.id} />
+
+        <div className='flex flex-col gap-1'>
+          <Typography.Title level={3}>MV</Typography.Title>
+          <div>
+            <ArtistMvs id={detail.id} />
+          </div>
+          A
+        </div>
+
+        <div className='flex flex-col gap-1'>
+          <Typography.Title level={3}>专辑</Typography.Title>
+          <div>
+            <ArtistAlbum id={detail.id} />
+          </div>
+        </div>
       </div>
     </PageTransition>
   );

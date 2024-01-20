@@ -93,12 +93,16 @@ export const ArtistDetailRoute = new Route({
       queryKey: ['artists', 'detail', params.id],
       queryFn: () => lastValueFrom(getArtistDetail(Number(params.id))),
     });
-    const mv = context.queryClient.fetchQuery({
+    const mv = context.queryClient.ensureQueryData({
       queryKey: ['artists', 'mv', params.id],
       queryFn: () => lastValueFrom(getArtistMvs(Number(params.id))),
     });
-    const songs = context.queryClient.fetchQuery({
+    const songs = context.queryClient.ensureQueryData({
       queryKey: ['artists', 'songs', params.id],
+      queryFn: () => lastValueFrom(getArtistSongs(Number(params.id))),
+    });
+    const album = context.queryClient.ensureQueryData({
+      queryKey: ['artists', 'album', params.id],
       queryFn: () => lastValueFrom(getArtistSongs(Number(params.id))),
     });
 
@@ -106,6 +110,7 @@ export const ArtistDetailRoute = new Route({
       detail,
       mv: defer(mv),
       songs: defer(songs),
+      album: defer(album),
     };
   },
 });

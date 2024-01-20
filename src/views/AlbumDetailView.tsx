@@ -5,7 +5,7 @@ import Image from '@/components/common/Image';
 import { TrackType } from '@/services/machine/player';
 import { AlbumDetailRoute } from '@/services/routes';
 import usePlayer from '@/store/usePlayer';
-import { useLoaderData } from '@tanstack/react-router';
+import { Link, useLoaderData } from '@tanstack/react-router';
 import { m } from 'framer-motion';
 
 const AlbumDetailView: React.FC = () => {
@@ -27,6 +27,9 @@ const AlbumDetailView: React.FC = () => {
         <Image src={detail.cover} />
 
         <div>{detail.name}</div>
+        <Link to='/artists/$id' params={{ id: detail.artist.id.toString() }}>
+          {detail.artist.name}
+        </Link>
 
         <div>
           <Button

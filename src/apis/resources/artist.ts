@@ -13,7 +13,20 @@ export const getArtistAlbums = (
   id: ID,
   params?: API.RequestArgs.PaginationOptions,
 ) =>
-  from(http.get<API.Artist.Album>(Artist.album, { params: { id, ...params } }));
+  from(
+    http.get<API.Artist.Album>(Artist.album, { params: { id, ...params } }),
+  ).pipe(
+    map((res) => res.hotAlbums),
+    mapArray((album) => {
+      const sourceInfo = formatSourceInfo(album);
+      const cover = album.picUrl;
+
+      return {
+        ...sourceInfo,
+        cover,
+      };
+    }),
+  );
 
 /**
  * 获取歌手详情

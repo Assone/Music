@@ -70,6 +70,7 @@ module.exports = {
       'error',
       { exceptions: ['button', 'div', 'SwiperContainer', 'SwiperSlide'] },
     ],
+    'react/require-default-props': 'off',
 
     // import
     'import/no-absolute-path': 'off',
