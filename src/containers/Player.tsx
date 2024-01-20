@@ -27,6 +27,7 @@ const Player: React.FC<PlayerProps> = ({ className }) => {
         <PlayerTrackInfo />
         <PlayerTrackControls className='flex-shrink-0' />
       </m.div>
+
       <Popup
         className='bg-white/75 backdrop-blur'
         visible={visible}

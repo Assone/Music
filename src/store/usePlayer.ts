@@ -4,7 +4,7 @@ import playerMachine, {
 } from '@/services/machine/player';
 import { isArray } from '@/utils/is';
 import { Howl } from 'howler';
-import { Actor, createActor } from 'xstate';
+import { Actor, createActor, type Snapshot } from 'xstate';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -102,21 +102,38 @@ const registerActions = (actor: Actor<typeof playerMachine>): Action => {
 const usePlayer = create<State & Action>()(
   devtools((set) => {
     let howler = new Howl({ src: [''] });
+    const state = import.meta.env.SSR
+      ? undefined
+      : (JSON.parse(
+          localStorage.getItem('player') as string,
+        ) as Snapshot<unknown>);
 
     const actor = createActor(playerMachine, {
       devTools: true,
+      snapshot: state,
     });
     const actions = registerActions(actor);
     let prevTrack: TrackData | undefined;
 
     actor.subscribe((snapshot) => {
       set({ context: snapshot.context });
+
+      if (import.meta.env.SSR === false) {
+        localStorage.setItem(
+          'player',
+          JSON.stringify(actor.getPersistedSnapshot()),
+        );
+      }
     });
 
     actor.subscribe((snapshot) => {
       const { value } = snapshot;
-      const { currentTrackResourceInformation, tracks, currentTrackIndex } =
-        snapshot.context;
+      const {
+        currentTrackResourceInformation,
+        tracks,
+        currentTrackIndex,
+        volume,
+      } = snapshot.context;
       const { media } = value as { media: string };
 
       if (media === 'playing' && currentTrackResourceInformation) {
@@ -131,6 +148,7 @@ const usePlayer = create<State & Action>()(
           howler = new Howl({
             src: [currentTrackResourceInformation.url],
             html5: true,
+            volume,
           });
 
           howler.once('end', () => {

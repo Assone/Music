@@ -12,8 +12,6 @@ const PlayerTrackInfo: React.FC<PlayerTrackInfoProps> = ({ className }) => {
     (state) => state.context.currentTrackResourceInformation,
   );
 
-  if (!data) return null;
-
   return (
     <m.div
       className={classNames(
@@ -24,7 +22,7 @@ const PlayerTrackInfo: React.FC<PlayerTrackInfoProps> = ({ className }) => {
       <Image className='h-10 w-10' src={data?.cover} />
       <div className='flex flex-col gap-1 overflow-hidden'>
         <div className='truncate'>{data?.name}</div>
-        {data.artist ? (
+        {data?.artist ? (
           <Link
             className='inline-block'
             to='/artists/$id'
