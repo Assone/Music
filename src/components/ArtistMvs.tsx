@@ -27,7 +27,7 @@ const ArtistMvs: React.FC<ArtistMvsProps> = ({ id }) => {
     >
       {({ cover, name }) => (
         <div className='overflow-hidden'>
-          <Image src={cover} />
+          <Image className='overflow-hidden rounded' src={cover} />
           <div className='truncate'>
             <Typography.Text>{name}</Typography.Text>
           </div>
