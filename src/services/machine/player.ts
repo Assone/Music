@@ -134,7 +134,7 @@ const loadTrack = fromPromise<PlayerResourceInformation, TrackData | undefined>(
 
 const playerMachine = createMachine(
   {
-    /** @xstate-layout N4IgpgJg5mDOIC5QAcA2BDAnmATgYgGUBRAFQH0A1AeQBkBVAWSIG0AGAXURQHtYBLAC59uAOy4gAHogCMAZlYAmAHSsArABYA7KtYAOTQE4d66QBoQmRAtbqlB1gDYFO6awObd62ZoC+P82hYuHgMdCQsHOLIvILCYkiSMrLSukrOsgbS6vaqWbpmFjJ6Suqqyc5q6roGCil+ARjY+HQAcqHhbJwJ0fxCouJSCHIpSq4G6qUKzrqyM+aWQwr1IIFNhKRkJABKAIIAwgDSBJ1RMX3xoIOamvOIqvlKsqoGsg7SmuoKDjpL-iuNwR2ABEgZtdocTt0znEBklHGlZBMbNYFJp0rchtpNEpdKpDLUHK9FA5fH9VsEtkQGFQKEQwfsDpCeL0YQlBtIFPYSrpdJztNkHCSMdJBdISjYHLzWHJ7njluT8MRyHs6FtKS1yAAFGg7ACa9IhkShLP6bJkCnUDiUDiqOheNtyNWFqhtdlyEwUGWkWQm8oBOCUAFtIHx0EpYAJuMhkJA8Nq9UyVtDTZcZO5sbzdKxkl509oMdVUm9VCWqrJZmoHH6ggHgxBQ0pUNx0PWRFA8BBRGAlHwRAA3bgAa27CqDIbDTZbvagCF7A4Axuhzp1Ez1YinEkN0ziFFmcxlrvnCghtMps-Zdy7DLldNWmmP6xPm6327gcNwA4EBAAzD+BpSjnWDaTi+s79twi7Lhwq7Jhcm6euMSiGCSBiZAY3yaCKGKaNK1qeDM2alKh6h3rgD4Nm+H54JS2z6jQVDAjBJpwYMFrZjiBi4tmLqOCYGLfGKKRVISmgOJkMyyKRtbjgBjTTnGOx0MQTHrixiCobICJeKieK8bkGLiTiVS4vktTPDYUnkWGqzyQQJBUJqKnnLCQy5FaGSOKwEpoqUBQLNUthfCW9zvG8FqqJZQHWXJbZ4C0RAABrkNsDJOayqauSKjz2A4XmWj5+nHqh7k8vY0jPC8Rikg0NZWbJWDyfFSUGoy0hdMyqkueVWUebl3nhX56kTEh3yqBap4vGNkUyTZsWapSFAtWlG7sm52Wef1vnCm4yieLUJhTCkry3mS-p1cg6AAK6wLG8a6staknpKKjlblgrluVhULOhBiPMZFpiZ40rSNNj4AVdN0QIQ9mOUaHXOWaT2pNKPHvckJaDYszxKBoZTqIoaJuJ4oMNhd12xk1yXgoycNJsxLmicjr2OIS6NfUkrgqKUnxZCKpQnTV95ReD5NQ5TS1tac9OI4zL2o6zn2Y6Jyi5CWHw8tc0iZCT1kQ7dC1LbTa4Ixlsso29CsY8K+NWtknjJPYFYcpZADuvadi7SgiH+6CoHg9kAOIBzQdIAGJ0DQNAEHslJEC0D0uQSaRjJyzhOJhFoYtkrA4s8GRufcGQkadtVuyIHtKN+l2oKgsDzjgYBgCI-tUEHIdkOHkfR7H8dG7BidZbUO01C6qIcuoWf448edZIoWTIZJyzexAcBRP6UudYj3oYkF08vNofMkt8Osbybm73NisjWOWpR6DaE-Hna1oo6irDaISWYRSXQsyRGUYxhAU+6VNwpEJCNYKV9vQcieAWVCoxPoaAkp-Ks38yLCxAtOIBK0rBa2xMhUSYkXhZFUPxEwz9yreC0CYQGOslCURwFgx6adNKfHQprXcNt+LY0Zt6VWrwta0NmlARhXVXCqHWiWfeOFywkOPNUK0okSx6HnvIZ4gi9aAONJvDKhJxFX2zIiHQuh74GTEkhEw1QpiHReK7d23AXYiMRs8DETxdrPF3JoeQLxuLVX+KXOxntvY4EDL7RxGVXA3GPBMW2nxCGOE-s8FBgsyJlwrlXGudcG5NzCZuCYgVqg2HeCkLykoH4LAmKkcYXxcr6A1pyPwfggA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QAcA2BDAnmATgOgFtIBLdAYgGUBRAFQH0A1AeQBkBVAWSoG0AGAXUQoA9rGIAXYsIB2QkAA9EARl4AOAGx51AdgCs2gMwAWHboBMR3eoA0ITIjPajeI73Vn9upRoNOAvn62aFi4hCTkHGw0PAJyyKISUrJICsoqZniqTgCcxtmWSto2doiqSi7ZldlKuW7qZUYBQRjY+EQQpGRsAHKR0XyCKfFikjJyighK6XiGvEauhUVmSrb2k668eB5KBmoG9dpm2dpNIMGtYR3k1PQ0AEoAggDCANIUA3EJo8mgEzvaq0QRlUzlUulySks6l4vAMZlUp3OoXanQeABE0XR7s8Xh8hl8kuNlLxspswbp5gZdFkqQCSpNtNo8NldAYlBZDiZzAjAmcWsjwmQ7lQOEwGFQsY9XniRCNCSk-rw9HgVNlHNUjIYjgZAetspptHNfGYldDLLpEfy2oKbnQnmw7sLuvQAAosB4ATUlOJlZwJYwVxLZW3U+VD+WyWTMuqU4IMKv0RlpqgM+x2lpC1queFg4mEyGQkDIbs9vuGiQDv2U0KZSt43hZ2khnN1RXj1QpPks+SU6gzFxR6DwqGE6A60igZAgMjAeGI0gAbsIANazpFZ0jD0fjqAIedLgDG6G+AzL-p+qUmNbwdYb+mbFl1njwrNJRiOWVU9cavPXl03I5jvOk64Dgwj4ME4gAGbgQQeB-oOW5AROe6LsIR4ngIZ5ypWl41PkN4GFG9ZTNoqjRvSb4vuRNTuGqapuP2ArZqB4FCrQdxeiwTDothFYXhMJqwiqriakYNTpLoupgs4ahmGY9RJsCvCOExG5DucwHFg8bDUHx3xEgg0IZJq6hWE22j5B4dJrKSTImiaFLvsscw8s0mb-hpLRaRQNBMC6+nylWkyQroWhwkUugwgYxzmK2hQzGZ6jGIsyUpmpnnwd5E5kN0VAABq3FKuKxPiOECWkljhY4ZnRbFFFrBo5T1KSjlmL4REnL+VqZZpOV5YV3rSkogyyvxhlTFVyU1VFsL1a29QhroVgmrSy3ZBliF9ZOLrCgwQ0laNfrlRNoXVZFdV6A1iAsqoIkmiC7UqBSXXuQO4TwegACusBFiWHqBbhEy+PZ+iWRYqj6m4qi6o2Mz1pG8lfvJFibR9yDfb9ECUH5AWlWNBmBggINbGDarAlD9QxuyoIFJCaoKUmaPZhjP1FgNRU+vjx3jUTJPWeDFPQlT9KkWFxheF+LKuIjzObqzWO5QVnPDUd5aE8F-NkxDlMw-S1KaPW5kqcC+hqnLGmY39e0HYDFXE4ypOMuTkPC3razsk2MyI-M6jqJCkIZQA7vO05B3g0iwegqBkH5ADiccsBKABibAsCwFBPMKVDdHbE1lFsqpGPkRSkmqMZlEy-tzKy5HqmRweh8I4dQV9qCoLAB44GAYDSLHTAJ0ndCp+nmfZ7n3Pq0FeEFy5EamWX10MjoKoqJ1lk7O+fanJHEBwHEVqfCdRMALSPvSJ-b29zGkEfvPBZDupUhkYK5Ms8ngqyP7X+pOZ5gWkA74azwsXeMMJGTyXyClZaC1nDiU7Mlbs4kr58g8ohQCO4gHTz+JZWsRFIa9kMEmKk0l1DOF7MtKKKYvDsiUBbPArEcBYKBg4XsGQdCxncPguY2RpLHGZJGR6q0ZJuVQe9Fm2UoDMPtk2Zw00yLF0OERXsfDyjwnMH7Q0ehlooIQujK2EBpGGXks4FaUIsh6A4UvdkX5MgqCUg5GKuieoh2kGHIxRNz4ex0NkLQ9jKjFzcIyC03UPKuLDhHKOqAPHBUODGRk8YagdXfpUbwISf54HCc3PArd26d27r3GJl4ZZbEhrCakXJi5SVFsErQuRGRlCyKGRkAQAhAA */
     types: {} as {
       context: PlayerContext;
       events: PlayerEvents;
@@ -237,6 +237,58 @@ const playerMachine = createMachine(
             },
           },
         },
+        on: {
+          SET_VOLUME: {
+            actions: [
+              {
+                type: 'setVolume',
+                params: ({ event }) => ({ volume: event.volume }),
+              },
+            ],
+          },
+          MUTE: {
+            actions: [{ type: 'setMute', params: { mute: true } }],
+          },
+          UNMUTE: {
+            actions: [{ type: 'setMute', params: { mute: false } }],
+          },
+
+          SET_TRACKS: {
+            actions: [
+              log(({ event }) => event.tracks, '[Player SET_TRACKS]'),
+              {
+                type: 'setTracks',
+                params: ({ event }) => ({ tracks: event.tracks }),
+              },
+              'initCurrentTrackIndex',
+            ],
+            target: '.loading',
+          },
+          ADD_TRACK: {
+            actions: [
+              {
+                type: 'addTrack',
+                params: ({ event }) => ({ track: event.track }),
+              },
+            ],
+          },
+          REMOVE_TRACK: {
+            actions: [
+              {
+                type: 'removeTrack',
+                params: ({ event }) => ({ track: event.track }),
+              },
+            ],
+          },
+          SET_CURRENT_PLAY_TRACK: {
+            actions: [
+              {
+                type: 'setCurrentPlayTrack',
+                params: ({ event }) => ({ track: event.track }),
+              },
+            ],
+          },
+        },
       },
       window: {
         initial: 'normal',
@@ -252,58 +304,6 @@ const playerMachine = createMachine(
             },
           },
         },
-      },
-    },
-    on: {
-      SET_VOLUME: {
-        actions: [
-          {
-            type: 'setVolume',
-            params: ({ event }) => ({ volume: event.volume }),
-          },
-        ],
-      },
-      MUTE: {
-        actions: [{ type: 'setMute', params: { mute: true } }],
-      },
-      UNMUTE: {
-        actions: [{ type: 'setMute', params: { mute: false } }],
-      },
-
-      SET_TRACKS: {
-        actions: [
-          log(({ event }) => event.tracks, '[Player SET_TRACKS]'),
-          {
-            type: 'setTracks',
-            params: ({ event }) => ({ tracks: event.tracks }),
-          },
-          'initCurrentTrackIndex',
-        ],
-        target: '.media.loading',
-      },
-      ADD_TRACK: {
-        actions: [
-          {
-            type: 'addTrack',
-            params: ({ event }) => ({ track: event.track }),
-          },
-        ],
-      },
-      REMOVE_TRACK: {
-        actions: [
-          {
-            type: 'removeTrack',
-            params: ({ event }) => ({ track: event.track }),
-          },
-        ],
-      },
-      SET_CURRENT_PLAY_TRACK: {
-        actions: [
-          {
-            type: 'setCurrentPlayTrack',
-            params: ({ event }) => ({ track: event.track }),
-          },
-        ],
       },
     },
   },
