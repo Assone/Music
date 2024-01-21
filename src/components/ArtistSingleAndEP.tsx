@@ -4,16 +4,16 @@ import { Link } from '@tanstack/react-router';
 import Swiper from './Swiper';
 import Image from './common/Image';
 
-export interface ArtistAlbumProps {
+export interface ArtistSingleAndEPProps {
   id: number;
 }
 
-const ArtistAlbum: React.FC<ArtistAlbumProps> = ({ id }) => {
+export default function ArtistSingleAndEP({ id }: ArtistSingleAndEPProps) {
   const query = useQuery({
     queryKey: ['artist', 'album', id],
     queryFn: () => lastValueFrom(getArtistAlbums(id)),
     initialData: [],
-    select: (list) => list.filter((item) => item.isSingle === false),
+    select: (list) => list.filter((item) => item.isSingle),
   });
 
   return (
@@ -38,6 +38,4 @@ const ArtistAlbum: React.FC<ArtistAlbumProps> = ({ id }) => {
       )}
     </Swiper>
   );
-};
-
-export default ArtistAlbum;
+}

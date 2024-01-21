@@ -29,7 +29,7 @@ const App: React.FC = () => {
         </AnimatePresence>
       </m.main>
 
-      <Player className='sticky bottom-0 bg-neutral-800/75 backdrop-blur' />
+      <Player className='sticky bottom-0 bg-white/75 backdrop-blur' />
     </LazyMotion>
   );
 };

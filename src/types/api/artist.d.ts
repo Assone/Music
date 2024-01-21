@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Album as HotAlbum, Artist, Song } from './common';
+import { Artist, Creator, Album as HotAlbum, Song } from './common';
 
 type AvatarDetail = {
   userType: number;
@@ -166,6 +166,98 @@ export interface Songs {
   artist: Artist;
   hotSongs: Song[];
   more: boolean;
+  code: number;
+}
+
+interface Content {
+  type: number;
+  id: number;
+  content?: string;
+}
+
+interface Introduction {
+  ti: string;
+  txt: string;
+}
+
+interface Topic {
+  id: number;
+  addTime: number;
+  mainTitle: string;
+  title: string;
+  content: Content[];
+  userId: number;
+  cover: number;
+  headPic: number;
+  shareContent: string;
+  wxTitle: string;
+  showComment: boolean;
+  status: number;
+  seriesId: number;
+  pubTime: number;
+  readCount: number;
+  tags: string[];
+  pubImmidiatly: boolean;
+  auditor: string;
+  auditTime: number;
+  auditStatus: number;
+  startText: string;
+  delReason: string;
+  showRelated: boolean;
+  fromBackend: boolean;
+  rectanglePic: number;
+  updateTime: number;
+  reward: boolean;
+  summary: string;
+  memo?: any;
+  adInfo: string;
+  categoryId: number;
+  hotScore: number;
+  recomdTitle: string;
+  recomdContent: string;
+  number: number;
+}
+
+interface TopicDatum {
+  topic: Topic;
+  creator: Creator;
+  shareCount: number;
+  commentCount: number;
+  likedCount: number;
+  liked: boolean;
+  rewardCount: number;
+  rewardMoney: number;
+  relatedResource?: any;
+  rectanglePicUrl: string;
+  coverUrl: string;
+  categoryId: number;
+  categoryName: string;
+  mainTitle: string;
+  commentThreadId: string;
+  reward: boolean;
+  shareContent: string;
+  wxTitle: string;
+  addTime: number;
+  seriesId: number;
+  showComment: boolean;
+  showRelated: boolean;
+  memo?: any;
+  summary: string;
+  recmdTitle: string;
+  recmdContent: string;
+  readCount: number;
+  url: string;
+  title: string;
+  tags: string[];
+  id: number;
+  number: number;
+}
+
+export interface Description {
+  introduction: Introduction[];
+  briefDesc: string;
+  count: number;
+  topicData: TopicDatum[];
   code: number;
 }
 

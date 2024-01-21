@@ -20,10 +20,14 @@ export const getArtistAlbums = (
     mapArray((album) => {
       const sourceInfo = formatSourceInfo(album);
       const cover = album.picUrl;
+      const isSingle = album.size === 1;
+      const isEp = album.type !== '专辑' && isSingle === false;
 
       return {
         ...sourceInfo,
         cover,
+        isSingle,
+        isEp,
       };
     }),
   );
@@ -64,4 +68,13 @@ export const getArtistSongs = (id: ID) =>
   from(http.get<API.Artist.Songs>(Artist.songs, { params: { id } })).pipe(
     map((res) => res.hotSongs),
     mapArray(formatSong),
+  );
+
+/**
+ * 获取歌手描述
+ * @param id 歌手ID
+ */
+export const getArtistDescription = (id: ID) =>
+  from(
+    http.get<API.Artist.Description>(Artist.description, { params: { id } }),
   );

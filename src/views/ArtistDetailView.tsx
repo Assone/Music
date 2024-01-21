@@ -1,16 +1,17 @@
 import ArtistAlbum from '@/components/ArtistAlbum';
+import ArtistDescription from '@/components/ArtistDescription';
 import ArtistMvs from '@/components/ArtistMvs';
+import ArtistSingleAndEP from '@/components/ArtistSingleAndEP';
 import ArtistSongs from '@/components/ArtistSongs';
 import PageTransition from '@/components/PageTransition';
-import IF from '@/components/common/IF';
 import Image from '@/components/common/Image';
 import Typography from '@/components/common/Typography';
 import { ArtistDetailRoute } from '@/services/routes';
-import { Await, useLoaderData } from '@tanstack/react-router';
+import { useLoaderData } from '@tanstack/react-router';
 import { m } from 'framer-motion';
 
 const ArtistDetailView: React.FC = () => {
-  const { detail, mv } = useLoaderData({ from: ArtistDetailRoute.id });
+  const { detail } = useLoaderData({ from: ArtistDetailRoute.id });
 
   return (
     <PageTransition>
@@ -30,23 +31,31 @@ const ArtistDetailView: React.FC = () => {
           <ArtistSongs id={detail.id} />
         </div>
 
-        <Await promise={mv}>
-          {(mvs) => (
-            <IF condition={mvs.length > 0}>
-              <div className='flex flex-col gap-1'>
-                <Typography.Title level={3}>MV</Typography.Title>
-                <div>
-                  <ArtistMvs id={detail.id} />
-                </div>
-              </div>
-            </IF>
-          )}
-        </Await>
+        <div className='flex flex-col gap-1'>
+          <Typography.Title level={3}>MV</Typography.Title>
+          <div>
+            <ArtistMvs id={detail.id} />
+          </div>
+        </div>
 
         <div className='flex flex-col gap-1'>
           <Typography.Title level={3}>专辑</Typography.Title>
           <div>
             <ArtistAlbum id={detail.id} />
+          </div>
+        </div>
+
+        <div className='flex flex-col gap-1'>
+          <Typography.Title level={3}>Single & EP</Typography.Title>
+          <div>
+            <ArtistSingleAndEP id={detail.id} />
+          </div>
+        </div>
+
+        <div className='flex flex-col gap-1'>
+          <Typography.Title level={3}>Description</Typography.Title>
+          <div>
+            <ArtistDescription id={detail.id} />
           </div>
         </div>
       </m.div>

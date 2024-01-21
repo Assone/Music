@@ -1,4 +1,6 @@
+import IF from '@/components/common/IF';
 import Popup from '@/components/common/Popup';
+import useMounted from '@/hooks/common/useMounted';
 import type { ConfigurableStyle } from '@/types/props';
 import classNames from 'classnames';
 import { m } from 'framer-motion';
@@ -11,10 +13,15 @@ const PlayerView = lazy(() => import('@/containers/PlayerView'));
 interface PlayerProps extends Pick<ConfigurableStyle, 'className'> {}
 
 const Player: React.FC<PlayerProps> = ({ className }) => {
+  const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
 
+  useMounted(() => {
+    setMounted(true);
+  });
+
   return (
-    <>
+    <IF condition={mounted}>
       <m.div
         className={classNames(
           'flex justify-between gap-2 rounded-tl rounded-tr p-1',
@@ -39,7 +46,7 @@ const Player: React.FC<PlayerProps> = ({ className }) => {
           <PlayerView />
         </Suspense>
       </Popup>
-    </>
+    </IF>
   );
 };
 
