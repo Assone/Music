@@ -8,5 +8,10 @@
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["vite.config.ts", "tailwind.config.ts", "commitlint.config.ts"]
+  "include": [
+    "vite.config.ts",
+    "tailwind.config.ts",
+    "commitlint.config.ts",
+    "api"
+  ]
 }
