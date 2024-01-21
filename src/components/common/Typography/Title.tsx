@@ -1,36 +1,39 @@
-import classNames from 'classnames';
-
+import { cva, type VariantProps } from 'class-variance-authority';
 import type { HTMLAttributes, PropsWithChildren } from 'react';
 
+const variants = cva('font-bold text-black dark:text-white', {
+  variants: {
+    level: {
+      1: 'text-4xl',
+      2: 'text-3xl',
+      3: 'text-2xl',
+      4: 'text-xl',
+      5: 'text-lg',
+      6: 'text-base',
+    },
+  },
+});
+
 export interface TitleProps
-  extends Pick<HTMLAttributes<HTMLElement>, 'className'> {
-  level?: 1 | 2 | 3 | 4 | 5 | 6;
-}
+  extends Pick<HTMLAttributes<HTMLElement>, 'className'>,
+    VariantProps<typeof variants> {}
 
 const Title: React.FC<PropsWithChildren<TitleProps>> = ({
   level = 1,
+
   children,
+
   className,
+
   ...props
 }) => {
   const Tag = `h${level}` as keyof JSX.IntrinsicElements;
 
   return (
     <Tag
+      className={variants({ level, className })}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
-      className={classNames(
-        {
-          'text-3xl': level === 1,
-          'text-2xl': level === 2,
-          'text-xl': level === 3,
-          'text-lg': level === 4,
-          'text-base': level === 5,
-          'text-sm': level === 6,
-        },
-        'font-bold text-black dark:text-white',
-        className,
-      )}
     >
       {children}
     </Tag>

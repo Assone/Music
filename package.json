@@ -30,6 +30,7 @@
     "@tanstack/router-devtools": "^1.1.9",
     "@xstate/react": "^4.0.2",
     "axios": "^1.6.5",
+    "class-variance-authority": "^0.7.0",
     "classnames": "^2.5.1",
     "date-fns": "^3.2.0",
     "framer-motion": "^10.17.9",
