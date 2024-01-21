@@ -12,6 +12,8 @@ import IconSkipPrevious from '~icons/material-symbols/skip-previous';
 const PlayerView: React.FC = () => {
   const isPlaying = usePlayer((state) => state.isPlaying);
   const isLoading = usePlayer((state) => state.isLoading);
+  const currentTime = usePlayer((state) => state.currentTime);
+  const duration = usePlayer((state) => state.duration);
   const data = usePlayer(
     (state) => state.context.currentTrackResourceInformation,
   );
@@ -42,6 +44,10 @@ const PlayerView: React.FC = () => {
         ) : (
           <div>暂未播放</div>
         )}
+
+        <div>
+          {currentTime} / {duration}
+        </div>
 
         <div className='flex justify-center gap-2 text-4xl'>
           <Button onClick={prevTrack}>

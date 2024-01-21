@@ -12,6 +12,9 @@ interface State {
   context: PlayerContext;
   isPlaying: boolean;
   isLoading: boolean;
+
+  currentTime?: number;
+  duration?: number;
 }
 
 interface Action {
@@ -115,6 +118,16 @@ const usePlayer = create<State & Action>()(
     const actions = registerActions(actor);
     let prevTrack: TrackData | undefined;
 
+    const onUpdateCurrentTime = () => {
+      const seek = howler.seek() || 0;
+
+      set({ currentTime: seek });
+
+      if (howler.playing()) {
+        requestAnimationFrame(onUpdateCurrentTime);
+      }
+    };
+
     actor.subscribe((snapshot) => {
       set({ context: snapshot.context });
 
@@ -149,10 +162,17 @@ const usePlayer = create<State & Action>()(
             src: [currentTrackResourceInformation.url],
             html5: true,
             volume,
-          });
+            onplay: () => {
+              set({ duration: howler.duration() });
 
-          howler.once('end', () => {
-            actions.nextTrack();
+              requestAnimationFrame(onUpdateCurrentTime);
+            },
+            onend: () => {
+              actions.nextTrack();
+            },
+            onseek: () => {
+              requestAnimationFrame(onUpdateCurrentTime);
+            },
           });
 
           howler.play();

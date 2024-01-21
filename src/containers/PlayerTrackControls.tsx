@@ -17,7 +17,11 @@ interface PlayerTrackControlsProps
 const PlayerTrackControls: React.FC<PlayerTrackControlsProps> = ({
   className,
 }) => {
-  const { play, pause, stop, nextTrack, prevTrack } = usePlayer();
+  const play = usePlayer((state) => state.play);
+  const pause = usePlayer((state) => state.pause);
+  const stop = usePlayer((state) => state.stop);
+  const nextTrack = usePlayer((state) => state.nextTrack);
+  const prevTrack = usePlayer((state) => state.prevTrack);
   const playing = usePlayer((state) => state.isPlaying);
   const isMobile = useMediaQuery({ query: '(max-width: 639px)' });
 
