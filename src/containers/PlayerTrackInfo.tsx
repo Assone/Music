@@ -19,10 +19,7 @@ const PlayerTrackInfo: React.FC<PlayerTrackInfoProps> = ({
 
   return (
     <m.div
-      className={classNames(
-        'flex items-center justify-center gap-1',
-        className,
-      )}
+      className={classNames('flex items-center gap-1', className)}
       onClick={onClick}
     >
       <Image className='h-10 w-10 flex-shrink-0' src={data?.cover} />
