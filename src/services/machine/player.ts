@@ -97,6 +97,8 @@ type PlayerActors = {
   logic: PromiseActorLogic<PlayerResourceInformation, TrackData | undefined>;
 };
 
+type PlayerGuards = { type: 'canNextTrack' } | { type: 'shouldStopPlay' };
+
 const loadTrack = fromPromise<PlayerResourceInformation, TrackData | undefined>(
   async ({ input }) => {
     if (!input) return Promise.reject(new Error('No input'));
@@ -132,12 +134,13 @@ const loadTrack = fromPromise<PlayerResourceInformation, TrackData | undefined>(
 
 const playerMachine = createMachine(
   {
-    /** @xstate-layout N4IgpgJg5mDOIC5QAcA2BDAnmATgYgGUBRAFQH0A1AeQBkBVAWSIG0AGAXURQHtYBLAC59uAOy4gAHogCcAdlYA6AIwAmABxzZ0gMysAbGu0AaEJkQrWAFgXT9KgKzbtatbPmy1AX08m0WXHgMdCQsHOLIvILCYkiSMtLWspZ6SrLa9kpqehmWJmYISqxqCpaOhfZ2HunevhjY+HQAckEhbJyxEfxCouJSCNJZyoZ6Oipu9jl5iKo1IH71hKRkJABKAIIAwgDSBG3hkd0xoH1uUwj2akoK6TqyKZbSKrPzAWsAIm-L69t7HQfRvRkSWuRVkKgcshylhUZ0yrBUCnUSkshTU9mhrHssmedQCKyIDCoFCIX02W1+PC6ANifWkFwU9j0Kj0rG0ehZtnUsPk9gUaiRd1YrEyqJx-nwxHIGzoK3xjXIAAUaGsAJqkn5hP5Uno0mTIhRgsaWZLqFKXWEc65JBJKZE2vRi+oKAC2kD46AUsAE3GQyEgeCVqopc3+OuO020lm0NjukLU8O0hWkejOkOkiI0rC0TLZyUduBdbo9qG46AgfBEUDwEFEYAUFYAbtwANZ1l44Qvl4ul8uVhCN7gAY3Qhzawc6UTDcQKkejcj0cYTSZTpiBCLspRSaT0pS8PjmuI7rq7ChLZYrVdwOG4Hb8AgAZjfnQp2533aeexf+yIm8PRxxx1DI5p1SXQbFKSw0TUSxZCULFZFhVI9D5SDpCUbIBmhMF8yPIsFCvG88HxVY1RoKh3kA7VgL6VJLEUKx5AcFkkgMFd8ltZlrlQzF4V4+wcLfD15gvAM1joYhKMnajEH5Xlkxcex1HBVJ4TOVxZERCZ5Gg3QxkeATj3fYTK0IEgqAVSTDkBAp9HTeNIMyB5dGgtSwQNTNDEg3RHEsAy8OMqtGiIAANchVjJSzqXDGyRj5KxLmgnQilyVcCltax1FsIofKyS4-JPAKA3xCh1XJTVKSk6zCli+yEqc5LYRUQoDWhODWOyxT8qM9AAFdYH9QMVUiqcTg8BRhUZC50O0FQ6PsM5Hg0yEsQsIU0WFXz91fQyhN6-qIFM8zhukhA3GKCbskuPQZrm1NFPG7RbDcEZHuhbQut2vr-SC0LSuO6yzvGtqpuu2bMVhdJrGSVxEwTaDXA+l89oG4q-vKkMqIBsaLpBm7wdS5EKhsJrXB0B5hieLbDwUAB3CsaxphQRCfdBUDwMyAHEOZoEkADE6BoGgCA2fEiEaf7dQQJrkKa1g0LuGC5DGNjEAeRQ0QSLNPJFfiqfFWn6e4Rn7x61BUFgQccDAMARHZqguZ5sh+cF4XRfF9GJysyXpcRJMkMVsE7jOY1FBuR6mQmOkEm8fdmYgOBwkPfZMcl20zmZXkbjo1JkUXB09adHbk8qyWLg0mbWWySNHFss4mXox79Cu406OkRGvR9P0IGLr3otUFR0zQ6FklKLM2WMVK03cp7kxUXN89qfWdo-c9Kx7qKQMcOdSkU7OsjotREPQg1skZeQZvBDJEYInB15G6YNHTLF+Wg5c0RhAmlEjGwL5GVRHDOojAKd8To6GKP-IoKQLAaAnvkBSfJG5RheomJkQDkbdy1CXaK11M4WDZD5GuIxUzskRJiJI-JVroU2ovJ0dMRAMxAdZew0gzjpARBrR6Gg0TpARgXAsdCGZMxZqgRhqcszB2SCULCiYMiPx3AJARRsFAmzNhbK2NtRHRRbhmWwLgW6wSahI4oCQxgyMyNIZMm1vBAA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QAcA2BDAnmATgYgGUBRAFQH0A1AeQBkBVAWSIG0AGAXURQHtYBLAC59uAOy4gAHogCMAZlYAmAHSsArABYA7KtYAOTQE4d66QBoQmRAtbqlB1gDYFO6awObd62ZoC+P82hYuHgMdCQsHOLIvILCYkiSMrLSukrOsgbS6vaqWbpmFjJ6Suqqyc5q6roGCil+ARjY+HQAcqHhbJwJ0fxCouJSCHIpSq4G6qUKzrqyM+aWQwr1IIFNhKRkJABKAIIAwgDSBJ1RMX3xoIOamvOIqvlKsqoGsg7SmuoKDjpL-iuNwR2ABEgZtdocTt0znEBklHGlZBMbNYFJp0rchtpNEpdKpDLUHK9FA5fH9VsEtkQGFQKEQwfsDpCeL0YQlBtIFPYSrpdJztNkHCSMdJBdISjYHLzWHJ7njluT8MRyHs6FtKS1yAAFGg7ACa9IhkShLP6bJkCnUDiUDiqOheNtyNWFqhtdlyEwUGWkWQm8oBOCUAFtIHx0EpYAJuMhkJA8Nq9UyVtDTZcZO5sbzdKxkl509oMdVUm9VCWqrJZmoHH6ggHgxBQ0pUNx0PWRFA8BBRGAlHwRAA3bgAa27CqDIbDTZbvagCF7A4Axuhzp1Ez1YinEkN0ziFFmcxlrvnCghtMps-Zdy7DLldNWmmP6xPm6327gcNwA4EBAAzD+BpSjnWDaTi+s79twi7Lhwq7Jhcm6euMSiGCSBiZAY3yaCKGKaNK1qeDM2alKh6h3rgD4Nm+H54JS2z6jQVDAjBJpwYMFrZjiBi4tmLqOCYGLfGKKRVISmgOJkMyyKRtbjgBjTTnGOx0MQTHrixiCobICJeKieK8bkGLiTiVS4vktTPDYUnkWGqzyQQJBUJqKnnLCQy5FaGSOKwEpoqUBQLNUthfCW9zvG8FqqJZQHWXJbZ4C0RAABrkNsDJOayqauSKjz2A4XmWj5+nHqh7k8vY0jPC8Rikg0NZWbJWDyfFSUGoy0hdMyqkueVWUebl3nhX56kTEh3yqBap4vGNkUyTZsWapSFAtWlG7sm52Wef1vnCm4yieLUJhTCkry3mS-p1cg6AAK6wLG8a6staknpKKjlblgrluVhULOhBiPMZFpiZ40rSNNj4AVdN0QIQ9mOUaHXOWaT2pNKPHvckJaDYszxKBoZTqIoaJuJ4oMNhd12xk1yXgoycNJsxLmicjr2OIS6NfUkrgqKUnxZCKpQnTV95ReD5NQ5TS1tac9OI4zL2o6zn2Y6Jyi5CWHw8tc0iZCT1kQ7dC1LbTa4Ixlsso29CsY8K+NWtknjJPYFYcpZADuvadi7SgiH+6CoHg9kAOIBzQdIAGJ0DQNAEHslJEC0D0uQSaRjJyzhOJhFoYtkrA4s8GRufcGQkadtVuyIHtKN+l2oKgsDzjgYBgCI-tUEHIdkOHkfR7H8dG7BidZbUO01C6qIcuoWf448edZIoWTIZJyzexAcBRP6UudYj3oYkF08vNofMkt8Osbybm73NisjWOWpR6DaE-Hna1oo6irDaISWYRSXQsyRGUYxhAU+6VNwpEJCNYKV9vQcieAWVCoxPoaAkp-Ks38yLCxAtOIBK0rBa2xMhUSYkXhZFUPxEwz9yreC0CYQGOslCURwFgx6adNKfHQprXcNt+LY0Zt6VWrwta0NmlARhXVXCqHWiWfeOFywkOPNUK0okSx6HnvIZ4gi9aAONJvDKhJxFX2zIiHQuh74GTEkhEw1QpiHReK7d23AXYiMRs8DETxdrPF3JoeQLxuLVX+KXOxntvY4EDL7RxGVXA3GPBMW2nxCGOE-s8FBgsyJlwrlXGudcG5NzCZuCYgVqg2HeCkLykoH4LAmKkcYXxcr6A1pyPwfggA */
     types: {} as {
       context: PlayerContext;
       events: PlayerEvents;
       actions: PlayerActions;
       actors: PlayerActors;
+      guards: PlayerGuards;
     },
     id: 'player',
     type: 'parallel',
@@ -194,10 +197,17 @@ const playerMachine = createMachine(
               PAUSE: 'paused',
               STOP: 'stopped',
 
-              NEXT_TRACK: {
-                target: 'loading',
-                actions: ['nextTrack'],
-              },
+              NEXT_TRACK: [
+                {
+                  target: 'loading',
+                  actions: ['nextTrack'],
+                  guard: { type: 'canNextTrack' },
+                },
+                {
+                  target: 'stopped',
+                  guard: { type: 'shouldStopPlay' },
+                },
+              ],
               PREV_TRACK: {
                 target: 'loading',
                 actions: ['prevTrack'],
@@ -209,10 +219,17 @@ const playerMachine = createMachine(
               PLAY: 'playing',
               STOP: 'stopped',
 
-              NEXT_TRACK: {
-                target: 'loading',
-                actions: ['nextTrack'],
-              },
+              NEXT_TRACK: [
+                {
+                  target: 'loading',
+                  actions: ['nextTrack'],
+                  guard: { type: 'canNextTrack' },
+                },
+                {
+                  target: 'stopped',
+                  guard: { type: 'shouldStopPlay' },
+                },
+              ],
               PREV_TRACK: {
                 target: 'loading',
                 actions: ['prevTrack'],
@@ -291,6 +308,43 @@ const playerMachine = createMachine(
     },
   },
   {
+    guards: {
+      canNextTrack: ({ context }) => {
+        switch (context.mode) {
+          case PlayerPlayMode.normal:
+          case PlayerPlayMode.single: {
+            const { currentTrackIndex = 0 } = context;
+
+            return currentTrackIndex + 1 < context.tracks.length;
+          }
+          case PlayerPlayMode.loop:
+          case PlayerPlayMode.random: {
+            return true;
+          }
+
+          default:
+            return true;
+        }
+      },
+      shouldStopPlay: ({ context }) => {
+        switch (context.mode) {
+          case PlayerPlayMode.normal:
+          case PlayerPlayMode.single: {
+            const { currentTrackIndex = 0 } = context;
+
+            return currentTrackIndex + 1 >= context.tracks.length;
+          }
+
+          case PlayerPlayMode.loop:
+          case PlayerPlayMode.random: {
+            return false;
+          }
+
+          default:
+            return false;
+        }
+      },
+    },
     actions: {
       setVolume: ({ context }, { volume }) => {
         context.volume = volume;
@@ -318,6 +372,7 @@ const playerMachine = createMachine(
               if (context.currentTrackIndex + 1 < context.tracks.length) {
                 context.currentTrackIndex += 1;
               }
+
               break;
             }
             case PlayerPlayMode.random: {

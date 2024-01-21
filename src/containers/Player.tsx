@@ -31,7 +31,12 @@ const Player: React.FC<PlayerProps> = ({ className }) => {
           setVisible(true);
         }}
       >
-        <PlayerTrackInfo />
+        <PlayerTrackInfo
+          className='w-3/4'
+          onClick={() => {
+            setVisible(true);
+          }}
+        />
         <PlayerTrackControls className='flex-shrink-0' />
       </m.div>
 
