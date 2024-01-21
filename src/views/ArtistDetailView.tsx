@@ -58,6 +58,13 @@ const ArtistDetailView: React.FC = () => {
             <ArtistDescription id={detail.id} />
           </div>
         </div>
+
+        {/* <div className='flex flex-col gap-1'>
+          <Typography.Title level={3}>Similar</Typography.Title>
+          <div>
+            <SimilarArtist id={detail.id} />
+          </div>
+        </div> */}
       </m.div>
     </PageTransition>
   );

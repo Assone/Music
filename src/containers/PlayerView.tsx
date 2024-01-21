@@ -24,7 +24,7 @@ const PlayerView: React.FC = () => {
         animate={{ scale: isPlaying || isLoading ? 1.4 : undefined }}
         transition={{ type: 'spring' }}
       >
-        <PlayerTrackCover className=' h-64 w-64 overflow-hidden rounded' />
+        <PlayerTrackCover className='h-64 w-64 overflow-hidden rounded' />
       </m.div>
       <div className='flex flex-col gap-2'>
         {data !== undefined ? (

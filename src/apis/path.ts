@@ -40,6 +40,8 @@ export const enum Artist {
 export const enum Similar {
   // 获取相似歌手
   artist = '/simi/artist',
+  // 获取相似歌单
+  playlist = '/simi/playlist',
 }
 
 export const enum Search {
@@ -59,4 +61,9 @@ export const enum Favorite {
   artists = '/artist/sublist',
   // 收藏的专辑列表
   albums = '/album/sublist',
+}
+
+export const enum Auth {
+  // 登录状态
+  loginStatus = '/login/status',
 }

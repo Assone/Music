@@ -70,7 +70,7 @@ const Image: React.FC<ImageProps> = ({
   });
 
   return (
-    <div className={classNames('relative', className)} style={style}>
+    <m.div className={classNames('relative', className)} style={style}>
       <m.img
         ref={ref}
         src={src}
@@ -100,7 +100,7 @@ const Image: React.FC<ImageProps> = ({
           {placeholder}
         </m.div>
       </IF>
-    </div>
+    </m.div>
   );
 };
 

@@ -1,4 +1,5 @@
 import PageTransition from '@/components/PageTransition';
+import SimilarPlaylist from '@/components/SimilarPlaylist';
 import TrackList from '@/components/TrackList';
 import Button from '@/components/common/Button';
 import Image from '@/components/common/Image';
@@ -43,6 +44,8 @@ const PlaylistDetailView: React.FC = () => {
         </Button>
 
         <TrackList ids={detail.trackIds} />
+
+        <SimilarPlaylist id={detail.id} />
       </m.div>
     </PageTransition>
   );
