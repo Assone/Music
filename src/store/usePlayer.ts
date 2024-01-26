@@ -3,6 +3,7 @@ import playerMachine, {
   type TrackData,
 } from '@/services/machine/player';
 import { isArray } from '@/utils/is';
+import { createBrowserInspector } from '@statelyai/inspect';
 import { Howl } from 'howler';
 import { Actor, createActor, type Snapshot } from 'xstate';
 import { create } from 'zustand';
@@ -111,9 +112,10 @@ const usePlayer = create<State & Action>()(
           localStorage.getItem('player') as string,
         ) as Snapshot<unknown>);
 
+    const { inspect } = createBrowserInspector();
     const actor = createActor(playerMachine, {
-      devTools: true,
       snapshot: state,
+      inspect,
     });
     const actions = registerActions(actor);
     let prevTrack: TrackData | undefined;

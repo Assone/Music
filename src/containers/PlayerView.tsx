@@ -1,13 +1,15 @@
 import Button from '@/components/common/Button';
 import IF from '@/components/common/IF';
+import Slider from '@/components/common/Slider';
 import usePlayer from '@/store/usePlayer';
 import { Link } from '@tanstack/react-router';
 import { m } from 'framer-motion';
-import PlayerTrackCover from './PlayerTrackCover';
 import IconPause from '~icons/material-symbols/pause';
 import IconPlayArrow from '~icons/material-symbols/play-arrow';
 import IconSkipNext from '~icons/material-symbols/skip-next';
 import IconSkipPrevious from '~icons/material-symbols/skip-previous';
+// eslint-disable-next-line import/order
+import PlayerTrackCover from './PlayerTrackCover';
 
 const PlayerView: React.FC = () => {
   const isPlaying = usePlayer((state) => state.isPlaying);
@@ -46,7 +48,10 @@ const PlayerView: React.FC = () => {
         )}
 
         <div>
-          {currentTime} / {duration}
+          <div>
+            {currentTime} / {duration}
+          </div>
+          <Slider value={currentTime} max={duration} />
         </div>
 
         <div className='flex justify-center gap-2 text-4xl'>
