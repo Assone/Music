@@ -12,14 +12,13 @@ interface UseIntersectionObserverOptions {
 export default function useIntersectionObserver(
   target: (HTMLElement | null)[] | HTMLElement | HTMLElement[] | null,
   callback: IntersectionObserverCallback,
-  options: UseIntersectionObserverOptions = {},
-) {
-  const {
+  {
     immediate = true,
     threshold = 0.1,
     root = null,
     rootMargin = '0px',
-  } = options;
+  }: UseIntersectionObserverOptions = {},
+) {
   const [isActive, setIsActive] = useState(immediate);
   const isSupported = useSupported(
     () => window && 'IntersectionObserver' in window,

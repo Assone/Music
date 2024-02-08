@@ -115,7 +115,8 @@ const usePlayer = create<State & Action>()(
     const { inspect } = createBrowserInspector();
     const actor = createActor(playerMachine, {
       snapshot: state,
-      inspect,
+      inspect:
+        import.meta.env.DEV && !import.meta.env.SSR ? inspect : undefined,
     });
     const actions = registerActions(actor);
     let prevTrack: TrackData | undefined;
@@ -212,6 +213,7 @@ const usePlayer = create<State & Action>()(
       context,
       isPlaying: false,
       isLoading: false,
+      howler,
     };
   }),
 );

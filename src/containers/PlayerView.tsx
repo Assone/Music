@@ -51,7 +51,7 @@ const PlayerView: React.FC = () => {
           <div>
             {currentTime} / {duration}
           </div>
-          <Slider value={currentTime} max={duration} />
+          <Slider value={currentTime} min={0.01} max={duration} step={0.01} />
         </div>
 
         <div className='flex justify-center gap-2 text-4xl'>

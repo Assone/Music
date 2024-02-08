@@ -31,12 +31,12 @@ export default function useTouch(target: HTMLElement | MaybeRef<HTMLElement>) {
     setOffsetX(0);
     setOffsetY(0);
     setDirection(undefined);
-    setIsTouching(true);
   }, []);
 
   const start = useCallback(
     (event: TouchEvent) => {
       reset();
+      setIsTouching(true);
 
       const touch = event.touches[0]!;
 
@@ -49,26 +49,36 @@ export default function useTouch(target: HTMLElement | MaybeRef<HTMLElement>) {
   const move = useCallback(
     (event: TouchEvent) => {
       const touch = event.touches[0]!;
-      setDeltaX((touch.clientX < 0 ? 0 : touch.clientX) - startX);
-      setDeltaY(touch.clientY - startY);
-      setOffsetX(Math.abs(deltaX));
-      setOffsetY(Math.abs(deltaY));
+
+      const currentDeltaX = (touch.clientX < 0 ? 0 : touch.clientX) - startX;
+      const currentDeltaY = touch.clientY - startY;
+      const currentOffsetX = Math.abs(currentDeltaX);
+      const currentOffsetY = Math.abs(currentDeltaY);
+
+      setDeltaX(currentDeltaX);
+      setDeltaY(currentDeltaY);
+      setOffsetX(currentOffsetX);
+      setOffsetY(currentOffsetY);
 
       const LOCK_DIRECTION_DISTANCE = 10;
       if (
         !direction ||
-        (offsetX < LOCK_DIRECTION_DISTANCE && offsetY < LOCK_DIRECTION_DISTANCE)
+        (currentOffsetX < LOCK_DIRECTION_DISTANCE &&
+          currentOffsetY < LOCK_DIRECTION_DISTANCE)
       ) {
-        setDirection(getDirection(offsetX, offsetY));
+        setDirection(getDirection(currentOffsetX, currentOffsetY));
       }
 
       const TAP_OFFSET = 10;
 
-      if (isTouching && (offsetX > TAP_OFFSET || offsetY > TAP_OFFSET)) {
+      if (
+        isTouching &&
+        (currentOffsetX > TAP_OFFSET || currentOffsetY > TAP_OFFSET)
+      ) {
         setIsTouching(false);
       }
     },
-    [deltaX, deltaY, direction, isTouching, offsetX, offsetY, startX, startY],
+    [direction, isTouching, startX, startY],
   );
 
   const end = useCallback(() => {
