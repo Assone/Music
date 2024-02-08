@@ -6,6 +6,7 @@ export interface SliderProps {
   max?: number;
   step?: number;
   value?: number;
+  disabled?: boolean;
 
   onChange?: (value: number) => void;
 }
@@ -15,6 +16,7 @@ const Slider: React.FC<SliderProps> = ({
   min = 0,
   max = 100,
   step = 1,
+  disabled,
 
   onChange,
 }) => {
@@ -25,7 +27,7 @@ const Slider: React.FC<SliderProps> = ({
   const scope = useMemo(() => max - min, [max, min]);
 
   const { currentPointers } = usePointer(thumb, {
-    start: () => !(currentPointers.length > 1),
+    start: () => (disabled ? false : !(currentPointers.length > 1)),
     move: (prev) => {
       const rect = container.current.getBoundingClientRect();
 
@@ -58,7 +60,7 @@ const Slider: React.FC<SliderProps> = ({
   }, [dragValue, isDragging, width]);
 
   return (
-    <div className='relative h-10 rounded bg-neutral-200' ref={container}>
+    <div className='relative h-2 rounded bg-neutral-200' ref={container}>
       <div
         className='h-full rounded bg-neutral-500'
         style={{ width: `${width}%` }}
@@ -70,6 +72,7 @@ const Slider: React.FC<SliderProps> = ({
         style={{
           left: `${percentage}%`,
         }}
+        disabled={disabled}
         aria-label='Drag to seek'
       />
     </div>

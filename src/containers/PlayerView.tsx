@@ -1,6 +1,6 @@
+/* eslint-disable import/order */
 import Button from '@/components/common/Button';
 import IF from '@/components/common/IF';
-import Slider from '@/components/common/Slider';
 import usePlayer from '@/store/usePlayer';
 import { Link } from '@tanstack/react-router';
 import { m } from 'framer-motion';
@@ -8,18 +8,19 @@ import IconPause from '~icons/material-symbols/pause';
 import IconPlayArrow from '~icons/material-symbols/play-arrow';
 import IconSkipNext from '~icons/material-symbols/skip-next';
 import IconSkipPrevious from '~icons/material-symbols/skip-previous';
-// eslint-disable-next-line import/order
+import PlayerProgress from './PlayerProgress';
 import PlayerTrackCover from './PlayerTrackCover';
 
 const PlayerView: React.FC = () => {
   const isPlaying = usePlayer((state) => state.isPlaying);
   const isLoading = usePlayer((state) => state.isLoading);
-  const currentTime = usePlayer((state) => state.currentTime);
-  const duration = usePlayer((state) => state.duration);
   const data = usePlayer(
     (state) => state.context.currentTrackResourceInformation,
   );
-  const { play, pause, nextTrack, prevTrack } = usePlayer();
+  const play = usePlayer((state) => state.play);
+  const pause = usePlayer((state) => state.pause);
+  const nextTrack = usePlayer((state) => state.nextTrack);
+  const prevTrack = usePlayer((state) => state.prevTrack);
 
   return (
     <m.div className='flex flex-col gap-6 p-8'>
@@ -47,12 +48,7 @@ const PlayerView: React.FC = () => {
           <div>暂未播放</div>
         )}
 
-        <div>
-          <div>
-            {currentTime} / {duration}
-          </div>
-          <Slider value={currentTime} min={0.01} max={duration} step={0.01} />
-        </div>
+        <PlayerProgress />
 
         <div className='flex justify-center gap-2 text-4xl'>
           <Button onClick={prevTrack}>

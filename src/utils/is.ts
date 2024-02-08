@@ -51,4 +51,5 @@ export const notNullish = <T = unknown>(val?: T | null | undefined): val is T =>
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const isFunction = typeOf<Function>('function');
 
-export const isClient = typeof window !== 'undefined';
+export const isClient =
+  typeof window !== 'undefined' && typeof document !== 'undefined';

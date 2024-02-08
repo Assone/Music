@@ -40,12 +40,7 @@ const PlayerTrackControls: React.FC<PlayerTrackControlsProps> = ({
           </Button>
         }
       >
-        <Button
-          stopPropagation={['onClick']}
-          onClick={() => {
-            pause();
-          }}
-        >
+        <Button stopPropagation={['onClick']} onClick={pause}>
           <IconPause />
         </Button>
       </IF>

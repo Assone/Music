@@ -1,6 +1,7 @@
 import IF from '@/components/common/IF';
 import Popup from '@/components/common/Popup';
 import useMounted from '@/hooks/common/useMounted';
+import useShortcuts from '@/hooks/common/useShortcuts';
 import type { ConfigurableStyle } from '@/types/props';
 import classNames from 'classnames';
 import { m } from 'framer-motion';
@@ -15,6 +16,15 @@ interface PlayerProps extends Pick<ConfigurableStyle, 'className'> {}
 const Player: React.FC<PlayerProps> = ({ className }) => {
   const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
+
+  useShortcuts({
+    Escape: {
+      callback: () => {
+        setVisible(false);
+      },
+      while: visible,
+    },
+  });
 
   useMounted(() => {
     setMounted(true);
@@ -31,12 +41,7 @@ const Player: React.FC<PlayerProps> = ({ className }) => {
           setVisible(true);
         }}
       >
-        <PlayerTrackInfo
-          className='w-3/4'
-          onClick={() => {
-            setVisible(true);
-          }}
-        />
+        <PlayerTrackInfo className='w-3/4' />
         <PlayerTrackControls className='flex-shrink-0' />
       </m.div>
 

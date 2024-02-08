@@ -137,6 +137,12 @@ export const LibraryRoute = new Route({
   component: lazyRouteComponent(() => import('@/views/LibraryView')),
 });
 
+export const TopRoute = new Route({
+  getParentRoute: () => RootRoute,
+  path: '/top',
+  component: lazyRouteComponent(() => import('@/views/TopView')),
+});
+
 // eslint-disable-next-line react-refresh/only-export-components
 export const routeTree = RootRoute.addChildren([
   HomeRoute,
@@ -145,4 +151,5 @@ export const routeTree = RootRoute.addChildren([
   ArtistDetailRoute,
   SearchRoute,
   LibraryRoute,
+  TopRoute,
 ]);

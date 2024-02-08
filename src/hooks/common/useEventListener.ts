@@ -1,7 +1,9 @@
-import type { Arrayable, Fn } from '@/types/utils';
-import { arraify, noop } from '@/utils/helpers';
+import type { Fn } from '@/types/utils';
+import { defaultWindow } from '@/utils/configurable';
+import { noop } from '@/utils/helpers';
 import { unRef, type MaybeRef } from '@/utils/react';
 import { useEffect, useRef, useState } from 'react';
+import useLatest from './useLatest';
 
 type WindowEventName = keyof WindowEventMap;
 type DocumentEventName = keyof DocumentEventMap;
@@ -19,61 +21,46 @@ interface InferEventTarget<E> {
 }
 
 export default function useEventListener<N extends WindowEventName>(
-  event: Arrayable<N>,
-  listener: Arrayable<(this: Window, evt: WindowEventMap[N]) => unknown>,
-  options?: EventListenerOptions,
-): Fn;
-export default function useEventListener<N extends WindowEventName>(
-  target: Window,
-  event: Arrayable<N>,
-  listener: Arrayable<(this: Window, evt: WindowEventMap[N]) => unknown>,
+  target: Window | undefined,
+  event: N,
+  listener: (this: Window, evt: WindowEventMap[N]) => unknown,
   options?: EventListenerOptions,
 ): Fn;
 export default function useEventListener<N extends DocumentEventName>(
-  target: DocumentOrShadowRoot,
-  event: Arrayable<N>,
-  listener: Arrayable<(this: Document, evt: DocumentEventMap[N]) => unknown>,
+  target: DocumentOrShadowRoot | undefined,
+  event: N,
+  listener: (this: Document, evt: DocumentEventMap[N]) => unknown,
   options?: EventListenerOptions,
 ): Fn;
 export default function useEventListener<N extends HTMLElementEventName>(
-  target: MaybeRef<HTMLElement | undefined>,
-  event: Arrayable<N>,
+  target: HTMLElement | undefined,
+  event: N,
   listener: (this: HTMLElement, evt: HTMLElementEventMap[N]) => unknown,
   options?: EventListenerOptions,
 ): Fn;
 export default function useEventListener<N extends string, EventType = Event>(
-  target: InferEventTarget<N>,
-  event: Arrayable<N>,
-  listener: Arrayable<GeneralEventListener<EventType>>,
+  target: InferEventTarget<N> | undefined,
+  event: N,
+  listener: GeneralEventListener<EventType>,
   options?: EventListenerOptions,
 ): Fn;
 export default function useEventListener<EventType = Event>(
   target: MaybeRef<EventTarget | undefined>,
-  event: Arrayable<string>,
-  listener: Arrayable<GeneralEventListener<EventType>>,
+  event: string,
+  listener: GeneralEventListener<EventType>,
   options?: EventListenerOptions,
 ): Fn;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function useEventListener(...args: any[]) {
+export default function useEventListener(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  target: any,
+  event: string,
+  callback: Fn,
+  options: EventListenerOptions = false,
+) {
   const [shouldListener, setShouldListener] = useState(true);
-  const cleanups = useRef<Fn[]>([]);
-
-  let target: EventTarget;
-  let events: string[] = [];
-  let listeners: Fn[];
-  let options: EventListenerOptions;
-
-  if (typeof args[0] === 'string' || Array.isArray(args[0])) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    [events as unknown, listeners, options] = args;
-    target = window;
-  } else {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    [target, events, listeners, options] = args;
-  }
-
-  events = arraify(events);
-  listeners = arraify(listeners);
+  const cleanups = useRef<Fn>(noop);
+  const listener = useLatest(callback);
 
   const register = (
     element: EventTarget,
@@ -89,8 +76,7 @@ export default function useEventListener(...args: any[]) {
   };
 
   const cleanup = () => {
-    cleanups.current.forEach((fn) => fn());
-    cleanups.current.length = 0;
+    cleanups.current();
   };
 
   const stop = () => {
@@ -100,24 +86,20 @@ export default function useEventListener(...args: any[]) {
 
   useEffect(() => {
     if (shouldListener) {
-      const element = unRef(target);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const element = unRef((target as EventTarget) || defaultWindow);
 
       if (!element) return noop;
 
       cleanup();
 
-      cleanups.current = events.flatMap((evtName) =>
-        listeners.map((listener) =>
-          register(element, evtName, listener, options),
-        ),
-      );
+      cleanups.current = register(element, event, listener.current, options);
 
       return cleanup;
     }
 
     return noop;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options, shouldListener, target]);
+  }, [event, callback, options, shouldListener, target, listener]);
 
   return stop;
 }

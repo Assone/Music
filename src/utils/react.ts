@@ -38,3 +38,23 @@ export const withStopPropagation = (
 
   return cloneElement(element, props);
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const attachPropertiesToComponent = <C, P extends Record<string, any>>(
+  component: C,
+  properties: P,
+): C & P => {
+  const ref = component;
+  const keys = Object.keys(properties);
+
+  for (let i = 0; i < keys.length; i += 1) {
+    const key = keys[i]!;
+
+    if (Object.prototype.hasOwnProperty.call(properties, key)) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      ref[key as keyof C] = properties[key];
+    }
+  }
+
+  return ref as C & P;
+};
