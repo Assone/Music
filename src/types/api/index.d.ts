@@ -5,6 +5,7 @@ import './playlist';
 import './recommend';
 import './search';
 import './song';
+import './top';
 import './user';
 
 declare global {
@@ -39,6 +40,10 @@ declare global {
 
     namespace User {
       export * from './user';
+    }
+
+    namespace Top {
+      export * from './top';
     }
 
     namespace RequestArgs {

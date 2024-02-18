@@ -393,4 +393,26 @@ export interface Album {
   picId_str: string;
   info: AlbumInfo;
 }
+
+interface TagSign {
+  br: number;
+  type: string;
+  tagSign: string;
+  resolution: number;
+  mvtype: string;
+}
+
+export interface Video {
+  tagSign: TagSign;
+  tag: string;
+  url: string;
+  duration: number;
+  size: number;
+  width: number;
+  height: number;
+  container: string;
+  md5: string;
+  check: boolean;
+}
+
 export {};

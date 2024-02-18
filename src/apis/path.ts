@@ -67,3 +67,8 @@ export const enum Auth {
   // 登录状态
   loginStatus = '/login/status',
 }
+
+export const enum Top {
+  // MV排行榜
+  mv = '/top/mv',
+}
