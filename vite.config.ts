@@ -13,7 +13,12 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    million.vite({ auto: { rsc: true } }),
+    million.vite({
+      auto: {
+        rsc: true,
+      },
+      hmr: true,
+    }),
     react(),
 
     Icons({
