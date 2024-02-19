@@ -11,6 +11,7 @@ import {
 export enum TrackType {
   audio,
   video,
+  mv,
 }
 
 export interface TrackData {

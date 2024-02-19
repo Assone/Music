@@ -10,6 +10,7 @@ import IconSkipNext from '~icons/material-symbols/skip-next';
 import IconSkipPrevious from '~icons/material-symbols/skip-previous';
 import PlayerProgress from './PlayerProgress';
 import PlayerTrackCover from './PlayerTrackCover';
+import PlayerTrackVideo from './PlayerTrackVideo';
 
 const PlayerView: React.FC = () => {
   const isPlaying = usePlayer((state) => state.isPlaying);
@@ -29,6 +30,7 @@ const PlayerView: React.FC = () => {
         animate={{ scale: isPlaying || isLoading ? 1.4 : undefined }}
         transition={{ type: 'spring' }}
       >
+        <PlayerTrackVideo />
         <PlayerTrackCover className='h-64 w-64 overflow-hidden rounded' />
       </m.div>
       <div className='flex flex-col gap-2'>

@@ -1,6 +1,7 @@
 import './album';
 import './artist';
 import './common';
+import './mv';
 import './playlist';
 import './recommend';
 import './search';
@@ -44,6 +45,10 @@ declare global {
 
     namespace Top {
       export * from './top';
+    }
+
+    namespace Mv {
+      export * from './mv';
     }
 
     namespace RequestArgs {

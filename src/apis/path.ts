@@ -72,3 +72,8 @@ export const enum Top {
   // MV排行榜
   mv = '/top/mv',
 }
+
+export const enum Mv {
+  // MV播放地址
+  url = '/mv/url',
+}
