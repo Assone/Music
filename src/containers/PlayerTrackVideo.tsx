@@ -22,7 +22,7 @@ const PlayerTrackVideo: React.FC = () => {
   }
 
   // eslint-disable-next-line jsx-a11y/media-has-caption
-  return <video src={mvQuery.data} autoPlay />;
+  return <video src={mvQuery.data} autoPlay controls />;
 };
 
 export default PlayerTrackVideo;

@@ -1,12 +1,4 @@
-import { getSongDetail, getSongUrl } from '@/apis';
-import { combineLatest, lastValueFrom, map } from 'rxjs';
-import {
-  assign,
-  createMachine,
-  fromPromise,
-  log,
-  type PromiseActorLogic,
-} from 'xstate';
+import { createMachine, log } from 'xstate';
 
 export enum TrackType {
   audio,
@@ -26,30 +18,12 @@ enum PlayerPlayMode {
   loop,
 }
 
-type PlayerResourceMetaData = {
-  id: number;
-  name: string;
-};
-
-interface PlayerResourceArtistData extends PlayerResourceMetaData {}
-
-interface PlayerResourceAlbumData extends PlayerResourceMetaData {}
-
-interface PlayerResourceInformation {
-  url: string;
-  name: string;
-  cover?: string;
-  artist?: PlayerResourceArtistData;
-  album?: PlayerResourceAlbumData;
-}
-
 export interface PlayerContext {
   mode: PlayerPlayMode;
   volume: number;
   mute: boolean;
   tracks: TrackData[];
   currentTrackIndex?: number;
-  currentTrackResourceInformation?: PlayerResourceInformation;
 }
 
 type PlayerResourceEvent = { type: 'RETRY_LOAD' };
@@ -93,54 +67,15 @@ type PlayerActions =
   | { type: 'initCurrentTrackIndex' }
   | { type: 'updateCurrentTrackResourceMediaMetadata' };
 
-type PlayerActors = {
-  src: 'loadTrack';
-  logic: PromiseActorLogic<PlayerResourceInformation, TrackData | undefined>;
-};
-
 type PlayerGuards = { type: 'canNextTrack' } | { type: 'shouldStopPlay' };
-
-const loadTrack = fromPromise<PlayerResourceInformation, TrackData | undefined>(
-  async ({ input }) => {
-    if (!input) return Promise.reject(new Error('No input'));
-
-    const { id, type } = input;
-
-    switch (type) {
-      case TrackType.audio: {
-        const data = combineLatest([getSongUrl(id), getSongDetail(id)]).pipe(
-          map(([[url], [detail]]) => {
-            const { name, album, artists } = detail!;
-            const { cover } = album;
-            const artist = artists[0];
-
-            return {
-              name,
-              url: url!.url,
-              cover,
-              artist,
-              album,
-            };
-          }),
-        );
-
-        return lastValueFrom(data);
-      }
-
-      default:
-        return Promise.reject(new Error('Unknown track type'));
-    }
-  },
-);
 
 const playerMachine = createMachine(
   {
-    /** @xstate-layout N4IgpgJg5mDOIC5QAcA2BDAnmATgOgFtIBLdAYgGUBRAFQH0A1AeQBkBVAWSoG0AGAXUQoA9rGIAXYsIB2QkAA9EARl4AOAGx51AdgCs2gMwAWHboBMR3eoA0ITIjPajeI73Vn9upRoNOAvn62aFi4hCTkHGw0PAJyyKISUrJICsoqZniqTgCcxtmWSto2doiqSi7ZldlKuW7qZUYBQRjY+EQQpGRsAHKR0XyCKfFikjJyighK6XiGvEauhUVmSrb2k668eB5KBmoG9dpm2dpNIMGtYR3k1PQ0AEoAggDCANIUA3EJo8mgEzvaq0QRlUzlUulySks6l4vAMZlUp3OoXanQeABE0XR7s8Xh8hl8kuNlLxspswbp5gZdFkqQCSpNtNo8NldAYlBZDiZzAjAmcWsjwmQ7lQOEwGFQsY9XniRCNCSk-rw9HgVNlHNUjIYjgZAetspptHNfGYldDLLpEfy2oKbnQnmw7sLuvQAAosB4ATUlOJlZwJYwVxLZW3U+VD+WyWTMuqU4IMKv0RlpqgM+x2lpC1queFg4mEyGQkDIbs9vuGiQDv2U0KZSt43hZ2khnN1RXj1QpPks+SU6gzFxR6DwqGE6A60igZAgMjAeGI0gAbsIANazpFZ0jD0fjqAIedLgDG6G+AzL-p+qUmNbwdYb+mbFl1njwrNJRiOWVU9cavPXl03I5jvOk64Dgwj4ME4gAGbgQQeB-oOW5AROe6LsIR4ngIZ5ypWl41PkN4GFG9ZTNoqjRvSb4vuRNTuGqapuP2ArZqB4FCrQdxeiwTDothFYXhMJqwiqriakYNTpLoupgs4ahmGY9RJsCvCOExG5DucwHFg8bDUHx3xEgg0IZJq6hWE22j5B4dJrKSTImiaFLvsscw8s0mb-hpLRaRQNBMC6+nylWkyQroWhwkUugwgYxzmK2hQzGZ6jGIsyUpmpnnwd5E5kN0VAABq3FKuKxPiOECWkljhY4ZnRbFFFrBo5T1KSjlmL4REnL+VqZZpOV5YV3rSkogyyvxhlTFVyU1VFsL1a29QhroVgmrSy3ZBliF9ZOLrCgwQ0laNfrlRNoXVZFdV6A1iAsqoIkmiC7UqBSXXuQO4TwegACusBFiWHqBbhEy+PZ+iWRYqj6m4qi6o2Mz1pG8lfvJFibR9yDfb9ECUH5AWlWNBmBggINbGDarAlD9QxuyoIFJCaoKUmaPZhjP1FgNRU+vjx3jUTJPWeDFPQlT9KkWFxheF+LKuIjzObqzWO5QVnPDUd5aE8F-NkxDlMw-S1KaPW5kqcC+hqnLGmY39e0HYDFXE4ypOMuTkPC3razsk2MyI-M6jqJCkIZQA7vO05B3g0iwegqBkH5ADiccsBKABibAsCwFBPMKVDdHbE1lFsqpGPkRSkmqMZlEy-tzKy5HqmRweh8I4dQV9qCoLAB44GAYDSLHTAJ0ndCp+nmfZ7n3Pq0FeEFy5EamWX10MjoKoqJ1lk7O+fanJHEBwHEVqfCdRMALSPvSJ-b29zGkEfvPBZDupUhkYK5Ms8ngqyP7X+pOZ5gWkA74azwsXeMMJGTyXyClZaC1nDiU7Mlbs4kr58g8ohQCO4gHTz+JZWsRFIa9kMEmKk0l1DOF7MtKKKYvDsiUBbPArEcBYKBg4XsGQdCxncPguY2RpLHGZJGR6q0ZJuVQe9Fm2UoDMPtk2Zw00yLF0OERXsfDyjwnMH7Q0ehlooIQujK2EBpGGXks4FaUIsh6A4UvdkX5MgqCUg5GKuieoh2kGHIxRNz4ex0NkLQ9jKjFzcIyC03UPKuLDhHKOqAPHBUODGRk8YagdXfpUbwISf54HCc3PArd26d27r3GJl4ZZbEhrCakXJi5SVFsErQuRGRlCyKGRkAQAhAA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QAcA2BDAnmATgOgFtIBLdAYgGUBRAFQH0A1AeQBkBVAWSoG0AGAXUQoA9rGIAXYsIB2QkAA9EAdgAsADjwqAzFoBsWgJwreBpQCYArAEYANCEyIrSpXgMWtV7SudLearQC+AXZoWLiEJOQcbDQ8AnLIohJSskgKyroqePpmakY6amYeZnYOCGpWeBa8NWaWNTXGZkEhGNj4RBCkZGwActGxfIJpiWKSMnKKCEqZmmr+1Wa8Fmq8ZkqljlYGBnhOVv41Sjsqus3BIKHtEV3k1PQ0AEoAggDCANIUQwlJ46mgUzMp2yalUBg8vCsa3cak2CEMWSsWlyBl0FiMZk8RRalza4U63WeABEiXQnm93t8Rr8UpNlBYzNkkVp0VpjLolBZdHCDCY8BUgTsDAdkWicVd8ZEyI8qBwmAwqGSXh8qSIxrS0lMlHp+RygRylE5eBt7Fs1nhDaCtCYVDteCpxXiOlL7nRXmxHjLevQAAosZ4ATSVFNVlxpE01iF04Lwa1UdSxTlUcKhvF0eDMaP0B22al0TkdYWdtzwsHEwmQyEgZD9gdDo2SEYBiHBWjwWkKeeR205Bzh7gs7aslhFRmsZ0L1wJ6DwV2I0igNeebGo9fD-3SCCsVhW2Uhet83mjFjhhRcxQstucRVWFknkpLc4XlBoTB9a-VTc32457aWpzMYVckArR+zUQcBVOcDjAAqx72LUhZzaedF16KgAA0HmVSl4mpT8NymYdwItCxjkMLRfDREpTQQdQsnA8FoxUKFmJ2eCbkQp9UIwrCQysYY1UbAiWx0dtOxyHtrFhGi6P5YcuUKdRSN4PR2OnJCsBQmsZQYYMVVwwS-jpLcWTbPJjW8BlmM5OEOw0dl1jWVYKKUNQ1MiWd0AAV1gatawDD8hOM050zHQDUR0ZYdjhSiqjOdRtT8TlwXcx9vN8iAXzfQKjMjWjdFClQGR2fRrXRAwwLbbRVDRZigWHXRUs49LqzQzC9JwgSw3w4ydxNMpDXTa1wTcXQ8xUxqLglBCZ2QFrMra3iVX4n4erykLXCK8LSqiiqaPcRlwXjVzOQqfwmtm+btKoXTyX0rqG1y5sEDqQckVyPwdxZIo4XzXZwLOVELGBnZDHYgB3ecIGEcG8GkYQcAIdBUDIV8AHE0ZYRUADE2BYFgKFeGUqF6HKNWenMMyhEbMh0A0VBTFQimyQUPoqErJtaIs8Eh6RodhgAzLzUFQWAAGMcDAMBpFRpgMaxuhcfxwnidJgzuqCvLKcxExDFpvRnAZmikW1PYgWcndLLBnF4YgOAEidVbNeegBaIE4RdzncW56cnae78TDhSx0wcrsVIspQLtLctK0gP3yc3VYsmRJz-FbbcjbKUj0zG1R0R3bMWSjrj46-QiXPbXljiWBo6LAobhygy97TOOCpqdDjLp8uO8OdzdzbN20DA+yE7MzxAKhcGZBXUKxdGNQoIahmHS+El7x63XJB3i4fh5MAx5jvdvud5-m4YRpHUFX4zzBTCjdiWQody5UxMyPrnrlPmG8CFkXxcl6W191p8hRGmfM8wkSKTvhUC0n1SLDUAioB0QQAhAA */
     types: {} as {
       context: PlayerContext;
       events: PlayerEvents;
       actions: PlayerActions;
-      actors: PlayerActors;
       guards: PlayerGuards;
     },
     id: 'player',
@@ -158,49 +93,16 @@ const playerMachine = createMachine(
         states: {
           stopped: {
             on: {
-              PLAY: 'loading',
-            },
-          },
-          loading: {
-            invoke: {
-              src: 'loadTrack',
-              input: ({ context }) =>
-                context.tracks[context.currentTrackIndex!],
-              onDone: {
-                target: 'playing',
-                actions: [
-                  assign({
-                    currentTrackResourceInformation: ({ event }) =>
-                      event.output as PlayerResourceInformation,
-                  }),
-                ],
-              },
-              onError: 'error',
-            },
-          },
-          error: {
-            on: {
-              RETRY_LOAD: 'loading',
+              PLAY: 'playing',
             },
           },
           playing: {
-            entry: [
-              log(
-                ({ context }) =>
-                  context.currentTrackResourceInformation
-                    ? context.currentTrackResourceInformation
-                    : undefined,
-                '[Player PLAY]',
-              ),
-              'updateCurrentTrackResourceMediaMetadata',
-            ],
             on: {
               PAUSE: 'paused',
               STOP: 'stopped',
 
               NEXT_TRACK: [
                 {
-                  target: 'loading',
                   actions: ['nextTrack'],
                   guard: { type: 'canNextTrack' },
                 },
@@ -210,7 +112,6 @@ const playerMachine = createMachine(
                 },
               ],
               PREV_TRACK: {
-                target: 'loading',
                 actions: ['prevTrack'],
               },
             },
@@ -222,7 +123,6 @@ const playerMachine = createMachine(
 
               NEXT_TRACK: [
                 {
-                  target: 'loading',
                   actions: ['nextTrack'],
                   guard: { type: 'canNextTrack' },
                 },
@@ -232,7 +132,6 @@ const playerMachine = createMachine(
                 },
               ],
               PREV_TRACK: {
-                target: 'loading',
                 actions: ['prevTrack'],
               },
             },
@@ -263,7 +162,7 @@ const playerMachine = createMachine(
               },
               'initCurrentTrackIndex',
             ],
-            target: '.loading',
+            target: '.playing',
           },
           ADD_TRACK: {
             actions: [
@@ -446,50 +345,6 @@ const playerMachine = createMachine(
           // no default
         }
       },
-
-      updateCurrentTrackResourceMediaMetadata: ({ context, event }) => {
-        const { currentTrackResourceInformation } = context;
-
-        if (event.type === 'PLAY') return;
-
-        if (currentTrackResourceInformation) {
-          const { cover, artist, name, album } =
-            currentTrackResourceInformation;
-
-          if ('mediaSession' in navigator) {
-            const metadata: MediaMetadataInit = {
-              title: name,
-              artist: artist?.name,
-              album: album?.name,
-              artwork: cover
-                ? [
-                    {
-                      src: `${cover}?param=256y256`,
-                      sizes: '256x256',
-                      type: 'image/jpg',
-                    },
-                    {
-                      src: `${cover}?param=512y512`,
-                      sizes: '512x512',
-                      type: 'image/jpg',
-                    },
-                  ]
-                : [],
-            };
-
-            navigator.mediaSession.metadata = new MediaMetadata(metadata);
-
-            // eslint-disable-next-line no-console
-            console.log(
-              '[Player updateCurrentTrackResourceMediaMetadata]',
-              metadata,
-            );
-          }
-        }
-      },
-    },
-    actors: {
-      loadTrack,
     },
   },
 );

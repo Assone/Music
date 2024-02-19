@@ -2,9 +2,8 @@ import playerMachine, {
   type PlayerContext,
   type TrackData,
 } from '@/services/machine/player';
-import { isArray } from '@/utils/is';
+import { isArray, isClient } from '@/utils/is';
 import { createBrowserInspector } from '@statelyai/inspect';
-import { Howl } from 'howler';
 import { Actor, createActor, type Snapshot } from 'xstate';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
@@ -12,7 +11,6 @@ import { devtools } from 'zustand/middleware';
 interface State {
   context: PlayerContext;
   isPlaying: boolean;
-  isLoading: boolean;
 
   currentTime?: number;
   duration?: number;
@@ -105,103 +103,33 @@ const registerActions = (actor: Actor<typeof playerMachine>): Action => {
 
 const usePlayer = create<State & Action>()(
   devtools((set) => {
-    let howler = new Howl({ src: [''] });
-    const state = import.meta.env.SSR
-      ? undefined
-      : (JSON.parse(
-          localStorage.getItem('player') as string,
-        ) as Snapshot<unknown>);
-
-    const { inspect } = createBrowserInspector();
+    const { inspect } = import.meta.env.DEV
+      ? createBrowserInspector()
+      : { inspect: undefined };
     const actor = createActor(playerMachine, {
-      snapshot: state,
-      inspect:
-        import.meta.env.DEV && !import.meta.env.SSR ? inspect : undefined,
+      snapshot: isClient
+        ? (JSON.parse(
+            localStorage.getItem('player') as string,
+          ) as Snapshot<unknown>)
+        : undefined,
+      inspect,
     });
     const actions = registerActions(actor);
-    let prevTrack: TrackData | undefined;
-
-    const onUpdateCurrentTime = () => {
-      const seek = howler.seek() || 0;
-
-      set({ currentTime: seek });
-
-      if (howler.playing()) {
-        requestAnimationFrame(onUpdateCurrentTime);
-      }
-    };
 
     actor.subscribe((snapshot) => {
-      set({ context: snapshot.context });
+      const { media } = snapshot.value as {
+        media: 'stopped' | 'playing' | 'paused';
+        window: 'normal' | 'fullscreen' | 'minimized';
+      };
 
-      if (import.meta.env.SSR === false) {
+      if (isClient) {
         localStorage.setItem(
           'player',
           JSON.stringify(actor.getPersistedSnapshot()),
         );
       }
-    });
 
-    actor.subscribe((snapshot) => {
-      const { value } = snapshot;
-      const {
-        currentTrackResourceInformation,
-        tracks,
-        currentTrackIndex,
-        volume,
-      } = snapshot.context;
-      const { media } = value as { media: string };
-
-      if (media === 'playing' && currentTrackResourceInformation) {
-        if (
-          prevTrack?.id === tracks[currentTrackIndex!]?.id &&
-          howler.playing() === false
-        ) {
-          howler.play();
-        } else {
-          howler.unload();
-
-          howler = new Howl({
-            src: [currentTrackResourceInformation.url],
-            html5: true,
-            volume,
-            onplay: () => {
-              set({ duration: howler.duration() });
-
-              requestAnimationFrame(onUpdateCurrentTime);
-            },
-            onend: () => {
-              actions.nextTrack();
-            },
-            onseek: () => {
-              requestAnimationFrame(onUpdateCurrentTime);
-            },
-          });
-
-          howler.play();
-        }
-
-        prevTrack =
-          snapshot.context.tracks[snapshot.context.currentTrackIndex!];
-      } else if (media === 'paused') {
-        howler.pause();
-      } else if (media === 'stopped') {
-        howler.stop();
-      }
-    });
-
-    actor.subscribe((snapshot) => {
-      const { value, context } = snapshot;
-      const { media } = value as { media: string };
-      const { volume, mute } = context;
-
-      howler.mute(mute);
-
-      if (howler.volume() !== volume) {
-        howler.volume(volume);
-      }
-
-      set({ isPlaying: media === 'playing', isLoading: media === 'loading' });
+      set({ context: snapshot.context, isPlaying: media === 'playing' });
     });
 
     actor.start();
@@ -212,8 +140,6 @@ const usePlayer = create<State & Action>()(
       ...actions,
       context,
       isPlaying: false,
-      isLoading: false,
-      howler,
     };
   }),
 );
